@@ -172,14 +172,6 @@ export default function Home() {
               </section>
             )}
 
-            {seasons.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-gray-400 text-lg">No seasons available yet.</p>
-                {user && (
-                  <p className="text-gray-500 mt-2">Check back soon for new seasons!</p>
-                )}
-              </div>
-            )}
           </div>
         )}
       </div>
