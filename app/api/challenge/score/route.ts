@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/server/db/client";
 import { challenges, challengeCommits, challengeResults, events, players, stats, tribes, tribeMembers } from "@/server/db/schema";
 import { handleApiError, BadRequestError } from "@/server/errors";
-import { eq, and } from "drizzle-orm";
+import { eq, and, isNull } from "drizzle-orm";
 import { generateRoll } from "@game-logic";
 import { randomBytes } from "crypto";
 
@@ -52,7 +52,14 @@ export async function POST(request: Request) {
     const encounters = challenge.encountersJson as Array<{ id: string; type: "team" | "individual"; name: string }>;
 
     // Calculate rolls for each encounter
-    const resultsToInsert = [];
+    const resultsToInsert: Array<{
+      challengeId: string;
+      subjectType: "tribe" | "player";
+      subjectId: string;
+      roll: number;
+      modifiersJson: unknown;
+      total: number;
+    }> = [];
 
     for (const encounter of encounters) {
       if (encounter.type === "team") {
@@ -122,7 +129,7 @@ export async function POST(request: Request) {
           .where(
             and(
               eq(players.seasonId, challenge.seasonId),
-              eq(players.eliminatedAt, null)
+              isNull(players.eliminatedAt)
             )
           );
 

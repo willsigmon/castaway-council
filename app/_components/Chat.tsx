@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { getSupabaseClient } from "@/lib/supabase";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 
 interface Message {
   id: string;
@@ -23,7 +24,7 @@ export function Chat({ channelType, seasonId, tribeId, toPlayerId }: ChatProps) 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const channelRef = useRef<ReturnType<typeof getSupabaseClient>["channel"] | null>(null);
+  const channelRef = useRef<RealtimeChannel | null>(null);
 
   // Load initial messages
   useEffect(() => {

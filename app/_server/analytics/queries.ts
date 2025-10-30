@@ -14,15 +14,16 @@ export async function getDailyActiveUsers(seasonId: string, _day: number) {
 }
 
 export async function getMessagesPerUserPerDay(seasonId: string) {
+  // Extract day from createdAt timestamp and group by it
   const result = await db
     .select({
       playerId: messages.fromPlayerId,
-      day: messages.day,
+      day: sql<number>`EXTRACT(DAY FROM ${messages.createdAt})`.as("day"),
       count: count(),
     })
     .from(messages)
     .where(eq(messages.seasonId, seasonId))
-    .groupBy(messages.fromPlayerId, messages.day);
+    .groupBy(messages.fromPlayerId, sql`EXTRACT(DAY FROM ${messages.createdAt})`);
 
   return result;
 }
