@@ -99,6 +99,18 @@ export default function Home() {
           </div>
         )}
 
+        {!loading && seasons.length === 0 && (
+          <div className="mb-8 p-6 bg-yellow-900/20 border border-yellow-700 rounded-lg">
+            <h2 className="text-xl font-semibold mb-2">No Seasons Available</h2>
+            <p className="text-gray-300 mb-2">There are no seasons set up yet.</p>
+            <p className="text-sm text-gray-400">
+              {user 
+                ? "Check back soon for new seasons, or contact an admin to create one."
+                : "Sign in to see available seasons or create a new one."}
+            </p>
+          </div>
+        )}
+
         {loading ? (
           <div className="space-y-4">
             <div className="h-32 bg-gray-800 rounded animate-pulse" />

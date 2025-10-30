@@ -54,7 +54,7 @@ export function SeasonProvider({ children }: { children: ReactNode }) {
         setCurrentPhase(data.phase || null);
       }
     } catch (error) {
-      // Silently fail if Supabase not configured
+      // Silently fail if Supabase not configured - page should still render
       console.error("Failed to fetch season data:", error);
     } finally {
       setLoading(false);
