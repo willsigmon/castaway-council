@@ -29,6 +29,15 @@ function getDb() {
   return dbInstance;
 }
 
-// Export db as a getter that lazily initializes
+// Create a proxy that lazily initializes the db on first property access
 // This allows the module to load during build even without DATABASE_URL
-export const db = getDb();
+export const db = new Proxy({} as ReturnType<typeof drizzle>, {
+  get(_target, prop) {
+    const instance = getDb();
+    const value = instance[prop as keyof typeof instance];
+    if (typeof value === "function") {
+      return value.bind(instance);
+    }
+    return value;
+  },
+});
