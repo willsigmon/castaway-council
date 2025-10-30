@@ -1,5 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Header } from "./_components/Header";
+import { SeasonProvider } from "./_components/SeasonContext";
+import { PhaseIndicator } from "./_components/PhaseIndicator";
 
 export const metadata: Metadata = {
   title: "Castaway Council",
@@ -18,7 +21,13 @@ export default function RootLayout({
         <meta name="theme-color" content="#FF6B6B" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </head>
-      <body>{children}</body>
+      <body>
+        <SeasonProvider>
+          <Header />
+          <PhaseIndicator />
+          {children}
+        </SeasonProvider>
+      </body>
     </html>
   );
 }
