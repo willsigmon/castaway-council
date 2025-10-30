@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // Task schemas
 export const forageTaskSchema = z.object({
-  // No input needed, server determines outcome
+  seasonId: z.string().uuid(),
 });
 
 export const forageResultSchema = z.object({
@@ -17,7 +17,9 @@ export const forageResultSchema = z.object({
     .optional(),
 });
 
-export const waterTaskSchema = z.object({});
+export const waterTaskSchema = z.object({
+  seasonId: z.string().uuid(),
+});
 
 export const waterResultSchema = z.object({
   delta: z.object({
@@ -26,7 +28,9 @@ export const waterResultSchema = z.object({
   debuff: z.enum(["tainted_water"]).optional(),
 });
 
-export const restTaskSchema = z.object({});
+export const restTaskSchema = z.object({
+  seasonId: z.string().uuid(),
+});
 
 export const restResultSchema = z.object({
   delta: z.object({
@@ -35,6 +39,7 @@ export const restResultSchema = z.object({
 });
 
 export const helpTaskSchema = z.object({
+  seasonId: z.string().uuid(),
   targetPlayerId: z.string().uuid(),
 });
 
