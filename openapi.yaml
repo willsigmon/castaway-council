@@ -1,0 +1,136 @@
+openapi: 3.0.0
+info:
+  title: Castaway Council API
+  version: 1.0.0
+  description: Real-time slow-burn social survival RPG API
+
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+paths:
+  /task/forage:
+    post:
+      summary: Perform forage task
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  delta:
+                    type: object
+                    properties:
+                      hunger:
+                        type: number
+                  item:
+                    type: object
+                    nullable: true
+
+  /task/water:
+    post:
+      summary: Collect water
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  delta:
+                    type: object
+                    properties:
+                      thirst:
+                        type: number
+                  debuff:
+                    type: string
+                    nullable: true
+
+  /task/rest:
+    post:
+      summary: Rest to recover energy
+      responses:
+        '200':
+          description: Success
+
+  /task/help:
+    post:
+      summary: Help another player
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                targetPlayerId:
+                  type: string
+                  format: uuid
+
+  /challenge/commit:
+    post:
+      summary: Commit client seed for challenge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clientSeedHash:
+                  type: string
+
+  /vote:
+    post:
+      summary: Cast a vote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                day:
+                  type: integer
+                targetPlayerId:
+                  type: string
+                  format: uuid
+
+  /confessional:
+    post:
+      summary: Create a confessional entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                visibility:
+                  type: string
+                  enum: [private, postseason]
+
+  /push/subscribe:
+    post:
+      summary: Subscribe to push notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                endpoint:
+                  type: string
+                keys:
+                  type: object
+                  properties:
+                    p256dh:
+                      type: string
+                    auth:
+                      type: string
