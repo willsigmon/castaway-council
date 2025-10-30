@@ -91,6 +91,10 @@ pnpm dev
 - **Temporal UI**: http://localhost:8088
 - **Database Studio**: `pnpm db:studio`
 
+### Known Limitations
+
+- **Rate Limiting**: Currently uses in-memory store (works for single instance). For production serverless deployment, migrate to Redis/Upstash for shared state across instances.
+
 ## Testing
 
 ```bash
