@@ -11,25 +11,42 @@ export function Header() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const supabase = getSupabaseClient();
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+    try {
+      const supabase = getSupabaseClient();
+      supabase.auth.getSession().then(({ data }: { data: { session: { user: { email?: string } } | null } }) => {
+        setUser(data.session?.user ?? null);
+        setLoading(false);
+      }).catch(() => {
+        setLoading(false);
+      });
+
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user ?? null);
+      });
+
+      return () => {
+        try {
+          subscription?.unsubscribe();
+        } catch {
+          // Ignore cleanup errors
+        }
+      };
+    } catch (error) {
+      console.error("Failed to initialize auth:", error);
       setLoading(false);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
+    }
   }, []);
 
   const handleSignOut = async () => {
-    const supabase = getSupabaseClient();
-    await supabase.auth.signOut();
-    window.location.href = "/";
+    try {
+      const supabase = getSupabaseClient();
+      await supabase.auth.signOut();
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Failed to sign out:", error);
+    }
   };
 
   const navLinks = [
@@ -86,4 +103,3 @@ export function Header() {
     </header>
   );
 }
-

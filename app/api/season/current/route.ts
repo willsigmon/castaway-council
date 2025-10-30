@@ -82,4 +82,3 @@ export async function GET() {
     return handleApiError(error);
   }
 }
-

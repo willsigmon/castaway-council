@@ -54,6 +54,7 @@ export function SeasonProvider({ children }: { children: ReactNode }) {
         setCurrentPhase(data.phase || null);
       }
     } catch (error) {
+      // Silently fail if Supabase not configured
       console.error("Failed to fetch season data:", error);
     } finally {
       setLoading(false);
@@ -64,26 +65,36 @@ export function SeasonProvider({ children }: { children: ReactNode }) {
     fetchSeasonData();
 
     // Subscribe to phase changes
-    const supabase = getSupabaseClient();
-    const channel = supabase
-      .channel("season-updates")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "events",
-          filter: "kind=eq.phase_open",
-        },
-        () => {
-          fetchSeasonData();
-        }
-      )
-      .subscribe();
+    try {
+      const supabase = getSupabaseClient();
+      const channelResult = supabase.channel("season-updates");
+      if (channelResult && typeof channelResult.on === "function") {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const channel = (channelResult as any).on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "events",
+            filter: "kind=eq.phase_open",
+          },
+          () => {
+            fetchSeasonData();
+          }
+        ).subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+        return () => {
+          try {
+            supabase.removeChannel(channel);
+          } catch {
+            // Ignore cleanup errors
+          }
+        };
+      }
+    } catch (error) {
+      // Silently fail if Supabase not configured
+      console.error("Failed to set up realtime subscription:", error);
+    }
   }, []);
 
   return (
@@ -115,4 +126,3 @@ export function useSeason() {
   }
   return context;
 }
-

@@ -69,56 +69,66 @@ export function Chat({ channelType, seasonId, tribeId, toPlayerId }: ChatProps) 
 
   // Set up Supabase Realtime subscription
   useEffect(() => {
-    const supabase = getSupabaseClient();
+    try {
+      const supabase = getSupabaseClient();
 
-    // Determine channel name based on channel type
-    let channelName: string;
-    if (channelType === "tribe" && tribeId) {
-      channelName = `tribe:${tribeId}:chat`;
-    } else if (channelType === "dm" && toPlayerId) {
-      // Note: DM pair key should be created server-side with both player IDs
-      // For now, use a simple identifier - this will be improved when we have current player ID
-      channelName = `dm:${toPlayerId}`;
-    } else {
-      channelName = `season:${seasonId}:public`;
+      // Determine channel name based on channel type
+      let channelName: string;
+      if (channelType === "tribe" && tribeId) {
+        channelName = `tribe:${tribeId}:chat`;
+      } else if (channelType === "dm" && toPlayerId) {
+        // Note: DM pair key should be created server-side with both player IDs
+        // For now, use a simple identifier - this will be improved when we have current player ID
+        channelName = `dm:${toPlayerId}`;
+      } else {
+        channelName = `season:${seasonId}:public`;
+      }
+
+      // Check if this is a real Supabase client (has proper channel API)
+      const channelResult = supabase.channel(channelName);
+      if (channelResult && typeof channelResult.on === "function") {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const channel = (channelResult as any).on(
+          "postgres_changes",
+          {
+            event: "INSERT",
+            schema: "public",
+            table: "messages",
+            filter: channelType === "tribe"
+              ? `tribe_id=eq.${tribeId}`
+              : channelType === "dm"
+              ? `to_player_id=eq.${toPlayerId}`
+              : `season_id=eq.${seasonId}`,
+          },
+          (payload: { new: { id: string; from_player_id: string; body: string; created_at: string } }) => {
+            const newMessage = payload.new;
+            // Add new message to list
+            setMessagesList((prev) => [
+              ...prev,
+              {
+                id: newMessage.id,
+                fromPlayerId: newMessage.from_player_id,
+                fromPlayerName: `Player ${newMessage.from_player_id.slice(0, 8)}`, // Placeholder
+                body: newMessage.body,
+                createdAt: newMessage.created_at,
+              },
+            ]);
+          }
+        ).subscribe();
+
+        channelRef.current = channel as RealtimeChannel;
+
+        return () => {
+          try {
+            supabase.removeChannel(channel as RealtimeChannel);
+          } catch {
+            // Ignore cleanup errors
+          }
+        };
+      }
+    } catch (error) {
+      console.error("Failed to set up realtime subscription:", error);
     }
-
-    const channel = supabase
-      .channel(channelName)
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "messages",
-          filter: channelType === "tribe"
-            ? `tribe_id=eq.${tribeId}`
-            : channelType === "dm"
-            ? `to_player_id=eq.${toPlayerId}`
-            : `season_id=eq.${seasonId}`,
-        },
-        (payload) => {
-          const newMessage = payload.new as { id: string; from_player_id: string; body: string; created_at: string };
-          // Add new message to list
-          setMessagesList((prev) => [
-            ...prev,
-            {
-              id: newMessage.id,
-              fromPlayerId: newMessage.from_player_id,
-              fromPlayerName: `Player ${newMessage.from_player_id.slice(0, 8)}`, // Placeholder
-              body: newMessage.body,
-              createdAt: newMessage.created_at,
-            },
-          ]);
-        }
-      )
-      .subscribe();
-
-    channelRef.current = channel;
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
   }, [channelType, seasonId, tribeId, toPlayerId]);
 
   useEffect(() => {

@@ -20,11 +20,16 @@ export default function Home() {
 
   useEffect(() => {
     const loadData = async () => {
-      const supabase = getSupabaseClient();
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
+      try {
+        const supabase = getSupabaseClient();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        setUser(session?.user ?? null);
+      } catch (error) {
+        // Supabase not configured or error - continue without auth
+        console.error("Auth check failed:", error);
+      }
 
       try {
         const response = await fetch("/api/season/list");
