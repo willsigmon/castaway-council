@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Castaway Council",
   description: "Real-time slow-burn social survival RPG",
-  manifest: "/manifest.webmanifest",
 };
 
 export default function RootLayout({
