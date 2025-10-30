@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "Real-time slow-burn social survival RPG",
   "private": true,
+  "packageManager": "pnpm@8.15.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
