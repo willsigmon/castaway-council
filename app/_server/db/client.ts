@@ -12,7 +12,7 @@ function getConnectionString(): string {
   return connectionString;
 }
 
-function getDb() {
+function initializeDb() {
   if (!dbInstance) {
     const connectionString = getConnectionString();
     // Use connection pooling for serverless (Vercel)
@@ -26,8 +26,12 @@ function getDb() {
   return dbInstance;
 }
 
+// Lazy initialization - only connects when db is actually used
+// This prevents build-time crashes if DATABASE_URL is not set
 export const db = new Proxy({} as ReturnType<typeof drizzle>, {
   get(_target, prop) {
-    return getDb()[prop as keyof ReturnType<typeof drizzle>];
+    const db = initializeDb();
+    const value = db[prop as keyof typeof db];
+    return typeof value === "function" ? value.bind(db) : value;
   },
 });
