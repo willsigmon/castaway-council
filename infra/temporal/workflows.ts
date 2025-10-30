@@ -73,21 +73,8 @@ async function openPhase(
   const now = new Date();
   const closesAt = new Date(now.getTime() + duration);
 
-  // Emit phase_open event to DB
-  const { db } = await import("../../app/_server/db/client");
-  const { events } = await import("../../app/_server/db/schema");
-  await db.insert(events).values({
-    seasonId,
-    day,
-    kind: "phase_open",
-    payloadJson: {
-      phase,
-      opensAt: now.toISOString(),
-      closesAt: closesAt.toISOString(),
-    },
-  });
-
-  // Emit push notifications
+  // Emit phase_open event via activity (workflows can't directly access DB)
+  // The emitPush activity will handle DB event creation
   await emitPush({
     seasonId,
     type: "phase_open",

@@ -21,6 +21,20 @@ export async function emitPush(input: {
   closesAt?: string;
 }): Promise<void> {
   try {
+    // Emit phase_open event to DB if this is a phase event
+    if (input.type === "phase_open" && input.phase && input.day) {
+      await db.insert(events).values({
+        seasonId: input.seasonId,
+        day: input.day,
+        kind: "phase_open",
+        payloadJson: {
+          phase: input.phase,
+          opensAt: new Date().toISOString(),
+          closesAt: input.closesAt,
+        },
+      });
+    }
+
     // Get all players in season
     const seasonPlayers = await db
       .select({ userId: players.userId })
