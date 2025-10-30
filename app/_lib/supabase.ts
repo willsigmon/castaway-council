@@ -48,28 +48,17 @@ function getMockClient(): MockSupabaseClient {
 }
 
 export function getSupabaseClient(): ReturnType<typeof createClientComponentClient<Database>> | MockSupabaseClient {
-  // Check if Supabase env vars are available (client-side)
-  // NEXT_PUBLIC_ vars are injected at build time and available in browser
-  if (typeof window !== "undefined") {
-    // In browser - check if we have the required env vars
-    // We can't directly check process.env in runtime, but we can try-catch the client creation
-    if (!supabaseClient) {
-      try {
-        supabaseClient = createClientComponentClient<Database>();
-      } catch {
-        // Return a mock client that won't crash
-        console.warn("Supabase not configured, using fallback");
-        return getMockClient();
-      }
-    }
-    return supabaseClient;
-  }
-  
-  // Server-side: always try to create client
+  // Always try to create real client first
   if (!supabaseClient) {
     try {
       supabaseClient = createClientComponentClient<Database>();
-    } catch {
+      // Test if client actually works by checking if it has required methods
+      if (!supabaseClient.auth || typeof supabaseClient.auth.getSession !== "function") {
+        throw new Error("Invalid Supabase client");
+      }
+    } catch (error) {
+      // Fallback to mock if creation fails or env vars missing
+      console.warn("Supabase not configured or failed to initialize, using fallback");
       return getMockClient();
     }
   }

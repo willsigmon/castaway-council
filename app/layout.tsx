@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Header } from "./_components/Header";
 import { SeasonProvider } from "./_components/SeasonContext";
 import { PhaseIndicator } from "./_components/PhaseIndicator";
+import { ErrorBoundary } from "./_components/ErrorBoundary";
 
 export const metadata: Metadata = {
   title: "Castaway Council",
@@ -22,11 +23,13 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </head>
       <body>
-        <SeasonProvider>
-          <Header />
-          <PhaseIndicator />
-          {children}
-        </SeasonProvider>
+        <ErrorBoundary>
+          <SeasonProvider>
+            <Header />
+            <PhaseIndicator />
+            {children}
+          </SeasonProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
