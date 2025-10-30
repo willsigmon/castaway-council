@@ -19,7 +19,7 @@ export async function getTemporalClient() {
   return null;
 }
 
-export async function startSeasonWorkflow(seasonId: string) {
+export async function startSeasonWorkflow(_seasonId: string) {
   const connection = await getTemporalClient();
   if (!connection) {
     console.warn("Temporal not available, skipping workflow start");

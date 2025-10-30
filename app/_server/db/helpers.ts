@@ -1,6 +1,6 @@
 import { db } from "./client";
 import { players, seasons, stats } from "./schema";
-import { eq, and, sql, desc, lt } from "drizzle-orm";
+import { eq, and, desc, lt } from "drizzle-orm";
 
 /**
  * Get the active season for a player

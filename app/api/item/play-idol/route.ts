@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     await requireAuth();
     const body = await request.json();
-    const { day } = playIdolSchema.parse(body);
+    const { day: _day } = playIdolSchema.parse(body);
 
     // TODO: Validate phase is 'vote' and before tally
     // TODO: Check player owns an idol, mark as used

@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { headers } from "next/headers";
 
 // Simple cron-based phase transition (fallback when Temporal not available)
 export async function GET(request: Request) {

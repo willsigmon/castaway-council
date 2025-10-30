@@ -42,7 +42,7 @@ export function Chat({ channelType, seasonId, tribeId, toPlayerId }: ChatProps) 
           const data = await response.json();
           // Fetch player names for messages
           const messagesWithNames = await Promise.all(
-            data.messages.map(async (msg: any) => {
+            data.messages.map(async (msg: { id: string; fromPlayerId: string; body: string; createdAt: string }) => {
               // Get player name (in real app, you'd fetch this or join in the query)
               // For now, we'll use a placeholder - ideally this would be handled server-side
               return {
@@ -97,7 +97,7 @@ export function Chat({ channelType, seasonId, tribeId, toPlayerId }: ChatProps) 
             : `season_id=eq.${seasonId}`,
         },
         (payload) => {
-          const newMessage = payload.new as any;
+          const newMessage = payload.new as { id: string; from_player_id: string; body: string; created_at: string };
           // Add new message to list
           setMessagesList((prev) => [
             ...prev,

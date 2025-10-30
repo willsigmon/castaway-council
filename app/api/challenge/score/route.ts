@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { db } from "@/server/db/client";
 import { challenges, challengeCommits, challengeResults, events, players, stats, tribes, tribeMembers } from "@/server/db/schema";
 import { handleApiError, BadRequestError } from "@/server/errors";
-import { eq, and, inArray } from "drizzle-orm";
-import { generateRoll, hashClientSeed } from "@game-logic";
+import { eq, and } from "drizzle-orm";
+import { generateRoll } from "@game-logic";
 import { randomBytes } from "crypto";
 
 // Admin/worker-only endpoint - called by Temporal activities

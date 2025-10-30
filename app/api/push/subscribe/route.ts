@@ -3,7 +3,7 @@ import { requireAuth } from "@/server/auth";
 import { db } from "@/server/db/client";
 import { pushSubscriptions } from "@/server/db/schema";
 import { pushSubscribeSchema } from "@schemas";
-import { handleApiError, ConflictError } from "@/server/errors";
+import { handleApiError } from "@/server/errors";
 import { eq } from "drizzle-orm";
 
 export async function POST(request: Request) {
