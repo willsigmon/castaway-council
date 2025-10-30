@@ -3,7 +3,7 @@ import { getCurrentPlayer } from "@/server/auth";
 import { db } from "@/server/db/client";
 import { votes, seasons, players } from "@/server/db/schema";
 import { voteSchema, type voteResultSchema } from "@schemas";
-import { handleApiError, BadRequestError, ForbiddenError, ConflictError } from "@/server/errors";
+import { handleApiError, BadRequestError, ConflictError } from "@/server/errors";
 import { eq, and } from "drizzle-orm";
 import type { z } from "zod";
 

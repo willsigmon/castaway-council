@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it } from "vitest";
 
 // TODO: Set up test database and test RLS policies
 describe("RLS Policies", () => {

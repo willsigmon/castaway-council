@@ -9,6 +9,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { seasonId, body: confessionalBody, visibility } = confessionalSchema.parse(body);
+    // Note: body variable name reused for destructuring, original body is shadowed
 
     // Get current player
     const player = await getCurrentPlayer(seasonId);

@@ -5,7 +5,7 @@ import { items, seasons } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { forageTaskSchema, type forageResultSchema } from "@schemas";
 import type { z } from "zod";
-import { getOrCreateStats, updateStats } from "@/server/db/helpers";
+import { updateStats } from "@/server/db/helpers";
 import { handleApiError, BadRequestError, ForbiddenError } from "@/server/errors";
 
 export async function POST(request: Request) {

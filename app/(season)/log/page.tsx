@@ -12,6 +12,9 @@ interface Event {
 
 export default function PublicLogPage() {
   const [events, setEvents] = useState<Event[]>([]);
+  
+  // TODO: Use setEvents when implementing Realtime subscription
+  void setEvents;
 
   useEffect(() => {
     // TODO: Subscribe to season:{id}:public channel

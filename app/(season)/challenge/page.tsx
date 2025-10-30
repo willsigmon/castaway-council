@@ -29,7 +29,7 @@ export default function ChallengePage() {
       } else {
         setError("Failed to commit seed");
       }
-    } catch (err) {
+    } catch {
       setError("Network error");
     }
   };

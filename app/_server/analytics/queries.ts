@@ -2,7 +2,7 @@ import { db } from "../db/client";
 import { events, messages, votes, players, seasons } from "../db/schema";
 import { eq, and, sql, count } from "drizzle-orm";
 
-export async function getDailyActiveUsers(seasonId: string, day: number) {
+export async function getDailyActiveUsers(seasonId: string, _day: number) {
   // Count unique message senders for the season
   const result = await db
     .select({ playerId: messages.fromPlayerId })
@@ -44,7 +44,7 @@ export async function getVoteParticipationRate(seasonId: string, day: number) {
   return 0;
 }
 
-export async function getPhaseOnTimePercentage(seasonId: string) {
+export async function getPhaseOnTimePercentage(_seasonId: string) {
   // TODO: Compare scheduled vs actual phase transitions from events
   // For now, placeholder
   return 95.0;
