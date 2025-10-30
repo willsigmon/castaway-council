@@ -1,10 +1,7 @@
 import "./globals.css";
+import type { Metadata } from "next";
 
-export const metadata: {
-  title: string;
-  description: string;
-  manifest: string;
-} = {
+export const metadata: Metadata = {
   title: "Castaway Council",
   description: "Real-time slow-burn social survival RPG",
   manifest: "/manifest.webmanifest",
