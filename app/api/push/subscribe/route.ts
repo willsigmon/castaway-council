@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/server/auth";
 import { pushSubscribeSchema } from "@schemas";
+import { handleApiError } from "@/server/errors";
+import { logger } from "@/server/logger";
 
 export async function POST(request: Request) {
   try {
@@ -11,11 +13,14 @@ export async function POST(request: Request) {
     // TODO: Store push subscription in DB
     // await db.insert(pushSubscriptions).values({ ... })
 
+    logger.info("Push subscription received", { userId: session.user.id });
+
     return NextResponse.json({ success: true });
   } catch (error) {
-    if (error instanceof Error && error.message.includes("Unauthorized")) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const { response, logMessage } = handleApiError(error);
+    if (logMessage) {
+      logger.error("Failed to subscribe to push notifications", { error: logMessage });
     }
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return response;
   }
 }

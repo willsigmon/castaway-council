@@ -2,11 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/server/auth";
 import { sendMessageSchema } from "@schemas";
 import { rateLimitMiddleware } from "@/server/middleware/rateLimit";
+import { handleApiError } from "@/server/errors";
+import { logger } from "@/server/logger";
 
 export async function POST(request: NextRequest) {
   try {
     const session = await requireAuth();
-    const rateLimitResponse = rateLimitMiddleware(request);
+    const rateLimitResponse = await rateLimitMiddleware(request);
     if (rateLimitResponse) return rateLimitResponse;
 
     const body = await request.json();
@@ -16,11 +18,14 @@ export async function POST(request: NextRequest) {
     // TODO: Create message in DB
     const messageId = crypto.randomUUID();
 
+    logger.info("Message created", { messageId, channelType: data.channelType, userId: session.user.id });
+
     return NextResponse.json({ id: messageId, success: true });
   } catch (error) {
-    if (error instanceof Error && error.message.includes("Unauthorized")) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const { response, logMessage } = handleApiError(error);
+    if (logMessage) {
+      logger.error("Failed to create message", { error: logMessage });
     }
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return response;
   }
 }

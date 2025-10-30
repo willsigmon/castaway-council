@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/server/auth";
 import { playIdolSchema } from "@schemas";
+import { handleApiError } from "@/server/errors";
+import { logger } from "@/server/logger";
 
 export async function POST(request: Request) {
   try {
-    await requireAuth();
+    const session = await requireAuth();
     const body = await request.json();
     const { day } = playIdolSchema.parse(body);
 
@@ -12,11 +14,14 @@ export async function POST(request: Request) {
     // TODO: Check player owns an idol, mark as used
     // TODO: Create event record
 
+    logger.info("Idol played", { day, userId: session.user.id });
+
     return NextResponse.json({ success: true });
   } catch (error) {
-    if (error instanceof Error && error.message.includes("Unauthorized")) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const { response, logMessage } = handleApiError(error);
+    if (logMessage) {
+      logger.error("Failed to play idol", { error: logMessage });
     }
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return response;
   }
 }

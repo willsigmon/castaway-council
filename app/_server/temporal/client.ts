@@ -1,4 +1,5 @@
 import { Connection } from "@temporalio/client";
+import { logger } from "./logger";
 
 let temporalConnection: Connection | null = null;
 
@@ -9,10 +10,16 @@ export async function getTemporalClient() {
 
   // Only connect if Temporal is available (not on Vercel for now)
   if (process.env.TEMPORAL_ADDRESS && !process.env.VERCEL) {
-    temporalConnection = await Connection.connect({
-      address: process.env.TEMPORAL_ADDRESS,
-    });
-    return temporalConnection;
+    try {
+      temporalConnection = await Connection.connect({
+        address: process.env.TEMPORAL_ADDRESS,
+      });
+      logger.info("Temporal client connected", { address: process.env.TEMPORAL_ADDRESS });
+      return temporalConnection;
+    } catch (error) {
+      logger.error("Failed to connect to Temporal", { error });
+      return null;
+    }
   }
 
   // Return null if Temporal is not available (graceful degradation)
@@ -22,7 +29,7 @@ export async function getTemporalClient() {
 export async function startSeasonWorkflow(seasonId: string) {
   const connection = await getTemporalClient();
   if (!connection) {
-    console.warn("Temporal not available, skipping workflow start");
+    logger.warn("Temporal not available, skipping workflow start", { seasonId });
     // TODO: Could use a different scheduling mechanism for Vercel
     return null;
   }

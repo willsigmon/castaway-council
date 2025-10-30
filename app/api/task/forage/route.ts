@@ -5,6 +5,8 @@ import { stats, items } from "@/server/db/schema";
 import { eq, and } from "drizzle-orm";
 import type { forageResultSchema } from "@schemas";
 import type { z } from "zod";
+import { handleApiError } from "@/server/errors";
+import { logger } from "@/server/logger";
 
 export async function POST() {
   try {
@@ -32,8 +34,14 @@ export async function POST() {
     // TODO: Update stats in DB, create item if found
     // await db.update(stats).set({ hunger: sql`${stats.hunger} + ${hungerDelta}` })
 
+    logger.info("Forage task completed", { userId: session.user.id, hungerDelta, foundItem });
+
     return NextResponse.json(result);
   } catch (error) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const { response, logMessage } = handleApiError(error);
+    if (logMessage) {
+      logger.error("Failed to complete forage task", { error: logMessage });
+    }
+    return response;
   }
 }
