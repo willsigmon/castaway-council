@@ -96,10 +96,20 @@ export const pushSubscribeSchema = z.object({
 
 // Message schemas
 export const sendMessageSchema = z.object({
+  seasonId: z.string().uuid(),
   channelType: z.enum(["tribe", "dm", "public"]),
   tribeId: z.string().uuid().optional(),
   toPlayerId: z.string().uuid().optional(),
   body: z.string().min(1).max(1000),
+});
+
+export const getMessagesSchema = z.object({
+  seasonId: z.string().uuid(),
+  channelType: z.enum(["tribe", "dm", "public"]),
+  tribeId: z.string().uuid().optional(),
+  toPlayerId: z.string().uuid().optional(),
+  limit: z.number().int().positive().max(100).default(50),
+  offset: z.number().int().nonnegative().default(0),
 });
 
 // Phase status
