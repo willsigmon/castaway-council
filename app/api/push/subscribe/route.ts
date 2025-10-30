@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/server/auth";
+import { db } from "@/server/db/client";
+import { pushSubscriptions } from "@/server/db/schema";
 import { pushSubscribeSchema } from "@schemas";
+import { handleApiError, ConflictError } from "@/server/errors";
+import { eq } from "drizzle-orm";
 
 export async function POST(request: Request) {
   try {
@@ -8,14 +12,34 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { endpoint, keys } = pushSubscribeSchema.parse(body);
 
-    // TODO: Store push subscription in DB
-    // await db.insert(pushSubscriptions).values({ ... })
+    // Check if subscription already exists
+    const [existing] = await db
+      .select()
+      .from(pushSubscriptions)
+      .where(eq(pushSubscriptions.endpoint, endpoint))
+      .limit(1);
+
+    if (existing) {
+      // Update existing subscription
+      await db
+        .update(pushSubscriptions)
+        .set({
+          p256dh: keys.p256dh,
+          auth: keys.auth,
+        })
+        .where(eq(pushSubscriptions.endpoint, endpoint));
+    } else {
+      // Create new subscription
+      await db.insert(pushSubscriptions).values({
+        userId: session.user.id,
+        endpoint,
+        p256dh: keys.p256dh,
+        auth: keys.auth,
+      });
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    if (error instanceof Error && error.message.includes("Unauthorized")) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return handleApiError(error);
   }
 }

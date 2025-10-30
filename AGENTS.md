@@ -71,4 +71,3 @@ All API routes follow this structure:
 - Integration tests for API routes and RLS
 - E2E tests for full season flows
 - Always test edge cases and error conditions
-

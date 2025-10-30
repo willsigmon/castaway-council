@@ -90,8 +90,8 @@ export function Chat({ channelType, seasonId, tribeId, toPlayerId }: ChatProps) 
           event: "INSERT",
           schema: "public",
           table: "messages",
-          filter: channelType === "tribe" 
-            ? `tribe_id=eq.${tribeId}` 
+          filter: channelType === "tribe"
+            ? `tribe_id=eq.${tribeId}`
             : channelType === "dm"
             ? `to_player_id=eq.${toPlayerId}`
             : `season_id=eq.${seasonId}`,

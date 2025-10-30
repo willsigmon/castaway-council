@@ -1,21 +1,30 @@
 import { NextResponse } from "next/server";
-import { requireAuth } from "@/server/auth";
+import { getCurrentPlayer } from "@/server/auth";
+import { db } from "@/server/db/client";
+import { confessionals } from "@/server/db/schema";
 import { confessionalSchema } from "@schemas";
+import { handleApiError } from "@/server/errors";
 
 export async function POST(request: Request) {
   try {
-    const session = await requireAuth();
     const body = await request.json();
-    const data = confessionalSchema.parse(body);
+    const { seasonId, body: confessionalBody, visibility } = confessionalSchema.parse(body);
 
-    // TODO: Get player_id from session, create confessional record
-    const confessionalId = crypto.randomUUID();
+    // Get current player
+    const player = await getCurrentPlayer(seasonId);
 
-    return NextResponse.json({ id: confessionalId, success: true });
+    // Create confessional
+    const [confessional] = await db
+      .insert(confessionals)
+      .values({
+        playerId: player.id,
+        body: confessionalBody,
+        visibility: visibility ?? "private",
+      })
+      .returning();
+
+    return NextResponse.json({ id: confessional.id, success: true });
   } catch (error) {
-    if (error instanceof Error && error.message.includes("Unauthorized")) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return handleApiError(error);
   }
 }

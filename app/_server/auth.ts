@@ -34,7 +34,7 @@ export async function requireAuth() {
 export async function getPlayerId(seasonId: string): Promise<string | null> {
   const session = await getServerSession();
   if (!session) return null;
-  
+
   // Query DB for player in this season
   const player = await db
     .select({ id: players.id })
@@ -46,7 +46,7 @@ export async function getPlayerId(seasonId: string): Promise<string | null> {
       )
     )
     .limit(1);
-  
+
   return player[0]?.id ?? null;
 }
 
@@ -56,7 +56,7 @@ export async function getPlayerId(seasonId: string): Promise<string | null> {
  */
 export async function getCurrentPlayer(seasonId: string) {
   const session = await requireAuth();
-  
+
   const player = await db
     .select()
     .from(players)
@@ -68,11 +68,11 @@ export async function getCurrentPlayer(seasonId: string) {
       )
     )
     .limit(1);
-  
+
   if (!player[0]) {
     throw new Error("Player not found in season");
   }
-  
+
   return player[0];
 }
 

@@ -166,7 +166,24 @@ export const challenges = pgTable("challenges", {
   type: challengeTypeEnum("type").notNull(),
   encountersJson: jsonb("encounters_json").notNull(),
   seedCommit: text("seed_commit"), // SHA256 hash of server seed
+  serverSeed: text("server_seed"), // Revealed after commit phase closes
+  clientSeedsJson: jsonb("client_seeds_json"), // playerId -> client_seed (revealed after commit phase)
 });
+
+export const challengeCommits = pgTable(
+  "challenge_commits",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    challengeId: uuid("challenge_id").notNull().references(() => challenges.id, { onDelete: "cascade" }),
+    playerId: uuid("player_id").notNull().references(() => players.id),
+    clientSeedHash: text("client_seed_hash").notNull(), // SHA256 hash
+    clientSeed: text("client_seed"), // Revealed after commit phase closes
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    challengePlayerIdx: index("challenge_commits_challenge_player_idx").on(table.challengeId, table.playerId),
+  })
+);
 
 export const challengeResults = pgTable(
   "challenge_results",

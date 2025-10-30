@@ -4,4 +4,3 @@ import type { Database } from "@/types/supabase";
 export function getSupabaseClient() {
   return createClientComponentClient<Database>();
 }
-

@@ -51,6 +51,8 @@ export const helpResultSchema = z.object({
 
 // Challenge schemas
 export const challengeCommitSchema = z.object({
+  seasonId: z.string().uuid(),
+  day: z.number().int().positive(),
   clientSeedHash: z.string().regex(/^[a-f0-9]{64}$/), // SHA256 hex
 });
 
@@ -65,6 +67,7 @@ export const challengeScoreInputSchema = z.object({
 
 // Vote schemas
 export const voteSchema = z.object({
+  seasonId: z.string().uuid(),
   day: z.number().int().positive(),
   targetPlayerId: z.string().uuid(),
 });
@@ -81,6 +84,7 @@ export const playIdolSchema = z.object({
 
 // Confessional schemas
 export const confessionalSchema = z.object({
+  seasonId: z.string().uuid(),
   body: z.string().min(1).max(5000),
   visibility: z.enum(["private", "postseason"]).default("private"),
 });

@@ -58,4 +58,3 @@ This document tracks architectural decisions and important context for Castaway 
 - Comprehensive error tracking (Sentry)
 - Admin dashboard for season management
 - Mobile app (React Native wrapper)
-

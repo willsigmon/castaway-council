@@ -127,4 +127,3 @@ export async function updateStats(
 
   return updated[0]!;
 }
-
