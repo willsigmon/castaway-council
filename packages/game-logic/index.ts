@@ -1,4 +1,6 @@
 import { createHash, createHmac } from "crypto";
+import type { ArchetypeId } from "./characters";
+import { getChallengeBonus, calculateDebuffPenalty } from "./characters";
 
 export interface ClientCommit {
   playerId: string;
@@ -131,3 +133,75 @@ export function verifyChallengeResult(
   // Note: Full verification requires modifiers, but we can verify the base roll
   return result.roll <= 20 && result.roll >= 1;
 }
+
+/**
+ * Enhanced roll input with character archetype support
+ */
+export interface EnhancedRollInput extends RollInput {
+  archetype?: ArchetypeId;
+  challengeType?: "team" | "individual";
+}
+
+/**
+ * Enhanced roll result with character trait breakdown
+ */
+export interface EnhancedRollResult extends RollResult {
+  breakdown: {
+    base: number;
+    energyBonus: number;
+    itemBonus: number;
+    eventBonus: number;
+    debuffPenalty: number;
+    archetypeBonus: number; // New: character trait bonus
+  };
+}
+
+/**
+ * Generate roll with character archetype modifiers
+ * This is the primary function to use for challenge scoring
+ */
+export function generateEnhancedRoll(input: EnhancedRollInput): EnhancedRollResult {
+  const { archetype, challengeType = "individual", debuffs = [], ...baseInput } = input;
+
+  // Get base roll using existing function
+  const baseResult = generateRoll(baseInput);
+
+  // Apply character trait bonuses if archetype provided
+  let archetypeBonus = 0;
+  let adjustedDebuffPenalty = baseResult.breakdown.debuffPenalty;
+
+  if (archetype) {
+    // Get challenge bonus from archetype
+    archetypeBonus = getChallengeBonus(archetype, challengeType);
+
+    // Recalculate debuff penalty with archetype resistance
+    adjustedDebuffPenalty = calculateDebuffPenalty(debuffs, archetype);
+  }
+
+  // Calculate new total with archetype modifiers
+  const total =
+    baseResult.breakdown.base +
+    baseResult.breakdown.energyBonus +
+    baseResult.breakdown.itemBonus +
+    baseResult.breakdown.eventBonus +
+    archetypeBonus -
+    adjustedDebuffPenalty;
+
+  return {
+    roll: baseResult.roll,
+    total: Math.max(1, total),
+    breakdown: {
+      base: baseResult.breakdown.base,
+      energyBonus: baseResult.breakdown.energyBonus,
+      itemBonus: baseResult.breakdown.itemBonus,
+      eventBonus: baseResult.breakdown.eventBonus,
+      debuffPenalty: adjustedDebuffPenalty,
+      archetypeBonus,
+    },
+  };
+}
+
+// Export new game systems
+export * from "./characters";
+export * from "./challenges";
+export * from "./rules";

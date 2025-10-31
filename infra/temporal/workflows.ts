@@ -11,27 +11,80 @@ const {
   startToCloseTimeout: "1 minute",
 });
 
+export type GameMode = "classic" | "speed" | "hardcore" | "casual";
+
 export interface SeasonWorkflowInput {
   seasonId: string;
-  totalDays?: number;
-  fastForwardEnabled?: boolean;
+  gameMode?: GameMode;
+  totalDays?: number; // Legacy support
+  fastForwardEnabled?: boolean; // Legacy support
 }
 
-const NORMAL_DURATIONS = {
-  camp: 8 * 60 * 60 * 1000, // 8 hours
-  challenge: 8 * 60 * 60 * 1000, // 8 hours
-  vote: 6 * 60 * 60 * 1000, // 6 hours
+// Game mode configurations imported from @game-logic/rules
+const GAME_MODE_CONFIGS = {
+  classic: {
+    totalDays: 12,
+    mergeDay: 10,
+    durations: {
+      camp: 8 * 60 * 60 * 1000,
+      challenge: 8 * 60 * 60 * 1000,
+      vote: 6 * 60 * 60 * 1000,
+    },
+  },
+  speed: {
+    totalDays: 6,
+    mergeDay: 4,
+    durations: {
+      camp: 2 * 60 * 60 * 1000,
+      challenge: 2 * 60 * 60 * 1000,
+      vote: 1 * 60 * 60 * 1000,
+    },
+  },
+  hardcore: {
+    totalDays: 15,
+    mergeDay: 12,
+    durations: {
+      camp: 12 * 60 * 60 * 1000,
+      challenge: 10 * 60 * 60 * 1000,
+      vote: 8 * 60 * 60 * 1000,
+    },
+  },
+  casual: {
+    totalDays: 10,
+    mergeDay: 8,
+    durations: {
+      camp: 6 * 60 * 60 * 1000,
+      challenge: 6 * 60 * 60 * 1000,
+      vote: 4 * 60 * 60 * 1000,
+    },
+  },
 };
 
+// Legacy fast-forward mode for testing
 const FAST_FORWARD_DURATIONS = {
-  camp: 5 * 60 * 1000, // 5 minutes
-  challenge: 5 * 60 * 1000, // 5 minutes
-  vote: 3 * 60 * 1000, // 3 minutes
+  camp: 5 * 60 * 1000,
+  challenge: 5 * 60 * 1000,
+  vote: 3 * 60 * 1000,
 };
 
 export async function seasonWorkflow(input: SeasonWorkflowInput): Promise<void> {
-  const { seasonId, totalDays = 12, fastForwardEnabled = false } = input;
-  const durations = fastForwardEnabled ? FAST_FORWARD_DURATIONS : NORMAL_DURATIONS;
+  const {
+    seasonId,
+    gameMode = "classic",
+    totalDays: legacyTotalDays,
+    fastForwardEnabled = false,
+  } = input;
+
+  // Determine configuration based on game mode or legacy settings
+  const config = fastForwardEnabled
+    ? {
+        totalDays: legacyTotalDays || 12,
+        mergeDay: 10,
+        durations: FAST_FORWARD_DURATIONS,
+      }
+    : GAME_MODE_CONFIGS[gameMode];
+
+  const { totalDays, mergeDay, durations } = config;
 
   log.info(`Starting season ${seasonId} workflow`);
 
@@ -52,10 +105,10 @@ export async function seasonWorkflow(input: SeasonWorkflowInput): Promise<void> 
     await sleep(durations.vote);
     await tallyVotes({ seasonId, day });
 
-    // Check for merge at day 10
-    if (day === 10) {
+    // Check for merge at configured merge day
+    if (day === mergeDay) {
       await mergeTribes({ seasonId });
-      log.info(`Merged tribes on day ${day}`);
+      log.info(`Merged tribes on day ${day} (${gameMode} mode)`);
     }
 
     await emitDailySummary({ seasonId, day });

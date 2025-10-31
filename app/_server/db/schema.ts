@@ -3,6 +3,15 @@ import { relations } from "drizzle-orm";
 
 // Enums
 export const seasonStatusEnum = pgEnum("season_status", ["planned", "active", "complete"]);
+export const gameModeEnum = pgEnum("game_mode", ["classic", "speed", "hardcore", "casual"]);
+export const characterArchetypeEnum = pgEnum("character_archetype", [
+  "athlete",
+  "strategist",
+  "survivalist",
+  "diplomat",
+  "opportunist",
+  "wildcard",
+]);
 export const playerRoleEnum = pgEnum("player_role", ["contestant", "jury", "spectator"]);
 export const channelTypeEnum = pgEnum("channel_type", ["tribe", "dm", "public"]);
 export const itemTypeEnum = pgEnum("item_type", ["idol", "tool", "event"]);
@@ -33,6 +42,7 @@ export const seasons = pgTable(
     id: uuid("id").primaryKey().defaultRandom(),
     name: text("name").notNull(),
     status: seasonStatusEnum("status").notNull().default("planned"),
+    gameMode: gameModeEnum("game_mode").notNull().default("classic"),
     startAt: timestamp("start_at"),
     dayIndex: integer("day_index").notNull().default(0),
   },
@@ -48,6 +58,7 @@ export const players = pgTable(
     userId: uuid("user_id").notNull().references(() => users.id),
     seasonId: uuid("season_id").notNull().references(() => seasons.id),
     displayName: text("display_name").notNull(),
+    archetype: characterArchetypeEnum("archetype").notNull().default("opportunist"),
     eliminatedAt: timestamp("eliminated_at"),
     role: playerRoleEnum("role").notNull().default("contestant"),
   },
