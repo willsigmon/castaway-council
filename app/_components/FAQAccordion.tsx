@@ -15,18 +15,18 @@ function FAQItemComponent({ question, answer }: { question: string; answer: stri
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-white/10 py-4">
+    <div className="border-b border-amber-900/30 py-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between gap-4 text-left
                    focus-visible:outline-none focus-visible:ring-2
-                   focus-visible:ring-blue-500 focus-visible:ring-offset-2
-                   focus-visible:ring-offset-black focus-visible:outline-none"
+                   focus-visible:ring-orange-600 focus-visible:ring-offset-2
+                   focus-visible:ring-offset-stone-950 focus-visible:outline-none"
         aria-expanded={isOpen}
       >
-        <h4 className="font-semibold text-white">{question}</h4>
+        <h4 className="font-semibold text-amber-100">{question}</h4>
         <span
-          className={`text-xl text-gray-500 transition-transform duration-200 flex-shrink-0 ${
+          className={`text-xl text-amber-700 transition-transform duration-200 flex-shrink-0 ${
             isOpen ? "rotate-180" : ""
           }`}
           aria-hidden="true"
@@ -40,7 +40,7 @@ function FAQItemComponent({ question, answer }: { question: string; answer: stri
         }`}
       >
         <div className="overflow-hidden">
-          <p className="text-gray-400 text-sm leading-relaxed">{answer}</p>
+          <p className="text-amber-300/70 text-sm leading-relaxed">{answer}</p>
         </div>
       </div>
     </div>
