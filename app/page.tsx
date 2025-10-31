@@ -104,37 +104,20 @@ export default function Home() {
   if (!user && loading) {
     return (
       <main className="min-h-screen">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Hero Skeleton */}
-          <div className="mb-20 text-center animate-pulse">
-            <div className="inline-block h-10 w-64 bg-white/10 rounded-full mb-6 mx-auto" />
-            <div className="h-24 w-full max-w-3xl mx-auto bg-white/10 rounded-2xl mb-6" />
-            <div className="h-16 w-full max-w-2xl mx-auto bg-white/10 rounded-xl mb-8" />
-            <div className="flex gap-4 justify-center">
-              <div className="h-16 w-48 bg-white/10 rounded-xl" />
-              <div className="h-16 w-48 bg-white/10 rounded-xl" />
-            </div>
+        <div className="max-w-5xl mx-auto px-4 py-16 animate-pulse">
+          <div className="h-12 w-96 bg-white/5 rounded mb-4" />
+          <div className="h-8 w-64 bg-white/5 rounded mb-2" />
+          <div className="h-6 w-80 bg-white/5 rounded mb-8" />
+          <div className="flex gap-3 mb-32">
+            <div className="h-12 w-40 bg-white/5 rounded" />
+            <div className="h-12 w-32 bg-white/5 rounded" />
           </div>
-
-          {/* Features Skeleton */}
-          <div className="grid md:grid-cols-3 gap-8 mb-20">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="h-64 glass rounded-2xl animate-pulse" />
+          <div className="h-px bg-white/10 mb-16" />
+          <div className="h-8 w-48 bg-white/5 rounded mb-8" />
+          <div className="grid md:grid-cols-2 gap-8">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-24 bg-white/5 rounded" />
             ))}
-          </div>
-
-          {/* Stats Skeleton */}
-          <div className="glass rounded-3xl p-12 mb-20">
-            <div className="h-10 w-64 bg-white/10 rounded-xl mb-8 mx-auto animate-pulse" />
-            <div className="grid md:grid-cols-4 gap-8">
-              {[1, 2, 3, 4].map(i => (
-                <div key={i} className="text-center">
-                  <div className="w-16 h-16 bg-white/10 rounded-2xl mb-4 mx-auto animate-pulse" />
-                  <div className="h-10 w-24 bg-white/10 rounded-lg mb-2 mx-auto animate-pulse" />
-                  <div className="h-4 w-32 bg-white/10 rounded mx-auto animate-pulse" />
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </main>
@@ -145,373 +128,156 @@ export default function Home() {
   if (!user && !loading) {
     return (
       <main className="min-h-screen">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Hero Splash */}
-          <div className="mb-20 text-center animate-fade-in">
-            <div className="inline-flex items-center gap-3 px-4 py-2 glass rounded-full border border-white/10 mb-6">
-              <span className="text-2xl">🏝️</span>
-              <span className="text-sm font-semibold">Survival meets strategy</span>
-            </div>
-            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold mb-6 gradient-text leading-tight">
+        <div className="max-w-5xl mx-auto px-4 py-16">
+          {/* Hero */}
+          <div className="mb-32">
+            <h1 className="text-5xl sm:text-7xl font-black mb-6 text-white">
               Castaway Council
             </h1>
-            <p className="text-2xl sm:text-3xl text-white/90 max-w-3xl mx-auto mb-8 font-light">
-              The strategy game where every vote matters, every alliance breaks, and only one player claims glory
+            <p className="text-xl sm:text-2xl text-gray-400 max-w-2xl mb-2">
+              18 players. 12 days. 1 survivor.
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
+            <p className="text-lg text-gray-500 max-w-2xl mb-8">
+              A slow-burn social game where alliances crumble, idols hide, and every vote counts.
+            </p>
+            <div className="flex flex-wrap gap-3">
               <Link
                 href="/auth/signin"
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 active:from-blue-800 active:to-purple-800 focus-visible:ring-4 focus-visible:ring-blue-500/50 focus-visible:outline-none transition-all duration-200 font-bold text-lg shadow-2xl shadow-blue-500/50 hover:shadow-blue-500/70 hover:scale-105 active:scale-[0.98]"
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 rounded font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:outline-none"
               >
-                Start Playing →
+                Join Next Season
               </Link>
               <Link
                 href="/log"
-                className="px-8 py-4 glass rounded-xl hover:bg-white/10 active:bg-white/5 focus-visible:ring-4 focus-visible:ring-white/20 focus-visible:outline-none transition-all duration-200 font-semibold text-lg border border-white/20 hover:border-white/40"
-                aria-label="Watch live tribal councils and gameplay"
+                className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded font-medium transition-colors focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:outline-none"
               >
-                Watch Live Gameplay →
+                Watch Games
               </Link>
             </div>
           </div>
 
-          {/* Features Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-20">
-            <div className="p-8 glass rounded-2xl border border-blue-500/30 card-hover">
-              <div className="text-5xl mb-4">⚔️</div>
-              <h3 className="text-2xl font-bold mb-3">Daily Challenges</h3>
-              <p className="text-white/90">
-                Compete in randomized challenges with provably fair outcomes. Every roll is verifiable and transparent.
-              </p>
-            </div>
-            <div className="p-8 glass rounded-2xl border border-purple-500/30 card-hover">
-              <div className="text-5xl mb-4">🗳️</div>
-              <h3 className="text-2xl font-bold mb-3">Tribal Council</h3>
-              <p className="text-white/90">
-                Vote out players using anonymous ballots. Alliances form, break, and reform in real-time.
-              </p>
-            </div>
-            <div className="p-8 glass rounded-2xl border border-pink-500/30 card-hover">
-              <div className="text-5xl mb-4">💬</div>
-              <h3 className="text-2xl font-bold mb-3">Real-time Chat</h3>
-              <p className="text-white/90">
-                Strategize with your tribe, form DMs with allies, or confess to the audience. Every message matters.
-              </p>
-            </div>
-          </div>
-
-          {/* Social Proof */}
-          <div className="mb-20">
-            <div className="glass rounded-3xl p-12 border border-blue-500/30">
-              <h2 className="text-3xl font-bold mb-8 text-center">As Featured In</h2>
-              <div className="flex flex-wrap items-center justify-center gap-12 opacity-60">
-                <div className="text-3xl font-bold filter grayscale hover:grayscale-0 transition-all">GameSpot</div>
-                <div className="text-3xl font-bold filter grayscale hover:grayscale-0 transition-all">Polygon</div>
-                <div className="text-3xl font-bold filter grayscale hover:grayscale-0 transition-all">IGN</div>
-                <div className="text-3xl font-bold filter grayscale hover:grayscale-0 transition-all">Rock Paper Shotgun</div>
+          {/* How it works */}
+          <div className="mb-24 border-t border-white/10 pt-16">
+            <h2 className="text-2xl font-bold mb-8 text-gray-300">How it works</h2>
+            <div className="grid md:grid-cols-2 gap-x-12 gap-y-6 text-gray-400">
+              <div>
+                <h3 className="text-white font-semibold mb-2">Each day has 3 phases</h3>
+                <p className="text-sm leading-relaxed">
+                  <span className="text-gray-300">Camp</span> (8 hours): Manage survival stats, find idols, form alliances<br />
+                  <span className="text-gray-300">Challenge</span> (8 hours): Compete for immunity<br />
+                  <span className="text-gray-300">Vote</span> (6 hours): Eliminate someone
+                </p>
+              </div>
+              <div>
+                <h3 className="text-white font-semibold mb-2">Win conditions</h3>
+                <p className="text-sm leading-relaxed">
+                  Survive 12 days without getting voted out. At the end, eliminated players vote for the winner from the final 3.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-white font-semibold mb-2">Character types</h3>
+                <p className="text-sm leading-relaxed">
+                  Pick from 6 archetypes (Athlete, Strategist, Survivalist, etc.). Each has different challenge bonuses and survival traits.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-white font-semibold mb-2">Fair RNG</h3>
+                <p className="text-sm leading-relaxed">
+                  All challenge rolls use cryptographic seeds. Server commits before you pick, so nothing's rigged.
+                </p>
               </div>
             </div>
           </div>
 
-          {/* How It Works */}
-          <div className="mb-20">
-            <h2 className="text-4xl font-bold text-center mb-12 gradient-text">How It Works</h2>
-            <div className="grid md:grid-cols-4 gap-6">
-              {[
-                { num: "1", title: "Camp", desc: "Complete tasks to maintain your stats", icon: "🏕️" },
-                { num: "2", title: "Challenge", desc: "Compete in skill-based games", icon: "🎯" },
-                { num: "3", title: "Vote", desc: "Eliminate players you can't trust", icon: "🗳️" },
-                { num: "4", title: "Win", desc: "Outlast everyone to claim victory", icon: "👑" },
-              ].map((step) => (
-                <div key={step.num} className="text-center">
-                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 mb-4 text-3xl shadow-lg shadow-blue-500/30">
-                    {step.icon}
+          {/* Current stats */}
+          {publicStats && (
+            <div className="mb-24 border-t border-white/10 pt-16">
+              <h2 className="text-2xl font-bold mb-8 text-gray-300">Right now</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div>
+                  <div className="text-3xl font-bold text-white mb-1">
+                    <AnimatedCounter end={publicStats.activePlayers} formatValue={formatNumber} />
                   </div>
-                  <div className="inline-flex items-center justify-center w-8 h-8 rounded-full glass border border-white/20 mb-3">
-                    <span className="text-sm font-bold text-blue-400">{step.num}</span>
-                  </div>
-                  <h4 className="text-xl font-bold mb-2">{step.title}</h4>
-                  <p className="text-white/60 text-sm">{step.desc}</p>
+                  <div className="text-sm text-gray-500">players in active seasons</div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Season Timeline */}
-          <div className="mb-20">
-            <div className="glass rounded-3xl p-12 border border-yellow-500/30">
-              <h2 className="text-3xl font-bold mb-8 text-center">The 10-Day Journey</h2>
-              <div className="relative max-w-4xl mx-auto">
-                {/* Timeline line */}
-                <div className="absolute top-12 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600" />
-
-                <div className="flex justify-between relative">
-                  {[
-                    { day: 1, phase: "Camp Tasks", icon: "🏕️" },
-                    { day: 3, phase: "First Challenge", icon: "🎯" },
-                    { day: 5, phase: "Tribal Merge", icon: "🤝" },
-                    { day: 8, phase: "Final 3", icon: "👑" },
-                    { day: 10, phase: "Jury Vote", icon: "🏆" },
-                  ].map((milestone, i) => (
-                    <div key={i} className="text-center">
-                      <div className="w-24 h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mb-4 text-4xl shadow-lg shadow-blue-500/30 relative z-10">
-                        {milestone.icon}
-                      </div>
-                      <div className="text-xs font-bold text-blue-400 mb-1">Day {milestone.day}</div>
-                      <div className="text-sm font-semibold">{milestone.phase}</div>
-                    </div>
-                  ))}
+                <div>
+                  <div className="text-3xl font-bold text-white mb-1">
+                    <AnimatedCounter end={publicStats.totalSeasons} formatValue={formatNumber} />
+                  </div>
+                  <div className="text-sm text-gray-500">completed seasons</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-white mb-1">
+                    <AnimatedCounter end={publicStats.totalVotes} formatValue={formatNumber} />
+                  </div>
+                  <div className="text-sm text-gray-500">votes cast</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-white mb-1">
+                    <AnimatedCounter end={publicStats.messagesToday} formatValue={formatNumber} />
+                  </div>
+                  <div className="text-sm text-gray-500">messages today</div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
 
-          {/* Challenge Types */}
-          <div className="mb-20">
-            <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Challenge Archetypes</h2>
-            <div className="grid md:grid-cols-4 gap-6">
-              {[
-                { icon: "🎯", title: "Precision", desc: "Hit targets, solve puzzles" },
-                { icon: "💪", title: "Endurance", desc: "Races, stamina tests" },
-                { icon: "🧠", title: "Intelligence", desc: "Trivia, memory games" },
-                { icon: "⚡", title: "Speed", desc: "Reaction time, reflexes" },
-              ].map((challenge, i) => (
-                <div key={i} className="group p-6 glass rounded-2xl border border-white/20 card-hover text-center">
-                  <div className="text-5xl mb-4">{challenge.icon}</div>
-                  <h4 className="text-xl font-bold mb-2">{challenge.title}</h4>
-                  <p className="text-sm text-white/60">{challenge.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Game Features */}
-          <div className="mb-20">
-            <div className="glass rounded-3xl p-12 border border-white/10">
-              <h2 className="text-3xl font-bold mb-8 text-center">Survival Mechanics</h2>
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-2xl">
-                    🔥
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold mb-2">Energy, Hunger, Thirst</h4>
-                    <p className="text-white/90">
-                      Manage your survival stats through foraging, water collection, and strategic rest. Low stats affect your challenge performance.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl">
-                    🤝
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold mb-2">Social Connections</h4>
-                    <p className="text-white/90">
-                      Build alliances through the help action. Higher social stats can sway votes and create powerful partnerships.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-2xl">
-                    🎲
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold mb-2">Randomized Challenges</h4>
-                    <p className="text-white/90">
-                      Every challenge uses verifiable RNG with server seeds published after reveal. Fair play guaranteed.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-2xl">
-                    🏆
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold mb-2">Hidden Immunity</h4>
-                    <p className="text-white/90">
-                      Find and play immunity idols to save yourself from elimination. Use them wisely—once played, they&apos;re gone forever.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Testimonials */}
-          <div className="mb-20">
-            <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Player Stories</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  quote: "The most intense social game I've ever played. Won Season 12 by 1 vote!",
-                  author: "@ShadowStrat",
-                  season: "Season 12 Champion",
-                },
-                {
-                  quote: "Finally, a game where strategy actually matters. No pay-to-win, pure skill.",
-                  author: "@TacticalVault",
-                  season: "Top 3, Season 8",
-                },
-                {
-                  quote: "The real-time aspect makes every alliance feel real. Love the tension!",
-                  author: "@MindReader",
-                  season: "Day 8 Eliminated",
-                },
-              ].map((testimonial, i) => (
-                <div key={i} className="p-6 glass rounded-2xl border border-white/20 card-hover">
-                  <p className="text-white/90 mb-4 italic">&quot;{testimonial.quote}&quot;</p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
-                      {testimonial.author[1]}
-                    </div>
-                    <div>
-                      <p className="font-semibold">{testimonial.author}</p>
-                      <p className="text-sm text-white/60">{testimonial.season}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Recent Winners */}
+          {/* Recent winners */}
           {winners.length > 0 && (
-            <div className="mb-20">
-              <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Recent Champions</h2>
-              <div className="grid md:grid-cols-4 gap-6">
+            <div className="mb-24 border-t border-white/10 pt-16">
+              <h2 className="text-2xl font-bold mb-6 text-gray-300">Recent winners</h2>
+              <div className="space-y-3">
                 {winners.map((champ) => (
-                  <div key={champ.seasonId} className="group p-6 glass rounded-2xl border border-yellow-500/30 card-hover text-center">
-                    <div className="text-5xl mb-3">🥇</div>
-                    <div className="text-xs font-bold text-yellow-400 mb-2">{champ.seasonName}</div>
-                    <div className="text-lg font-bold mb-1">{champ.winnerDisplayName}</div>
-                    <div className="text-sm text-white/60">{champ.tribeName || "No Tribe"}</div>
+                  <div key={champ.seasonId} className="flex items-center justify-between py-2">
+                    <div>
+                      <span className="text-white font-semibold">{champ.winnerDisplayName}</span>
+                      {champ.tribeName && (
+                        <span className="text-gray-500 text-sm ml-2">• {champ.tribeName}</span>
+                      )}
+                    </div>
+                    <div className="text-gray-500 text-sm">{champ.seasonName}</div>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Pricing or Free to Play Badge */}
-          <div className="mb-20">
-            <div className="glass rounded-3xl p-12 border border-green-500/30 text-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-6">
-                <span className="text-2xl">🆓</span>
-                <span className="font-bold text-black">100% Free to Play</span>
-              </div>
-              <h2 className="text-3xl font-bold mb-4">No Pay-to-Win. No Ads. No BS.</h2>
-              <p className="text-xl text-white/90 max-w-2xl mx-auto">
-                Every player starts equal. Success comes from strategy, not your wallet.
-              </p>
-              <div className="grid md:grid-cols-3 gap-6 mt-8">
-                <div className="p-6 bg-white/5 rounded-xl border border-white/10">
-                  <h4 className="font-bold text-lg mb-2">Full Access</h4>
-                  <p className="text-white/60 text-sm">All seasons, all features</p>
-                </div>
-                <div className="p-6 bg-white/5 rounded-xl border border-white/10">
-                  <h4 className="font-bold text-lg mb-2">Fair Play</h4>
-                  <p className="text-white/60 text-sm">Verifiable randomness</p>
-                </div>
-                <div className="p-6 bg-white/5 rounded-xl border border-white/10">
-                  <h4 className="font-bold text-lg mb-2">Epic Rewards</h4>
-                  <p className="text-white/60 text-sm">Bragging rights & glory</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Live Stats */}
-          {publicStats && (
-            <div className="mb-20">
-              <div className="glass rounded-3xl p-12 border border-cyan-500/30">
-                <h2 className="text-3xl font-bold mb-8 text-center">Castaway Council in Numbers</h2>
-                <div className="grid md:grid-cols-4 gap-8">
-                  {[
-                    {
-                      label: "Active Players",
-                      value: publicStats.activePlayers,
-                      icon: "👥",
-                      gradient: "from-blue-500 to-cyan-500",
-                    },
-                    {
-                      label: "Total Seasons",
-                      value: publicStats.totalSeasons,
-                      icon: "🏆",
-                      gradient: "from-purple-500 to-pink-500",
-                    },
-                    {
-                      label: "Total Votes Cast",
-                      value: publicStats.totalVotes,
-                      icon: "🗳️",
-                      gradient: "from-green-500 to-emerald-500",
-                    },
-                    {
-                      label: "Messages Today",
-                      value: publicStats.messagesToday,
-                      icon: "💬",
-                      gradient: "from-orange-500 to-red-500",
-                    },
-                  ].map((stat, i) => (
-                    <div key={i} className="text-center">
-                      <div
-                        className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.gradient} mb-4 text-3xl shadow-lg`}
-                      >
-                        {stat.icon}
-                      </div>
-                      <div className="text-4xl font-bold mb-2 gradient-text">
-                        <AnimatedCounter end={stat.value} formatValue={formatNumber} />
-                      </div>
-                      <div className="text-sm text-white/60">{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* FAQ */}
-          <div className="mb-20">
-            <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Frequently Asked Questions</h2>
+          <div className="mb-24 border-t border-white/10 pt-16">
+            <h2 className="text-2xl font-bold mb-6 text-gray-300">Questions</h2>
             <FAQAccordion
               faqs={[
                 {
-                  q: "How long does a season last?",
-                  a: "Each season runs for 10 in-game days with phases lasting 6-8 hours each. Total time: about 3-4 real-world weeks.",
+                  q: "How long does a season take?",
+                  a: "12 in-game days = about 3-4 real weeks. Each phase lasts 6-8 hours, so you can play at your own pace.",
                 },
                 {
-                  q: "Is the game really free?",
-                  a: "100% free. No in-app purchases, no ads, no pay-to-win mechanics. All players compete on equal footing.",
+                  q: "Is it actually free?",
+                  a: "Yes. No purchases, no ads, no premium features. Everyone plays the same game.",
                 },
                 {
                   q: "Can I play on mobile?",
-                  a: "Yes! Castaway Council is a Progressive Web App that works great on phones, tablets, and desktops.",
+                  a: "Works on any device. It's a PWA, so you can install it like a native app.",
                 },
                 {
-                  q: "How many players per season?",
-                  a: "Seasons typically start with 18 players split into 3 tribes of 6.",
+                  q: "How many people per season?",
+                  a: "18 players split into 3 tribes of 6. Tribes merge on Day 10.",
                 },
               ]}
             />
           </div>
 
-          {/* CTA */}
-          <div className="text-center glass rounded-3xl p-16 border border-purple-500/30">
-            <h2 className="text-4xl font-bold mb-4 gradient-text">Ready to Survive?</h2>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Join thousands of players competing for the title of Sole Survivor
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
+          {/* Final CTA */}
+          <div className="border-t border-white/10 pt-16 pb-8">
+            <div className="max-w-xl">
+              <p className="text-lg text-gray-400 mb-6">
+                New seasons start every few weeks. Join the next one or watch current games in progress.
+              </p>
               <Link
                 href="/auth/signin"
-                className="px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-bold text-xl shadow-2xl shadow-blue-500/50 hover:shadow-blue-500/70 hover:scale-105"
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black focus-visible:outline-none"
               >
-                Create Account →
-              </Link>
-              <Link
-                href="/log"
-                className="px-10 py-5 glass rounded-xl hover:bg-white/10 transition-all duration-200 font-semibold text-xl border border-white/20"
-              >
-                View Public Log
+                Join Next Season
               </Link>
             </div>
           </div>

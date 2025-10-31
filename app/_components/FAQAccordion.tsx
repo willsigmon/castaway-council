@@ -15,32 +15,32 @@ function FAQItemComponent({ question, answer }: { question: string; answer: stri
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="p-6 glass rounded-xl border border-white/20 hover:border-white/40 transition-all">
+    <div className="border-b border-white/10 py-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between gap-4 text-left
                    focus-visible:outline-none focus-visible:ring-2
                    focus-visible:ring-blue-500 focus-visible:ring-offset-2
-                   focus-visible:ring-offset-black/90 rounded-lg"
+                   focus-visible:ring-offset-black focus-visible:outline-none"
         aria-expanded={isOpen}
       >
-        <h4 className="font-bold text-lg">{question}</h4>
+        <h4 className="font-semibold text-white">{question}</h4>
         <span
-          className={`text-2xl transition-transform duration-300 flex-shrink-0 ${
+          className={`text-xl text-gray-500 transition-transform duration-200 flex-shrink-0 ${
             isOpen ? "rotate-180" : ""
           }`}
           aria-hidden="true"
         >
-          ⌄
+          ▼
         </span>
       </button>
       <div
-        className={`grid transition-all duration-300 ${
+        className={`grid transition-all duration-200 ${
           isOpen ? "grid-rows-[1fr] mt-3" : "grid-rows-[0fr]"
         }`}
       >
         <div className="overflow-hidden">
-          <p className="text-gray-300">{answer}</p>
+          <p className="text-gray-400 text-sm leading-relaxed">{answer}</p>
         </div>
       </div>
     </div>
@@ -49,7 +49,7 @@ function FAQItemComponent({ question, answer }: { question: string; answer: stri
 
 export function FAQAccordion({ faqs }: FAQAccordionProps) {
   return (
-    <div className="max-w-3xl mx-auto space-y-4">
+    <div>
       {faqs.map((faq, i) => (
         <FAQItemComponent key={i} question={faq.q} answer={faq.a} />
       ))}
