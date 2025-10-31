@@ -24,7 +24,7 @@ function FAQItemComponent({ question, answer }: { question: string; answer: stri
                    focus-visible:ring-offset-stone-950 focus-visible:outline-none"
         aria-expanded={isOpen}
       >
-        <h4 className="font-semibold text-amber-100">{question}</h4>
+        <h4 className="font-semibold text-amber-100 text-base">{question}</h4>
         <span
           className={`text-xl text-amber-700 transition-transform duration-200 flex-shrink-0 ${
             isOpen ? "rotate-180" : ""

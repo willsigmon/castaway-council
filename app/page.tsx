@@ -127,27 +127,33 @@ export default function Home() {
   // Show splash screen if no user and no loading
   if (!user && !loading) {
     return (
-      <main className="min-h-screen">
-        <div className="max-w-5xl mx-auto px-4 py-16">
+      <main className="min-h-screen relative">
+        {/* Ambient torch decorations */}
+        <div className="fixed top-20 left-4 text-2xl torch-flame opacity-30 pointer-events-none">🔥</div>
+        <div className="fixed top-40 right-8 text-2xl torch-flame opacity-30 pointer-events-none" style={{ animationDelay: '1.3s' }}>🔥</div>
+        <div className="fixed bottom-32 left-12 text-2xl torch-flame opacity-30 pointer-events-none" style={{ animationDelay: '0.8s' }}>🔥</div>
+        <div className="fixed bottom-48 right-16 text-2xl torch-flame opacity-30 pointer-events-none" style={{ animationDelay: '1.8s' }}>🔥</div>
+
+        <div className="max-w-5xl mx-auto px-4 py-16 relative z-10">
           {/* Hero */}
           <div className="mb-32 relative">
-            {/* Torch flames */}
-            <div className="absolute -top-8 left-0 text-6xl torch-flame">🔥</div>
-            <div className="absolute -top-8 right-0 text-6xl torch-flame" style={{ animationDelay: '0.5s' }}>🔥</div>
+            {/* Hero torch flames */}
+            <div className="absolute -top-8 left-0 text-7xl torch-flame">🔥</div>
+            <div className="absolute -top-8 right-0 text-7xl torch-flame" style={{ animationDelay: '0.5s' }}>🔥</div>
 
             <div className="text-center">
               <div className="inline-block mb-6">
-                <div className="text-sm uppercase tracking-widest text-amber-600/80 font-bold mb-2 letterspacing-wide">
+                <div className="text-sm uppercase tracking-widest text-amber-600/80 font-tribal font-bold mb-2">
                   Outwit • Outplay • Outlast
                 </div>
               </div>
-              <h1 className="text-5xl sm:text-7xl font-black mb-6 torch-glow drop-shadow-[0_0_20px_rgba(255,107,53,0.3)] tracking-tight">
+              <h1 className="text-6xl sm:text-8xl font-adventure mb-8 torch-glow drop-shadow-[0_0_30px_rgba(255,107,53,0.5)]">
                 CASTAWAY COUNCIL
               </h1>
-              <p className="text-xl sm:text-2xl text-amber-200/90 max-w-2xl mx-auto mb-2 font-semibold">
+              <p className="text-2xl sm:text-4xl text-amber-200 max-w-2xl mx-auto mb-3 font-tribal font-bold">
                 18 players. 12 days. 1 survivor.
               </p>
-              <p className="text-base text-amber-300/60 max-w-2xl mx-auto mb-10">
+              <p className="text-lg sm:text-xl text-amber-300/70 max-w-2xl mx-auto mb-12">
                 Form alliances. Find idols. Survive tribal council.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
@@ -169,41 +175,59 @@ export default function Home() {
 
           {/* How it works */}
           <div className="mb-24 border-t border-amber-900/30 pt-16">
-            <h2 className="text-2xl font-bold mb-8 text-amber-200 uppercase tracking-wide text-sm">The Game</h2>
-            <div className="grid md:grid-cols-2 gap-x-12 gap-y-8 text-amber-300/70">
-              <div>
-                <h3 className="text-amber-100 font-bold mb-2 flex items-center gap-2">
-                  <span className="text-orange-500">🔥</span> Three Phases Per Day
-                </h3>
-                <p className="text-sm leading-relaxed">
-                  <span className="text-amber-200">Camp</span> (8 hours): Forage, find idols, build alliances<br />
-                  <span className="text-amber-200">Challenge</span> (8 hours): Compete for immunity<br />
-                  <span className="text-amber-200">Tribal Council</span> (6 hours): Vote someone out
-                </p>
+            <div className="flex items-center gap-3 mb-12">
+              <span className="text-4xl torch-flame">🔥</span>
+              <h2 className="text-3xl font-adventure text-amber-200 uppercase">How It Works</h2>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="torch-panel rounded-lg p-6">
+                <div className="flex items-start gap-3 mb-4">
+                  <span className="text-5xl">🏕️</span>
+                  <div>
+                    <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3">Three Phases Daily</h3>
+                    <div className="space-y-2 text-base text-amber-200/80">
+                      <div><span className="font-bold text-orange-400">Camp</span> (8hrs) — Forage, find idols, scheme with allies</div>
+                      <div><span className="font-bold text-orange-400">Challenge</span> (8hrs) — Fight for immunity</div>
+                      <div><span className="font-bold text-orange-400">Council</span> (6hrs) — Vote someone out</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <h3 className="text-amber-100 font-bold mb-2 flex items-center gap-2">
-                  <span className="text-yellow-500">👑</span> Last One Standing Wins
-                </h3>
-                <p className="text-sm leading-relaxed">
-                  Outlast 12 days without elimination. Final 3 face a jury of voted-out players who decide the winner.
-                </p>
+
+              <div className="torch-panel rounded-lg p-6">
+                <div className="flex items-start gap-3 mb-4">
+                  <span className="text-5xl">👑</span>
+                  <div>
+                    <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3">Sole Survivor</h3>
+                    <p className="text-base text-amber-200/80 leading-relaxed">
+                      Outlast 12 days. Avoid elimination. Outwit your rivals. The final 3 face a jury who crowns the winner.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <h3 className="text-amber-100 font-bold mb-2 flex items-center gap-2">
-                  <span className="text-amber-500">⚔️</span> Six Character Archetypes
-                </h3>
-                <p className="text-sm leading-relaxed">
-                  Athlete, Strategist, Survivalist, Diplomat, Opportunist, or Wildcard. Each plays differently.
-                </p>
+
+              <div className="torch-panel rounded-lg p-6">
+                <div className="flex items-start gap-3 mb-4">
+                  <span className="text-5xl">⚔️</span>
+                  <div>
+                    <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3">Character Classes</h3>
+                    <p className="text-base text-amber-200/80 leading-relaxed">
+                      Choose your archetype: Athlete, Strategist, Survivalist, Diplomat, Opportunist, or Wildcard. Each has unique bonuses.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <h3 className="text-amber-100 font-bold mb-2 flex items-center gap-2">
-                  <span className="text-cyan-500">🎲</span> Provably Fair RNG
-                </h3>
-                <p className="text-sm leading-relaxed">
-                  Cryptographic commit-reveal system. Server can&apos;t cheat. You can verify every roll.
-                </p>
+
+              <div className="torch-panel rounded-lg p-6">
+                <div className="flex items-start gap-3 mb-4">
+                  <span className="text-5xl">🎲</span>
+                  <div>
+                    <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3">No Cheating</h3>
+                    <p className="text-base text-amber-200/80 leading-relaxed">
+                      All RNG uses cryptographic seeds. Server commits before you choose. Every roll is verifiable.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -211,31 +235,34 @@ export default function Home() {
           {/* Current stats */}
           {publicStats && (
             <div className="mb-24 border-t border-amber-900/30 pt-16">
-              <h2 className="text-sm font-bold mb-8 text-amber-200 uppercase tracking-wide">Tribe Stats</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div>
-                  <div className="text-3xl font-bold text-amber-100 mb-1">
+              <div className="flex items-center gap-3 mb-12">
+                <span className="text-4xl torch-flame" style={{ animationDelay: '1s' }}>🔥</span>
+                <h2 className="text-3xl font-adventure text-amber-200 uppercase">The Numbers</h2>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div className="text-center">
+                  <div className="text-5xl font-tribal font-bold text-amber-100 mb-2">
                     <AnimatedCounter end={publicStats.activePlayers} formatValue={formatNumber} />
                   </div>
-                  <div className="text-xs text-amber-600 uppercase tracking-wide">Castaways</div>
+                  <div className="text-sm text-amber-600 uppercase tracking-wide font-tribal">Castaways</div>
                 </div>
-                <div>
-                  <div className="text-3xl font-bold text-amber-100 mb-1">
+                <div className="text-center">
+                  <div className="text-5xl font-tribal font-bold text-amber-100 mb-2">
                     <AnimatedCounter end={publicStats.totalSeasons} formatValue={formatNumber} />
                   </div>
-                  <div className="text-xs text-amber-600 uppercase tracking-wide">Seasons</div>
+                  <div className="text-sm text-amber-600 uppercase tracking-wide font-tribal">Seasons</div>
                 </div>
-                <div>
-                  <div className="text-3xl font-bold text-amber-100 mb-1">
+                <div className="text-center">
+                  <div className="text-5xl font-tribal font-bold text-amber-100 mb-2">
                     <AnimatedCounter end={publicStats.totalVotes} formatValue={formatNumber} />
                   </div>
-                  <div className="text-xs text-amber-600 uppercase tracking-wide">Votes Cast</div>
+                  <div className="text-sm text-amber-600 uppercase tracking-wide font-tribal">Votes Cast</div>
                 </div>
-                <div>
-                  <div className="text-3xl font-bold text-amber-100 mb-1">
+                <div className="text-center">
+                  <div className="text-5xl font-tribal font-bold text-amber-100 mb-2">
                     <AnimatedCounter end={publicStats.messagesToday} formatValue={formatNumber} />
                   </div>
-                  <div className="text-xs text-amber-600 uppercase tracking-wide">Messages Today</div>
+                  <div className="text-sm text-amber-600 uppercase tracking-wide font-tribal">Today</div>
                 </div>
               </div>
             </div>
@@ -244,28 +271,37 @@ export default function Home() {
           {/* Recent winners */}
           {winners.length > 0 && (
             <div className="mb-24 border-t border-amber-900/30 pt-16">
-              <h2 className="text-sm font-bold mb-6 text-amber-200 uppercase tracking-wide flex items-center gap-2">
-                <span className="text-yellow-500">🏆</span> Sole Survivors
-              </h2>
-              <div className="space-y-3">
-                {winners.map((champ) => (
-                  <div key={champ.seasonId} className="flex items-center justify-between py-3 border-b border-amber-900/20">
-                    <div>
-                      <span className="text-amber-100 font-bold">{champ.winnerDisplayName}</span>
-                      {champ.tribeName && (
-                        <span className="text-amber-600 text-sm ml-3">Tribe: {champ.tribeName}</span>
-                      )}
+              <div className="flex items-center gap-3 mb-8">
+                <span className="text-4xl torch-flame" style={{ animationDelay: '1.5s' }}>🔥</span>
+                <h2 className="text-3xl font-adventure text-amber-200 uppercase">Sole Survivors</h2>
+              </div>
+              <div className="wood-panel rounded-lg p-6">
+                <div className="space-y-4">
+                  {winners.map((champ) => (
+                    <div key={champ.seasonId} className="flex items-center justify-between py-3 border-b border-amber-900/30 last:border-0">
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">👑</span>
+                        <div>
+                          <div className="text-amber-100 font-bold text-lg">{champ.winnerDisplayName}</div>
+                          {champ.tribeName && (
+                            <div className="text-amber-600 text-sm">Tribe: {champ.tribeName}</div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="text-amber-700 text-sm font-tribal font-bold">{champ.seasonName}</div>
                     </div>
-                    <div className="text-amber-700 text-sm font-medium">{champ.seasonName}</div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           )}
 
           {/* FAQ */}
           <div className="mb-24 border-t border-amber-900/30 pt-16">
-            <h2 className="text-sm font-bold mb-6 text-amber-200 uppercase tracking-wide">Questions</h2>
+            <div className="flex items-center gap-3 mb-8">
+              <span className="text-4xl torch-flame" style={{ animationDelay: '2s' }}>🔥</span>
+              <h2 className="text-3xl font-adventure text-amber-200 uppercase">Questions</h2>
+            </div>
             <FAQAccordion
               faqs={[
                 {
@@ -290,21 +326,26 @@ export default function Home() {
 
           {/* Final CTA */}
           <div className="border-t border-amber-900/30 pt-16 pb-8">
-            <div className="wood-panel rounded-lg p-8">
-              <div className="flex items-start gap-4">
-                <div className="text-5xl torch-flame">🔥</div>
-                <div>
-                  <h3 className="text-xl font-bold text-amber-100 mb-3">The tribe has spoken</h3>
-                  <p className="text-amber-300/80 mb-6">
-                    New seasons start every few weeks. Will you be the next sole survivor?
-                  </p>
-                  <Link
-                    href="/auth/signin"
-                    className="inline-block px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 rounded-lg font-bold transition-all shadow-lg shadow-orange-900/40 border border-amber-700/30 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 focus-visible:outline-none"
-                  >
-                    Apply for Next Season
-                  </Link>
-                </div>
+            <div className="torch-panel rounded-lg p-10 relative overflow-hidden">
+              {/* Decorative torches */}
+              <div className="absolute top-4 left-4 text-3xl torch-flame">🔥</div>
+              <div className="absolute top-4 right-4 text-3xl torch-flame" style={{ animationDelay: '0.7s' }}>🔥</div>
+              <div className="absolute bottom-4 left-1/4 text-3xl torch-flame" style={{ animationDelay: '1.2s' }}>🔥</div>
+              <div className="absolute bottom-4 right-1/4 text-3xl torch-flame" style={{ animationDelay: '0.3s' }}>🔥</div>
+
+              <div className="relative text-center">
+                <h3 className="text-4xl font-adventure text-amber-100 mb-4 uppercase">
+                  The Tribe Has Spoken
+                </h3>
+                <p className="text-xl text-amber-200/90 mb-8 max-w-xl mx-auto">
+                  Think you have what it takes? New seasons launch every few weeks.
+                </p>
+                <Link
+                  href="/auth/signin"
+                  className="inline-block px-10 py-4 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 rounded-lg font-bold text-xl transition-all shadow-xl shadow-orange-900/50 border border-amber-700/40 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 focus-visible:outline-none"
+                >
+                  Apply for Next Season
+                </Link>
               </div>
             </div>
           </div>
