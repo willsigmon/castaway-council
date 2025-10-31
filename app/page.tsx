@@ -183,7 +183,7 @@ export default function Home() {
               <div>
                 <h3 className="text-white font-semibold mb-2">Fair RNG</h3>
                 <p className="text-sm leading-relaxed">
-                  All challenge rolls use cryptographic seeds. Server commits before you pick, so nothing's rigged.
+                  All challenge rolls use cryptographic seeds. Server commits before you pick, so nothing&apos;s rigged.
                 </p>
               </div>
             </div>
