@@ -7,7 +7,7 @@ export async function POST() {
   try {
     // Check if demo seasons already exist
     const existing = await db.select().from(seasons).limit(1);
-    
+
     if (existing.length > 0) {
       return NextResponse.json(
         { message: "Seasons already exist. Use the seed script instead." },
@@ -51,4 +51,3 @@ export async function POST() {
     );
   }
 }
-
