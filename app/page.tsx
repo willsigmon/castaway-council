@@ -100,13 +100,54 @@ export default function Home() {
     return value.toLocaleString();
   }, []);
 
+  // Loading skeleton for splash screen
+  if (!user && loading) {
+    return (
+      <main className="min-h-screen">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Hero Skeleton */}
+          <div className="mb-20 text-center animate-pulse">
+            <div className="inline-block h-10 w-64 bg-white/10 rounded-full mb-6 mx-auto" />
+            <div className="h-24 w-full max-w-3xl mx-auto bg-white/10 rounded-2xl mb-6" />
+            <div className="h-16 w-full max-w-2xl mx-auto bg-white/10 rounded-xl mb-8" />
+            <div className="flex gap-4 justify-center">
+              <div className="h-16 w-48 bg-white/10 rounded-xl" />
+              <div className="h-16 w-48 bg-white/10 rounded-xl" />
+            </div>
+          </div>
+
+          {/* Features Skeleton */}
+          <div className="grid md:grid-cols-3 gap-8 mb-20">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="h-64 glass rounded-2xl animate-pulse" />
+            ))}
+          </div>
+
+          {/* Stats Skeleton */}
+          <div className="glass rounded-3xl p-12 mb-20">
+            <div className="h-10 w-64 bg-white/10 rounded-xl mb-8 mx-auto animate-pulse" />
+            <div className="grid md:grid-cols-4 gap-8">
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} className="text-center">
+                  <div className="w-16 h-16 bg-white/10 rounded-2xl mb-4 mx-auto animate-pulse" />
+                  <div className="h-10 w-24 bg-white/10 rounded-lg mb-2 mx-auto animate-pulse" />
+                  <div className="h-4 w-32 bg-white/10 rounded mx-auto animate-pulse" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   // Show splash screen if no user and no loading
   if (!user && !loading) {
     return (
       <main className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Hero Splash */}
-          <div className="mb-20 text-center">
+          <div className="mb-20 text-center animate-fade-in">
             <div className="inline-flex items-center gap-3 px-4 py-2 glass rounded-full border border-white/10 mb-6">
               <span className="text-2xl">🏝️</span>
               <span className="text-sm font-semibold">Survival meets strategy</span>
@@ -114,21 +155,22 @@ export default function Home() {
             <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold mb-6 gradient-text leading-tight">
               Castaway Council
             </h1>
-            <p className="text-2xl sm:text-3xl text-gray-300 max-w-3xl mx-auto mb-8 font-light">
-              Compete, survive, and outsmart your way to become the sole survivor
+            <p className="text-2xl sm:text-3xl text-white/90 max-w-3xl mx-auto mb-8 font-light">
+              The strategy game where every vote matters, every alliance breaks, and only one player claims glory
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/auth/signin"
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-bold text-lg shadow-2xl shadow-blue-500/50 hover:shadow-blue-500/70 hover:scale-105"
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 active:from-blue-800 active:to-purple-800 focus-visible:ring-4 focus-visible:ring-blue-500/50 focus-visible:outline-none transition-all duration-200 font-bold text-lg shadow-2xl shadow-blue-500/50 hover:shadow-blue-500/70 hover:scale-105 active:scale-[0.98]"
               >
                 Start Playing →
               </Link>
               <Link
                 href="/log"
-                className="px-8 py-4 glass rounded-xl hover:bg-white/10 transition-all duration-200 font-semibold text-lg border border-white/20"
+                className="px-8 py-4 glass rounded-xl hover:bg-white/10 active:bg-white/5 focus-visible:ring-4 focus-visible:ring-white/20 focus-visible:outline-none transition-all duration-200 font-semibold text-lg border border-white/20 hover:border-white/40"
+                aria-label="Watch live tribal councils and gameplay"
               >
-                Watch Live
+                Watch Live Gameplay →
               </Link>
             </div>
           </div>
@@ -138,21 +180,21 @@ export default function Home() {
             <div className="p-8 glass rounded-2xl border border-blue-500/30 card-hover">
               <div className="text-5xl mb-4">⚔️</div>
               <h3 className="text-2xl font-bold mb-3">Daily Challenges</h3>
-              <p className="text-gray-300">
+              <p className="text-white/90">
                 Compete in randomized challenges with provably fair outcomes. Every roll is verifiable and transparent.
               </p>
             </div>
             <div className="p-8 glass rounded-2xl border border-purple-500/30 card-hover">
               <div className="text-5xl mb-4">🗳️</div>
               <h3 className="text-2xl font-bold mb-3">Tribal Council</h3>
-              <p className="text-gray-300">
+              <p className="text-white/90">
                 Vote out players using anonymous ballots. Alliances form, break, and reform in real-time.
               </p>
             </div>
             <div className="p-8 glass rounded-2xl border border-pink-500/30 card-hover">
               <div className="text-5xl mb-4">💬</div>
               <h3 className="text-2xl font-bold mb-3">Real-time Chat</h3>
-              <p className="text-gray-300">
+              <p className="text-white/90">
                 Strategize with your tribe, form DMs with allies, or confess to the audience. Every message matters.
               </p>
             </div>
@@ -189,7 +231,7 @@ export default function Home() {
                     <span className="text-sm font-bold text-blue-400">{step.num}</span>
                   </div>
                   <h4 className="text-xl font-bold mb-2">{step.title}</h4>
-                  <p className="text-gray-400 text-sm">{step.desc}</p>
+                  <p className="text-white/60 text-sm">{step.desc}</p>
                 </div>
               ))}
             </div>
@@ -237,7 +279,7 @@ export default function Home() {
                 <div key={i} className="group p-6 glass rounded-2xl border border-white/20 card-hover text-center">
                   <div className="text-5xl mb-4">{challenge.icon}</div>
                   <h4 className="text-xl font-bold mb-2">{challenge.title}</h4>
-                  <p className="text-sm text-gray-400">{challenge.desc}</p>
+                  <p className="text-sm text-white/60">{challenge.desc}</p>
                 </div>
               ))}
             </div>
@@ -254,7 +296,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-xl font-bold mb-2">Energy, Hunger, Thirst</h4>
-                    <p className="text-gray-300">
+                    <p className="text-white/90">
                       Manage your survival stats through foraging, water collection, and strategic rest. Low stats affect your challenge performance.
                     </p>
                   </div>
@@ -265,7 +307,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-xl font-bold mb-2">Social Connections</h4>
-                    <p className="text-gray-300">
+                    <p className="text-white/90">
                       Build alliances through the help action. Higher social stats can sway votes and create powerful partnerships.
                     </p>
                   </div>
@@ -276,7 +318,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-xl font-bold mb-2">Randomized Challenges</h4>
-                    <p className="text-gray-300">
+                    <p className="text-white/90">
                       Every challenge uses verifiable RNG with server seeds published after reveal. Fair play guaranteed.
                     </p>
                   </div>
@@ -287,7 +329,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-xl font-bold mb-2">Hidden Immunity</h4>
-                    <p className="text-gray-300">
+                    <p className="text-white/90">
                       Find and play immunity idols to save yourself from elimination. Use them wisely—once played, they&apos;re gone forever.
                     </p>
                   </div>
@@ -318,14 +360,14 @@ export default function Home() {
                 },
               ].map((testimonial, i) => (
                 <div key={i} className="p-6 glass rounded-2xl border border-white/20 card-hover">
-                  <p className="text-gray-300 mb-4 italic">&quot;{testimonial.quote}&quot;</p>
+                  <p className="text-white/90 mb-4 italic">&quot;{testimonial.quote}&quot;</p>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
                       {testimonial.author[1]}
                     </div>
                     <div>
                       <p className="font-semibold">{testimonial.author}</p>
-                      <p className="text-sm text-gray-400">{testimonial.season}</p>
+                      <p className="text-sm text-white/60">{testimonial.season}</p>
                     </div>
                   </div>
                 </div>
@@ -343,7 +385,7 @@ export default function Home() {
                     <div className="text-5xl mb-3">🥇</div>
                     <div className="text-xs font-bold text-yellow-400 mb-2">{champ.seasonName}</div>
                     <div className="text-lg font-bold mb-1">{champ.winnerDisplayName}</div>
-                    <div className="text-sm text-gray-400">{champ.tribeName || "No Tribe"}</div>
+                    <div className="text-sm text-white/60">{champ.tribeName || "No Tribe"}</div>
                   </div>
                 ))}
               </div>
@@ -358,21 +400,21 @@ export default function Home() {
                 <span className="font-bold text-black">100% Free to Play</span>
               </div>
               <h2 className="text-3xl font-bold mb-4">No Pay-to-Win. No Ads. No BS.</h2>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              <p className="text-xl text-white/90 max-w-2xl mx-auto">
                 Every player starts equal. Success comes from strategy, not your wallet.
               </p>
               <div className="grid md:grid-cols-3 gap-6 mt-8">
                 <div className="p-6 bg-white/5 rounded-xl border border-white/10">
                   <h4 className="font-bold text-lg mb-2">Full Access</h4>
-                  <p className="text-gray-400 text-sm">All seasons, all features</p>
+                  <p className="text-white/60 text-sm">All seasons, all features</p>
                 </div>
                 <div className="p-6 bg-white/5 rounded-xl border border-white/10">
                   <h4 className="font-bold text-lg mb-2">Fair Play</h4>
-                  <p className="text-gray-400 text-sm">Verifiable randomness</p>
+                  <p className="text-white/60 text-sm">Verifiable randomness</p>
                 </div>
                 <div className="p-6 bg-white/5 rounded-xl border border-white/10">
                   <h4 className="font-bold text-lg mb-2">Epic Rewards</h4>
-                  <p className="text-gray-400 text-sm">Bragging rights & glory</p>
+                  <p className="text-white/60 text-sm">Bragging rights & glory</p>
                 </div>
               </div>
             </div>
@@ -419,7 +461,7 @@ export default function Home() {
                       <div className="text-4xl font-bold mb-2 gradient-text">
                         <AnimatedCounter end={stat.value} formatValue={formatNumber} />
                       </div>
-                      <div className="text-sm text-gray-400">{stat.label}</div>
+                      <div className="text-sm text-white/60">{stat.label}</div>
                     </div>
                   ))}
                 </div>
@@ -455,7 +497,7 @@ export default function Home() {
           {/* CTA */}
           <div className="text-center glass rounded-3xl p-16 border border-purple-500/30">
             <h2 className="text-4xl font-bold mb-4 gradient-text">Ready to Survive?</h2>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
               Join thousands of players competing for the title of Sole Survivor
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
@@ -486,7 +528,7 @@ export default function Home() {
           <h1 className="text-5xl sm:text-6xl font-bold mb-4 gradient-text">
             Castaway Council
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl text-white/90 max-w-2xl mx-auto">
             Real-time slow-burn social survival RPG where strategy meets survival
           </p>
         </div>
@@ -496,7 +538,7 @@ export default function Home() {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h2 className="text-2xl font-bold mb-2">Welcome back, {currentPlayer.displayName}!</h2>
-                <p className="text-gray-300">You&apos;re currently playing in <span className="font-semibold text-blue-400">{currentSeason.name}</span></p>
+                <p className="text-white/90">You&apos;re currently playing in <span className="font-semibold text-blue-400">{currentSeason.name}</span></p>
               </div>
               <span className="px-3 py-1 text-xs font-semibold bg-gradient-to-r from-green-500 to-emerald-500 rounded-full text-black">
                 Active
@@ -528,7 +570,7 @@ export default function Home() {
         {!user && (
           <div className="mb-8 p-8 glass rounded-2xl border border-purple-500/30 card-hover">
             <h2 className="text-2xl font-bold mb-2 gradient-text">Get Started</h2>
-            <p className="text-gray-300 mb-6">Sign in or create an account to join a season and compete for the crown</p>
+            <p className="text-white/90 mb-6">Sign in or create an account to join a season and compete for the crown</p>
             <Link
               href="/auth/signin"
               className="inline-block px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
@@ -544,7 +586,7 @@ export default function Home() {
               <span className="text-2xl">🏝️</span>
               <h2 className="text-2xl font-bold">No Seasons Available</h2>
             </div>
-            <p className="text-gray-300 mb-4">There are no seasons set up yet.</p>
+            <p className="text-white/90 mb-4">There are no seasons set up yet.</p>
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={async () => {
@@ -565,7 +607,7 @@ export default function Home() {
               >
                 Create Demo Seasons
               </button>
-              <p className="text-sm text-gray-400 self-center">
+              <p className="text-sm text-white/60 self-center">
                 {user
                   ? "Or contact an admin to create a real season."
                   : "Sign in to see available seasons or create a new one."}
@@ -601,7 +643,7 @@ export default function Home() {
                           Active
                         </span>
                       </div>
-                      <p className="text-sm text-gray-400 mb-4">Day {season.dayIndex}</p>
+                      <p className="text-sm text-white/60 mb-4">Day {season.dayIndex}</p>
                       <div className="flex items-center gap-2 text-sm text-blue-400 font-medium">
                         Join Season
                         <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -630,7 +672,7 @@ export default function Home() {
                           Planned
                         </span>
                       </div>
-                      <p className="text-sm text-gray-400">Coming soon</p>
+                      <p className="text-sm text-white/60">Coming soon</p>
                     </div>
                   ))}
                 </div>
@@ -655,7 +697,7 @@ export default function Home() {
                           Complete
                         </span>
                       </div>
-                      <p className="text-sm text-gray-400 mb-2">Day {season.dayIndex}</p>
+                      <p className="text-sm text-white/60 mb-2">Day {season.dayIndex}</p>
                     </div>
                   ))}
                 </div>
