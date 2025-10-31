@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { getRecentWinners } from "@/server/analytics/queries";
 
+// Cache for 5 minutes (winners change infrequently)
+export const revalidate = 300;
+
 export async function GET() {
     try {
         const winners = await getRecentWinners(4);

@@ -109,55 +109,34 @@ export interface SeasonWinner {
 /**
  * Get recent winners from completed seasons
  * Returns up to 4 most recent completed seasons with their winners
+ * Optimized: Single JOIN query instead of N+1 pattern (9 queries → 1 query)
  */
 export async function getRecentWinners(limit: number = 4): Promise<SeasonWinner[]> {
-  // Get completed seasons ordered by most recent
-  const completedSeasons = await db
-    .select()
+  const results = await db
+    .select({
+      seasonId: seasons.id,
+      seasonName: seasons.name,
+      winnerDisplayName: players.displayName,
+      tribeName: tribes.name,
+    })
     .from(seasons)
+    .innerJoin(
+      players,
+      and(
+        eq(players.seasonId, seasons.id),
+        isNull(players.eliminatedAt) // Winner = not eliminated
+      )
+    )
+    .leftJoin(tribeMembers, eq(tribeMembers.playerId, players.id))
+    .leftJoin(tribes, eq(tribes.id, tribeMembers.tribeId))
     .where(eq(seasons.status, "complete"))
     .orderBy(desc(seasons.startAt), desc(seasons.id))
     .limit(limit);
 
-  const winners: SeasonWinner[] = [];
-
-  for (const season of completedSeasons) {
-    // Find winner(s) - players not eliminated in this season
-    const winnersList = await db
-      .select({
-        playerId: players.id,
-        displayName: players.displayName,
-      })
-      .from(players)
-      .where(
-        and(
-          eq(players.seasonId, season.id),
-          isNull(players.eliminatedAt)
-        )
-      )
-      .limit(1); // In case of ties, just take the first
-
-    if (winnersList.length === 0) continue;
-
-    const winner = winnersList[0];
-
-    // Get winner's tribe (get their last tribe membership)
-    const [tribeMember] = await db
-      .select({
-        tribeName: tribes.name,
-      })
-      .from(tribeMembers)
-      .innerJoin(tribes, eq(tribeMembers.tribeId, tribes.id))
-      .where(eq(tribeMembers.playerId, winner.playerId))
-      .limit(1);
-
-    winners.push({
-      seasonId: season.id,
-      seasonName: season.name,
-      winnerDisplayName: winner.displayName,
-      tribeName: tribeMember?.tribeName || null,
-    });
-  }
-
-  return winners;
+  return results.map((r) => ({
+    seasonId: r.seasonId,
+    seasonName: r.seasonName,
+    winnerDisplayName: r.winnerDisplayName,
+    tribeName: r.tribeName,
+  }));
 }
