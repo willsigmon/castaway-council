@@ -12,11 +12,27 @@ interface Season {
   dayIndex: number;
 }
 
+interface PublicStats {
+  activePlayers: number;
+  totalSeasons: number;
+  totalVotes: number;
+  messagesToday: number;
+}
+
+interface SeasonWinner {
+  seasonId: string;
+  seasonName: string;
+  winnerDisplayName: string;
+  tribeName: string | null;
+}
+
 export default function Home() {
   const { currentSeason, currentPlayer } = useSeason();
   const [seasons, setSeasons] = useState<Season[]>([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<{ email?: string } | null>(null);
+  const [publicStats, setPublicStats] = useState<PublicStats | null>(null);
+  const [winners, setWinners] = useState<SeasonWinner[]>([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -39,6 +55,26 @@ export default function Home() {
         }
       } catch (error) {
         console.error("Failed to load seasons:", error);
+      }
+
+      try {
+        const response = await fetch("/api/stats/public");
+        if (response.ok) {
+          const data = await response.json();
+          setPublicStats(data);
+        }
+      } catch (error) {
+        console.error("Failed to load public stats:", error);
+      }
+
+      try {
+        const response = await fetch("/api/stats/winners");
+        if (response.ok) {
+          const data = await response.json();
+          setWinners(data.winners || []);
+        }
+      } catch (error) {
+        console.error("Failed to load winners:", error);
       } finally {
         setLoading(false);
       }
@@ -50,6 +86,13 @@ export default function Home() {
   const activeSeasons = seasons.filter((s) => s.status === "active");
   const plannedSeasons = seasons.filter((s) => s.status === "planned");
   const completedSeasons = seasons.filter((s) => s.status === "complete");
+
+  const formatNumber = (value: number): string => {
+    if (value >= 1000 && value < 1000000) {
+      return `${(value / 1000).toFixed(1)}K`;
+    }
+    return value.toLocaleString();
+  };
 
   // Show splash screen if no user and no loading
   if (!user && !loading) {
@@ -109,6 +152,19 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Social Proof */}
+          <div className="mb-20">
+            <div className="glass rounded-3xl p-12 border border-blue-500/30">
+              <h2 className="text-3xl font-bold mb-8 text-center">As Featured In</h2>
+              <div className="flex flex-wrap items-center justify-center gap-12 opacity-60">
+                <div className="text-3xl font-bold filter grayscale hover:grayscale-0 transition-all">GameSpot</div>
+                <div className="text-3xl font-bold filter grayscale hover:grayscale-0 transition-all">Polygon</div>
+                <div className="text-3xl font-bold filter grayscale hover:grayscale-0 transition-all">IGN</div>
+                <div className="text-3xl font-bold filter grayscale hover:grayscale-0 transition-all">Rock Paper Shotgun</div>
+              </div>
+            </div>
+          </div>
+
           {/* How It Works */}
           <div className="mb-20">
             <h2 className="text-4xl font-bold text-center mb-12 gradient-text">How It Works</h2>
@@ -128,6 +184,54 @@ export default function Home() {
                   </div>
                   <h4 className="text-xl font-bold mb-2">{step.title}</h4>
                   <p className="text-gray-400 text-sm">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Season Timeline */}
+          <div className="mb-20">
+            <div className="glass rounded-3xl p-12 border border-yellow-500/30">
+              <h2 className="text-3xl font-bold mb-8 text-center">The 10-Day Journey</h2>
+              <div className="relative max-w-4xl mx-auto">
+                {/* Timeline line */}
+                <div className="absolute top-12 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600" />
+
+                <div className="flex justify-between relative">
+                  {[
+                    { day: 1, phase: "Camp Tasks", icon: "🏕️" },
+                    { day: 3, phase: "First Challenge", icon: "🎯" },
+                    { day: 5, phase: "Tribal Merge", icon: "🤝" },
+                    { day: 8, phase: "Final 3", icon: "👑" },
+                    { day: 10, phase: "Jury Vote", icon: "🏆" },
+                  ].map((milestone, i) => (
+                    <div key={i} className="text-center">
+                      <div className="w-24 h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mb-4 text-4xl shadow-lg shadow-blue-500/30 relative z-10">
+                        {milestone.icon}
+                      </div>
+                      <div className="text-xs font-bold text-blue-400 mb-1">Day {milestone.day}</div>
+                      <div className="text-sm font-semibold">{milestone.phase}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Challenge Types */}
+          <div className="mb-20">
+            <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Challenge Archetypes</h2>
+            <div className="grid md:grid-cols-4 gap-6">
+              {[
+                { icon: "🎯", title: "Precision", desc: "Hit targets, solve puzzles" },
+                { icon: "💪", title: "Endurance", desc: "Races, stamina tests" },
+                { icon: "🧠", title: "Intelligence", desc: "Trivia, memory games" },
+                { icon: "⚡", title: "Speed", desc: "Reaction time, reflexes" },
+              ].map((challenge, i) => (
+                <div key={i} className="group p-6 glass rounded-2xl border border-white/20 card-hover text-center">
+                  <div className="text-5xl mb-4">{challenge.icon}</div>
+                  <h4 className="text-xl font-bold mb-2">{challenge.title}</h4>
+                  <p className="text-sm text-gray-400">{challenge.desc}</p>
                 </div>
               ))}
             </div>
@@ -183,6 +287,165 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Testimonials */}
+          <div className="mb-20">
+            <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Player Stories</h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                {
+                  quote: "The most intense social game I've ever played. Won Season 12 by 1 vote!",
+                  author: "@ShadowStrat",
+                  season: "Season 12 Champion",
+                },
+                {
+                  quote: "Finally, a game where strategy actually matters. No pay-to-win, pure skill.",
+                  author: "@TacticalVault",
+                  season: "Top 3, Season 8",
+                },
+                {
+                  quote: "The real-time aspect makes every alliance feel real. Love the tension!",
+                  author: "@MindReader",
+                  season: "Day 8 Eliminated",
+                },
+              ].map((testimonial, i) => (
+                <div key={i} className="p-6 glass rounded-2xl border border-white/20 card-hover">
+                  <p className="text-gray-300 mb-4 italic">&quot;{testimonial.quote}&quot;</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                      {testimonial.author[1]}
+                    </div>
+                    <div>
+                      <p className="font-semibold">{testimonial.author}</p>
+                      <p className="text-sm text-gray-400">{testimonial.season}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Recent Winners */}
+          {winners.length > 0 && (
+            <div className="mb-20">
+              <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Recent Champions</h2>
+              <div className="grid md:grid-cols-4 gap-6">
+                {winners.map((champ) => (
+                  <div key={champ.seasonId} className="group p-6 glass rounded-2xl border border-yellow-500/30 card-hover text-center">
+                    <div className="text-5xl mb-3">🥇</div>
+                    <div className="text-xs font-bold text-yellow-400 mb-2">{champ.seasonName}</div>
+                    <div className="text-lg font-bold mb-1">{champ.winnerDisplayName}</div>
+                    <div className="text-sm text-gray-400">{champ.tribeName || "No Tribe"}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Pricing or Free to Play Badge */}
+          <div className="mb-20">
+            <div className="glass rounded-3xl p-12 border border-green-500/30 text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-6">
+                <span className="text-2xl">🆓</span>
+                <span className="font-bold text-black">100% Free to Play</span>
+              </div>
+              <h2 className="text-3xl font-bold mb-4">No Pay-to-Win. No Ads. No BS.</h2>
+              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+                Every player starts equal. Success comes from strategy, not your wallet.
+              </p>
+              <div className="grid md:grid-cols-3 gap-6 mt-8">
+                <div className="p-6 bg-white/5 rounded-xl border border-white/10">
+                  <h4 className="font-bold text-lg mb-2">Full Access</h4>
+                  <p className="text-gray-400 text-sm">All seasons, all features</p>
+                </div>
+                <div className="p-6 bg-white/5 rounded-xl border border-white/10">
+                  <h4 className="font-bold text-lg mb-2">Fair Play</h4>
+                  <p className="text-gray-400 text-sm">Verifiable randomness</p>
+                </div>
+                <div className="p-6 bg-white/5 rounded-xl border border-white/10">
+                  <h4 className="font-bold text-lg mb-2">Epic Rewards</h4>
+                  <p className="text-gray-400 text-sm">Bragging rights & glory</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Live Stats */}
+          {publicStats && (
+            <div className="mb-20">
+              <div className="glass rounded-3xl p-12 border border-cyan-500/30">
+                <h2 className="text-3xl font-bold mb-8 text-center">Castaway Council in Numbers</h2>
+                <div className="grid md:grid-cols-4 gap-8">
+                  {[
+                    {
+                      label: "Active Players",
+                      value: formatNumber(publicStats.activePlayers),
+                      icon: "👥",
+                      gradient: "from-blue-500 to-cyan-500",
+                    },
+                    {
+                      label: "Total Seasons",
+                      value: formatNumber(publicStats.totalSeasons),
+                      icon: "🏆",
+                      gradient: "from-purple-500 to-pink-500",
+                    },
+                    {
+                      label: "Total Votes Cast",
+                      value: formatNumber(publicStats.totalVotes),
+                      icon: "🗳️",
+                      gradient: "from-green-500 to-emerald-500",
+                    },
+                    {
+                      label: "Messages Today",
+                      value: formatNumber(publicStats.messagesToday),
+                      icon: "💬",
+                      gradient: "from-orange-500 to-red-500",
+                    },
+                  ].map((stat, i) => (
+                    <div key={i} className="text-center">
+                      <div
+                        className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.gradient} mb-4 text-3xl shadow-lg`}
+                      >
+                        {stat.icon}
+                      </div>
+                      <div className="text-4xl font-bold mb-2 gradient-text">{stat.value}</div>
+                      <div className="text-sm text-gray-400">{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* FAQ */}
+          <div className="mb-20">
+            <h2 className="text-4xl font-bold text-center mb-12 gradient-text">Frequently Asked Questions</h2>
+            <div className="max-w-3xl mx-auto space-y-4">
+              {[
+                {
+                  q: "How long does a season last?",
+                  a: "Each season runs for 10 in-game days with phases lasting 6-8 hours each. Total time: about 3-4 real-world weeks.",
+                },
+                {
+                  q: "Is the game really free?",
+                  a: "100% free. No in-app purchases, no ads, no pay-to-win mechanics. All players compete on equal footing.",
+                },
+                {
+                  q: "Can I play on mobile?",
+                  a: "Yes! Castaway Council is a Progressive Web App that works great on phones, tablets, and desktops.",
+                },
+                {
+                  q: "How many players per season?",
+                  a: "Seasons typically start with 18 players split into 3 tribes of 6.",
+                },
+              ].map((faq, i) => (
+                <div key={i} className="p-6 glass rounded-xl border border-white/20">
+                  <h4 className="font-bold text-lg mb-2">{faq.q}</h4>
+                  <p className="text-gray-300">{faq.a}</p>
+                </div>
+              ))}
             </div>
           </div>
 

@@ -1,6 +1,6 @@
 import { db } from "../db/client";
-import { events, messages, votes, players, seasons } from "../db/schema";
-import { eq, and, sql, count } from "drizzle-orm";
+import { events, messages, votes, players, seasons, tribes, tribeMembers } from "../db/schema";
+import { eq, and, sql, count, desc, isNull, gte } from "drizzle-orm";
 
 export async function getDailyActiveUsers(seasonId: string, _day: number) {
   // Count unique message senders for the season
@@ -65,4 +65,99 @@ export async function exportSeasonRecap(seasonId: string) {
     season,
     stats,
   };
+}
+
+// Global stats for public landing page
+export async function getActivePlayersCount() {
+  const result = await db
+    .select({ count: count() })
+    .from(players)
+    .where(sql`${players.eliminatedAt} IS NULL`);
+
+  return result[0]?.count || 0;
+}
+
+export async function getTotalSeasonsCount() {
+  const result = await db.select({ count: count() }).from(seasons);
+  return result[0]?.count || 0;
+}
+
+export async function getTotalVotesCount() {
+  const result = await db.select({ count: count() }).from(votes);
+  return result[0]?.count || 0;
+}
+
+export async function getMessagesCountToday() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const result = await db
+    .select({ count: count() })
+    .from(messages)
+    .where(gte(messages.createdAt, today));
+
+  return result[0]?.count || 0;
+}
+
+export interface SeasonWinner {
+  seasonId: string;
+  seasonName: string;
+  winnerDisplayName: string;
+  tribeName: string | null;
+}
+
+/**
+ * Get recent winners from completed seasons
+ * Returns up to 4 most recent completed seasons with their winners
+ */
+export async function getRecentWinners(limit: number = 4): Promise<SeasonWinner[]> {
+  // Get completed seasons ordered by most recent
+  const completedSeasons = await db
+    .select()
+    .from(seasons)
+    .where(eq(seasons.status, "complete"))
+    .orderBy(desc(seasons.startAt), desc(seasons.id))
+    .limit(limit);
+
+  const winners: SeasonWinner[] = [];
+
+  for (const season of completedSeasons) {
+    // Find winner(s) - players not eliminated in this season
+    const winnersList = await db
+      .select({
+        playerId: players.id,
+        displayName: players.displayName,
+      })
+      .from(players)
+      .where(
+        and(
+          eq(players.seasonId, season.id),
+          isNull(players.eliminatedAt)
+        )
+      )
+      .limit(1); // In case of ties, just take the first
+
+    if (winnersList.length === 0) continue;
+
+    const winner = winnersList[0];
+
+    // Get winner's tribe (get their last tribe membership)
+    const [tribeMember] = await db
+      .select({
+        tribeName: tribes.name,
+      })
+      .from(tribeMembers)
+      .innerJoin(tribes, eq(tribeMembers.tribeId, tribes.id))
+      .where(eq(tribeMembers.playerId, winner.playerId))
+      .limit(1);
+
+    winners.push({
+      seasonId: season.id,
+      seasonName: season.name,
+      winnerDisplayName: winner.displayName,
+      tribeName: tribeMember?.tribeName || null,
+    });
+  }
+
+  return winners;
 }
