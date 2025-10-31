@@ -56,7 +56,7 @@ export function getSupabaseClient(): ReturnType<typeof createClientComponentClie
       if (!supabaseClient.auth || typeof supabaseClient.auth.getSession !== "function") {
         throw new Error("Invalid Supabase client");
       }
-    } catch (error) {
+    } catch {
       // Fallback to mock if creation fails or env vars missing
       console.warn("Supabase not configured or failed to initialize, using fallback");
       return getMockClient();

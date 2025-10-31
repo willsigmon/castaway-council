@@ -62,24 +62,24 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="max-w-md w-full space-y-6">
+    <div className="min-h-screen flex items-center justify-center p-4 py-12">
+      <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold mb-2">Castaway Council</h1>
-          <p className="text-gray-400">
+          <h1 className="text-4xl font-bold mb-3 gradient-text">Castaway Council</h1>
+          <p className="text-gray-300 text-lg">
             {isSignUp ? "Create your account" : "Sign in to your account"}
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5 glass p-8 rounded-2xl border border-white/10">
           {isSignUp && (
             <div>
-              <label className="block text-sm font-medium mb-2">Handle</label>
+              <label className="block text-sm font-semibold mb-2 text-gray-200">Display Name</label>
               <input
                 type="text"
                 value={handle}
                 onChange={(e) => setHandle(e.target.value)}
-                className="w-full px-3 py-2 bg-gray-800 rounded border border-gray-700 focus:border-blue-500 focus:outline-none"
+                className="w-full px-4 py-3 glass rounded-lg border border-white/20 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
                 placeholder="Your display name"
                 required={isSignUp}
               />
@@ -87,38 +87,42 @@ export default function SignInPage() {
           )}
 
           <div>
-            <label className="block text-sm font-medium mb-2">Email</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-200">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 bg-gray-800 rounded border border-gray-700 focus:border-blue-500 focus:outline-none"
+              className="w-full px-4 py-3 glass rounded-lg border border-white/20 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
               placeholder="you@example.com"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Password</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-200">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 bg-gray-800 rounded border border-gray-700 focus:border-blue-500 focus:outline-none"
+              className="w-full px-4 py-3 glass rounded-lg border border-white/20 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
               placeholder="••••••••"
               required
               minLength={6}
             />
           </div>
 
-          {error && <div className="p-3 bg-red-900/50 border border-red-700 rounded text-sm">{error}</div>}
+          {error && (
+            <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-300">
+              {error}
+            </div>
+          )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-semibold"
+            className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-semibold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
           >
-            {loading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}
+            {loading ? "Loading..." : isSignUp ? "Create Account" : "Sign In"}
           </button>
         </form>
 
@@ -129,15 +133,15 @@ export default function SignInPage() {
               setIsSignUp(!isSignUp);
               setError(null);
             }}
-            className="text-sm text-blue-400 hover:text-blue-300"
+            className="text-sm text-blue-400 hover:text-blue-300 font-medium transition-colors"
           >
             {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
           </button>
         </div>
 
         <div className="text-center">
-          <Link href="/" className="text-sm text-gray-400 hover:text-gray-300">
-            ← Back to home
+          <Link href="/" className="text-sm text-gray-400 hover:text-gray-300 transition-colors inline-flex items-center gap-2">
+            <span>←</span> Back to home
           </Link>
         </div>
       </div>

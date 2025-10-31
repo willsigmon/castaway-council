@@ -55,21 +55,21 @@ export function Header() {
   ];
 
   return (
-    <header className="border-b border-gray-800 bg-black/50 backdrop-blur-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="text-xl font-bold hover:text-blue-400 transition-colors">
+    <header className="border-b border-white/10 glass sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-8">
+          <Link href="/" className="text-xl font-bold gradient-text hover:opacity-80 transition-opacity">
             Castaway Council
           </Link>
-          <nav className="hidden md:flex gap-4">
+          <nav className="hidden md:flex gap-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-3 py-1 rounded transition-colors ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                   pathname === link.href
-                    ? "bg-gray-800 text-white"
-                    : "text-gray-400 hover:text-white hover:bg-gray-800"
+                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/30"
+                    : "text-gray-300 hover:text-white hover:bg-white/5"
                 }`}
               >
                 {link.label}
@@ -79,13 +79,13 @@ export function Header() {
         </div>
         <div className="flex items-center gap-4">
           {loading ? (
-            <div className="w-20 h-6 bg-gray-800 rounded animate-pulse" />
+            <div className="w-24 h-8 bg-white/5 rounded-lg animate-pulse" />
           ) : user ? (
             <div className="flex items-center gap-3">
-              <span className="text-sm text-gray-400">{user.email}</span>
+              <span className="text-sm text-gray-300 hidden sm:inline">{user.email}</span>
               <button
                 onClick={handleSignOut}
-                className="px-3 py-1 text-sm bg-gray-800 rounded hover:bg-gray-700 transition-colors"
+                className="px-4 py-2 text-sm bg-white/10 hover:bg-white/20 rounded-lg transition-all duration-200 font-medium"
               >
                 Sign Out
               </button>
@@ -93,7 +93,7 @@ export function Header() {
           ) : (
             <Link
               href="/auth/signin"
-              className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors"
+              className="px-5 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
             >
               Sign In
             </Link>
