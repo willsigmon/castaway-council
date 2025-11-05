@@ -391,35 +391,45 @@ export default function Home() {
           <div className="mb-8 p-8 glass rounded-2xl border border-yellow-500/30">
             <div className="flex items-center gap-3 mb-3">
               <span className="text-2xl">🏝️</span>
-              <h2 className="text-2xl font-bold">No Seasons Available</h2>
+              <h2 className="text-2xl font-bold">Welcome to Castaway Council!</h2>
             </div>
-            <p className="text-white/90 mb-4">There are no seasons set up yet.</p>
-            <div className="flex flex-wrap gap-3">
-              <button
-                onClick={async () => {
-                  try {
-                    const response = await fetch("/api/season/demo", { method: "POST" });
-                    const data = await response.json();
-                    if (response.ok) {
-                      alert("Demo seasons created! Refresh to see them.");
+            {user ? (
+              <>
+                <p className="text-white/90 mb-2">You're signed in as <span className="font-semibold text-amber-400">{user.email}</span></p>
+                <p className="text-white/80 mb-4">No seasons are currently active. Seasons are created by admins and will appear here when available.</p>
+                <div className="wood-panel rounded-lg p-6 mb-4">
+                  <h3 className="text-lg font-bold text-amber-100 mb-2">What happens next?</h3>
+                  <ul className="space-y-2 text-amber-200/80">
+                    <li>• Seasons are announced via email when they launch</li>
+                    <li>• You'll be able to join and compete with other players</li>
+                    <li>• Check back here to see when new seasons are available</li>
+                  </ul>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    href="/log"
+                    className="px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg hover:from-amber-500 hover:to-orange-500 transition-all duration-200 font-semibold shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50"
+                  >
+                    Watch Previous Seasons
+                  </Link>
+                  <button
+                    onClick={async () => {
+                      const supabase = createClient();
+                      await supabase.auth.signOut();
                       window.location.reload();
-                    } else {
-                      alert(data.message || "Failed to create demo seasons");
-                    }
-                  } catch {
-                    alert("Failed to create demo seasons");
-                  }
-                }}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 font-semibold shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50"
-              >
-                Create Demo Seasons
-              </button>
-              <p className="text-sm text-white/60 self-center">
-                {user
-                  ? "Or contact an admin to create a real season."
-                  : "Sign in to see available seasons or create a new one."}
-              </p>
-            </div>
+                    }}
+                    className="px-6 py-3 glass rounded-lg hover:bg-white/10 transition-all duration-200 font-semibold border border-white/20"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-white/90 mb-4">There are no active seasons right now.</p>
+                <p className="text-sm text-white/60">Sign in to get notified when new seasons launch!</p>
+              </>
+            )}
           </div>
         )}
 
