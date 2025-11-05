@@ -3,7 +3,7 @@
  * Generates story outcomes based on action type, success level, and character archetype
  */
 
-import type { CharacterArchetype } from "./characters";
+import type { ArchetypeId as CharacterArchetype } from "./characters";
 
 export type SuccessLevel = "critical_success" | "success" | "partial" | "failure" | "critical_failure";
 
