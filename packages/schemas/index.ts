@@ -8,7 +8,9 @@ export const forageTaskSchema = z.object({
 export const forageResultSchema = z.object({
   delta: z.object({
     hunger: z.number(),
+    energy: z.number(),
   }),
+  narrative: z.string(),
   item: z
     .object({
       id: z.string(),
