@@ -142,7 +142,7 @@ export default function Home() {
                 CASTAWAY COUNCIL
               </h1>
               <p className="text-2xl sm:text-4xl text-amber-200 max-w-2xl mx-auto mb-3 font-tribal font-bold">
-                18 players. 12 days. 1 survivor.
+                Outlast 18 players for 15 days. Become the sole survivor.
               </p>
               <p className="text-lg sm:text-xl text-amber-300/70 max-w-2xl mx-auto mb-12">
                 Form alliances. Find idols. Survive tribal council.
@@ -188,7 +188,7 @@ export default function Home() {
                   <div>
                     <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3">Sole Survivor</h3>
                     <p className="text-base text-amber-200/80 leading-relaxed">
-                      Outlast 12 days. Avoid elimination. Outwit your rivals. The final 3 face a jury who crowns the winner.
+                      Survive 15 days and 14 eliminations. On Day 15, the final 4 compete in one last challenge. The winner picks 2 rivals to battle 1v1. The final 3 plead their case to the jury of merged players.
                     </p>
                   </div>
                 </div>
@@ -285,7 +285,7 @@ export default function Home() {
               faqs={[
                 {
                   q: "How long does a season take?",
-                  a: "12 in-game days = about 3-4 real weeks. Each phase lasts 6-8 hours, so you can play at your own pace.",
+                  a: "15 in-game days = about 4-5 real weeks. Each phase lasts 6-8 hours, so you can play at your own pace.",
                 },
                 {
                   q: "Is it actually free?",
@@ -297,7 +297,7 @@ export default function Home() {
                 },
                 {
                   q: "How many people per season?",
-                  a: "18 players split into 3 tribes of 6. Tribes merge on Day 10.",
+                  a: "18 players split into 3 tribes of 6. Tribes merge when 11 players remain (typically Day 9). One player is eliminated daily for the first 14 days. Day 15 is the epic 4-person finale.",
                 },
               ]}
             />
