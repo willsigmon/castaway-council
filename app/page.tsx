@@ -128,18 +128,9 @@ export default function Home() {
   if (!user && !loading) {
     return (
       <main className="min-h-screen relative">
-        {/* Ambient torch decorations */}
-        <div className="fixed top-20 left-4 text-2xl torch-flame opacity-30 pointer-events-none">🔥</div>
-        <div className="fixed top-40 right-8 text-2xl torch-flame opacity-30 pointer-events-none" style={{ animationDelay: '1.3s' }}>🔥</div>
-        <div className="fixed bottom-32 left-12 text-2xl torch-flame opacity-30 pointer-events-none" style={{ animationDelay: '0.8s' }}>🔥</div>
-        <div className="fixed bottom-48 right-16 text-2xl torch-flame opacity-30 pointer-events-none" style={{ animationDelay: '1.8s' }}>🔥</div>
-
         <div className="max-w-5xl mx-auto px-4 py-16 relative z-10">
           {/* Hero */}
           <div className="mb-32 relative">
-            {/* Hero torch flames */}
-            <div className="absolute -top-8 left-0 text-7xl torch-flame">🔥</div>
-            <div className="absolute -top-8 right-0 text-7xl torch-flame" style={{ animationDelay: '0.5s' }}>🔥</div>
 
             <div className="text-center">
               <div className="inline-block mb-6">
@@ -175,10 +166,7 @@ export default function Home() {
 
           {/* How it works */}
           <div className="mb-24 border-t border-amber-900/30 pt-16">
-            <div className="flex items-center gap-3 mb-12">
-              <span className="text-4xl torch-flame">🔥</span>
-              <h2 className="text-3xl font-adventure text-amber-200 uppercase">How It Works</h2>
-            </div>
+            <h2 className="text-3xl font-adventure text-amber-200 uppercase mb-12">How It Works</h2>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="torch-panel rounded-lg p-6">
                 <div className="flex items-start gap-3 mb-4">
@@ -235,10 +223,7 @@ export default function Home() {
           {/* Current stats */}
           {publicStats && (
             <div className="mb-24 border-t border-amber-900/30 pt-16">
-              <div className="flex items-center gap-3 mb-12">
-                <span className="text-4xl torch-flame" style={{ animationDelay: '1s' }}>🔥</span>
-                <h2 className="text-3xl font-adventure text-amber-200 uppercase">The Numbers</h2>
-              </div>
+              <h2 className="text-3xl font-adventure text-amber-200 uppercase mb-12">The Numbers</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div className="text-center">
                   <div className="text-5xl font-tribal font-bold text-amber-100 mb-2">
@@ -271,10 +256,7 @@ export default function Home() {
           {/* Recent winners */}
           {winners.length > 0 && (
             <div className="mb-24 border-t border-amber-900/30 pt-16">
-              <div className="flex items-center gap-3 mb-8">
-                <span className="text-4xl torch-flame" style={{ animationDelay: '1.5s' }}>🔥</span>
-                <h2 className="text-3xl font-adventure text-amber-200 uppercase">Sole Survivors</h2>
-              </div>
+              <h2 className="text-3xl font-adventure text-amber-200 uppercase mb-8">Sole Survivors</h2>
               <div className="wood-panel rounded-lg p-6">
                 <div className="space-y-4">
                   {winners.map((champ) => (
@@ -298,10 +280,7 @@ export default function Home() {
 
           {/* FAQ */}
           <div className="mb-24 border-t border-amber-900/30 pt-16">
-            <div className="flex items-center gap-3 mb-8">
-              <span className="text-4xl torch-flame" style={{ animationDelay: '2s' }}>🔥</span>
-              <h2 className="text-3xl font-adventure text-amber-200 uppercase">Questions</h2>
-            </div>
+            <h2 className="text-3xl font-adventure text-amber-200 uppercase mb-8">Questions</h2>
             <FAQAccordion
               faqs={[
                 {
@@ -327,12 +306,6 @@ export default function Home() {
           {/* Final CTA */}
           <div className="border-t border-amber-900/30 pt-16 pb-8">
             <div className="torch-panel rounded-lg p-10 relative overflow-hidden">
-              {/* Decorative torches */}
-              <div className="absolute top-4 left-4 text-3xl torch-flame">🔥</div>
-              <div className="absolute top-4 right-4 text-3xl torch-flame" style={{ animationDelay: '0.7s' }}>🔥</div>
-              <div className="absolute bottom-4 left-1/4 text-3xl torch-flame" style={{ animationDelay: '1.2s' }}>🔥</div>
-              <div className="absolute bottom-4 right-1/4 text-3xl torch-flame" style={{ animationDelay: '0.3s' }}>🔥</div>
-
               <div className="relative text-center">
                 <h3 className="text-4xl font-adventure text-amber-100 mb-4 uppercase">
                   The Tribe Has Spoken
