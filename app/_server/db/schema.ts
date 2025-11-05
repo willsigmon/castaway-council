@@ -25,6 +25,7 @@ export const eventKindEnum = pgEnum("event_kind", [
   "swap",
   "eliminate",
   "merge",
+  "medevac",
 ]);
 
 // Tables
@@ -60,6 +61,9 @@ export const players = pgTable(
     displayName: text("display_name").notNull(),
     archetype: characterArchetypeEnum("archetype").notNull().default("opportunist"),
     eliminatedAt: timestamp("eliminated_at"),
+    evacuatedAt: timestamp("evacuated_at"),
+    evacuationReason: text("evacuation_reason"), // 'inactivity' | 'medical'
+    lastActiveAt: timestamp("last_active_at").defaultNow().notNull(),
     role: playerRoleEnum("role").notNull().default("contestant"),
   },
   (table) => ({
@@ -125,6 +129,48 @@ export const stats = pgTable(
   },
   (table) => ({
     pk: index("stats_pk").on(table.playerId, table.day),
+  })
+);
+
+export const debuffs = pgTable(
+  "debuffs",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    playerId: uuid("player_id")
+      .notNull()
+      .references(() => players.id, { onDelete: "cascade" }),
+    seasonId: uuid("season_id").notNull().references(() => seasons.id),
+    day: integer("day").notNull(),
+    kind: text("kind").notNull(), // 'exhausted', 'critically_exhausted', 'starving', 'dehydrated', 'tainted_water', 'heat_stroke', 'injured'
+    severity: integer("severity").notNull().default(1), // 1-3
+    expiresAt: timestamp("expires_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    playerIdx: index("debuffs_player_idx").on(table.playerId),
+    activeIdx: index("debuffs_active_idx").on(table.playerId, table.expiresAt),
+  })
+);
+
+export const actions = pgTable(
+  "actions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    playerId: uuid("player_id")
+      .notNull()
+      .references(() => players.id, { onDelete: "cascade" }),
+    seasonId: uuid("season_id").notNull().references(() => seasons.id),
+    day: integer("day").notNull(),
+    actionType: text("action_type").notNull(), // 'forage', 'fish', 'water', 'rest', 'help', 'build', 'explore', 'craft'
+    success: boolean("success").notNull(),
+    outcomeText: text("outcome_text").notNull(),
+    statDeltas: jsonb("stat_deltas"), // { energy: 10, hunger: -5 }
+    targetPlayerId: uuid("target_player_id").references(() => players.id), // For help action
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    playerDayIdx: index("actions_player_day_idx").on(table.playerId, table.day),
+    seasonDayIdx: index("actions_season_day_idx").on(table.seasonId, table.day),
   })
 );
 
@@ -274,6 +320,8 @@ export const seasonsRelations = relations(seasons, ({ many }) => ({
   events: many(events),
   items: many(items),
   messages: many(messages),
+  debuffs: many(debuffs),
+  actions: many(actions),
 }));
 
 export const playersRelations = relations(players, ({ one, many }) => ({
@@ -286,6 +334,34 @@ export const playersRelations = relations(players, ({ one, many }) => ({
     references: [seasons.id],
   }),
   stats: many(stats),
+  debuffs: many(debuffs),
+  actions: many(actions),
   votesCast: many(votes, { relationName: "votesCast" }),
   votesReceived: many(votes, { relationName: "votesReceived" }),
+}));
+
+export const debuffsRelations = relations(debuffs, ({ one }) => ({
+  player: one(players, {
+    fields: [debuffs.playerId],
+    references: [players.id],
+  }),
+  season: one(seasons, {
+    fields: [debuffs.seasonId],
+    references: [seasons.id],
+  }),
+}));
+
+export const actionsRelations = relations(actions, ({ one }) => ({
+  player: one(players, {
+    fields: [actions.playerId],
+    references: [players.id],
+  }),
+  season: one(seasons, {
+    fields: [actions.seasonId],
+    references: [seasons.id],
+  }),
+  targetPlayer: one(players, {
+    fields: [actions.targetPlayerId],
+    references: [players.id],
+  }),
 }));

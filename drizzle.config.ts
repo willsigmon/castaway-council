@@ -3,6 +3,8 @@ import type { Config } from "drizzle-kit";
 export default {
   schema: "./app/_server/db/schema.ts",
   out: "./sql/migrations",
-  dialect: "postgresql",
-  connectionString: process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/castaway",
+  driver: "pg",
+  dbCredentials: {
+    connectionString: process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/castaway",
+  },
 } satisfies Config;

@@ -1,6 +1,6 @@
 import { db } from "./client";
-import { players, seasons, stats } from "./schema";
-import { eq, and, desc, lt } from "drizzle-orm";
+import { players, seasons, stats, debuffs, actions } from "./schema";
+import { eq, and, desc, lt, gt, or, isNull } from "drizzle-orm";
 
 /**
  * Get the active season for a player
@@ -126,4 +126,186 @@ export async function updateStats(
     .returning();
 
   return updated[0]!;
+}
+
+/**
+ * Get active debuffs for a player (not expired)
+ */
+export async function getActiveDebuffs(playerId: string) {
+  const now = new Date();
+  return await db
+    .select()
+    .from(debuffs)
+    .where(
+      and(
+        eq(debuffs.playerId, playerId),
+        or(
+          isNull(debuffs.expiresAt),
+          gt(debuffs.expiresAt, now)
+        )
+      )
+    )
+    .orderBy(desc(debuffs.createdAt));
+}
+
+/**
+ * Apply a debuff to a player
+ */
+export async function applyDebuff(
+  playerId: string,
+  seasonId: string,
+  day: number,
+  kind: string,
+  severity: number = 1,
+  durationDays?: number
+) {
+  // Check if debuff already exists
+  const existing = await db
+    .select()
+    .from(debuffs)
+    .where(
+      and(
+        eq(debuffs.playerId, playerId),
+        eq(debuffs.kind, kind),
+        or(
+          isNull(debuffs.expiresAt),
+          gt(debuffs.expiresAt, new Date())
+        )
+      )
+    )
+    .limit(1);
+
+  // If it exists, update severity instead of creating duplicate
+  if (existing[0]) {
+    const [updated] = await db
+      .update(debuffs)
+      .set({
+        severity: Math.max(existing[0].severity, severity),
+        expiresAt: durationDays
+          ? new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000)
+          : null,
+      })
+      .where(eq(debuffs.id, existing[0].id))
+      .returning();
+    return updated;
+  }
+
+  // Create new debuff
+  const expiresAt = durationDays
+    ? new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000)
+    : null;
+
+  const [newDebuff] = await db
+    .insert(debuffs)
+    .values({
+      playerId,
+      seasonId,
+      day,
+      kind,
+      severity,
+      expiresAt,
+    })
+    .returning();
+
+  return newDebuff;
+}
+
+/**
+ * Remove a specific debuff from a player
+ */
+export async function removeDebuff(playerId: string, kind: string) {
+  await db
+    .delete(debuffs)
+    .where(
+      and(
+        eq(debuffs.playerId, playerId),
+        eq(debuffs.kind, kind)
+      )
+    );
+}
+
+/**
+ * Remove all expired debuffs for a player
+ */
+export async function removeExpiredDebuffs(playerId: string) {
+  const now = new Date();
+  await db
+    .delete(debuffs)
+    .where(
+      and(
+        eq(debuffs.playerId, playerId),
+        lt(debuffs.expiresAt, now)
+      )
+    );
+}
+
+/**
+ * Log a player action with narrative outcome
+ */
+export async function logAction(
+  playerId: string,
+  seasonId: string,
+  day: number,
+  actionType: string,
+  success: boolean,
+  outcomeText: string,
+  statDeltas?: Record<string, number>,
+  targetPlayerId?: string
+) {
+  const [action] = await db
+    .insert(actions)
+    .values({
+      playerId,
+      seasonId,
+      day,
+      actionType,
+      success,
+      outcomeText,
+      statDeltas: statDeltas || null,
+      targetPlayerId: targetPlayerId || null,
+    })
+    .returning();
+
+  return action;
+}
+
+/**
+ * Get action history for a player
+ */
+export async function getActionHistory(
+  playerId: string,
+  limit: number = 10
+) {
+  return await db
+    .select()
+    .from(actions)
+    .where(eq(actions.playerId, playerId))
+    .orderBy(desc(actions.createdAt))
+    .limit(limit);
+}
+
+/**
+ * Get actions for a specific day/season
+ */
+export async function getActionsForDay(seasonId: string, day: number) {
+  return await db
+    .select()
+    .from(actions)
+    .where(
+      and(
+        eq(actions.seasonId, seasonId),
+        eq(actions.day, day)
+      )
+    )
+    .orderBy(desc(actions.createdAt));
+}
+
+/**
+ * Update player's last active timestamp
+ */
+export async function updateLastActive(playerId: string) {
+  await db
+    .update(players)
+    .set({ lastActiveAt: new Date() })
+    .where(eq(players.id, playerId));
 }
