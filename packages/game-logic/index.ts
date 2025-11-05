@@ -205,3 +205,4 @@ export function generateEnhancedRoll(input: EnhancedRollInput): EnhancedRollResu
 export * from "./characters";
 export * from "./challenges";
 export * from "./rules";
+export * from "./narratives";
