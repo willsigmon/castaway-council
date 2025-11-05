@@ -13,7 +13,7 @@ import {
   applyDebuff,
 } from "../db/helpers";
 import { generateNarrative, determineSuccessLevel } from "@game-logic";
-import type { CharacterArchetype, SuccessLevel } from "@game-logic";
+import type { ArchetypeId as CharacterArchetype, SuccessLevel } from "@game-logic";
 
 export interface ActionConfig {
   baseSuccessChance: number;

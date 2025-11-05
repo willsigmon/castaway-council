@@ -7,7 +7,7 @@ import { z } from "zod";
 import { updateStats, getOrCreateStats, updateLastActive, logAction, applyDebuff } from "@/server/db/helpers";
 import { handleApiError, BadRequestError, ForbiddenError } from "@/server/errors";
 import { generateNarrative, determineSuccessLevel } from "@game-logic";
-import type { CharacterArchetype } from "@game-logic";
+import type { ArchetypeId as CharacterArchetype } from "@game-logic";
 
 const fishTaskSchema = z.object({
   seasonId: z.string().uuid(),
