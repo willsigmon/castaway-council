@@ -39,7 +39,7 @@
     "drizzle-orm": "^0.29.0",
     "drizzle-kit": "^0.20.0",
     "postgres": "^3.4.0",
-    "zod": "^3.22.4",
+    "zod": "^4.1.12",
     "web-push": "^3.6.7",
     "date-fns": "^3.0.0",
     "@tanstack/react-query": "^5.17.0",
