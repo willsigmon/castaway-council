@@ -7,9 +7,8 @@ import { forageTaskSchema, type forageResultSchema } from "@schemas";
 import type { z } from "zod";
 import { updateStats, getOrCreateStats, updateLastActive, logAction, applyDebuff } from "@/server/db/helpers";
 import { handleApiError, BadRequestError, ForbiddenError } from "@/server/errors";
-import { generateNarrative, determineSuccessLevel } from "@game-logic/narratives";
-// import { CHARACTER_ARCHETYPES } from "@game-logic/characters";
-import type { CharacterArchetype } from "@game-logic/characters";
+import { generateNarrative, determineSuccessLevel } from "@game-logic";
+import type { CharacterArchetype } from "@game-logic";
 
 export async function POST(request: Request) {
   try {
