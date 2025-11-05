@@ -31,7 +31,7 @@
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "@supabase/supabase-js": "^2.39.0",
-    "@supabase/auth-helpers-nextjs": "^0.8.7",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@temporalio/client": "^1.10.0",
     "@temporalio/worker": "^1.10.0",
     "@temporalio/workflow": "^1.10.0",
