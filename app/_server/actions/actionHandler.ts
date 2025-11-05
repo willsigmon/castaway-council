@@ -13,7 +13,7 @@ import {
   applyDebuff,
 } from "../db/helpers";
 import { generateNarrative, determineSuccessLevel } from "@game-logic/narratives";
-import { CHARACTER_ARCHETYPES } from "@game-logic/characters";
+// import { CHARACTER_ARCHETYPES } from "@game-logic/characters";
 import type { CharacterArchetype } from "@game-logic/characters";
 import type { SuccessLevel } from "@game-logic/narratives";
 

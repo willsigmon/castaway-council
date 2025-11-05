@@ -8,7 +8,7 @@ import type { z } from "zod";
 import { updateStats, getOrCreateStats, updateLastActive, logAction, applyDebuff } from "@/server/db/helpers";
 import { handleApiError, BadRequestError, ForbiddenError } from "@/server/errors";
 import { generateNarrative, determineSuccessLevel } from "@game-logic/narratives";
-import { CHARACTER_ARCHETYPES } from "@game-logic/characters";
+// import { CHARACTER_ARCHETYPES } from "@game-logic/characters";
 import type { CharacterArchetype } from "@game-logic/characters";
 
 export async function POST(request: Request) {
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     // Get current stats
     const stats = await getOrCreateStats(player.id, currentDay);
     const archetype = playerData.archetype as CharacterArchetype;
-    const archetypeTrait = CHARACTER_ARCHETYPES[archetype];
+    // const archetypeTrait = CHARACTER_ARCHETYPES[archetype];
 
     // Calculate success chance based on energy + archetype
     // Base: 50% + (energy/2) + archetype modifiers
