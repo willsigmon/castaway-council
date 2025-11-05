@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { getSupabaseClient } from "@/lib/supabase";
+import { createClient } from "@/app/_lib/supabase/client";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 
 interface Message {
@@ -70,7 +70,7 @@ export function Chat({ channelType, seasonId, tribeId, toPlayerId }: ChatProps) 
   // Set up Supabase Realtime subscription
   useEffect(() => {
     try {
-      const supabase = getSupabaseClient();
+      const supabase = createClient();
 
       // Determine channel name based on channel type
       let channelName: string;

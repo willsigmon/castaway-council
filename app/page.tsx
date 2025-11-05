@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { useSeason } from "./_components/SeasonContext";
-import { getSupabaseClient } from "@/lib/supabase";
+import { createClient } from "./_lib/supabase/client";
 import { AnimatedCounter } from "./_components/AnimatedCounter";
 import { FAQAccordion } from "./_components/FAQAccordion";
 
@@ -41,7 +41,7 @@ export default function Home() {
       // Parallelize all independent data fetches for 75% faster load time
       const [authResult, seasonsResult, statsResult, winnersResult] = await Promise.all([
         // Auth check
-        getSupabaseClient()
+        createClient()
           .auth.getSession()
           .then((r) => r.data.session?.user ?? null)
           .catch((error) => {

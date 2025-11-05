@@ -4,11 +4,10 @@ import { db } from "@/server/db/client";
 import { seasons, events } from "@/server/db/schema";
 import { eq, and, desc } from "drizzle-orm";
 import { handleApiError } from "@/server/errors";
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { createClient } from "@/app/_lib/supabase/server";
 
 async function getServerSession() {
-  const supabase = createRouteHandlerClient({ cookies });
+  const supabase = await createClient();
   const {
     data: { session },
   } = await supabase.auth.getSession();

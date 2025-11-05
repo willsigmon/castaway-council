@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { getSupabaseClient } from "@/lib/supabase";
+import { createClient } from "@/app/_lib/supabase/client";
 
 interface Season {
   id: string;
@@ -35,7 +35,7 @@ export function SeasonProvider({ children }: { children: ReactNode }) {
 
   const fetchSeasonData = async () => {
     try {
-      const supabase = getSupabaseClient();
+      const supabase = createClient();
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -66,7 +66,7 @@ export function SeasonProvider({ children }: { children: ReactNode }) {
 
     // Subscribe to phase changes
     try {
-      const supabase = getSupabaseClient();
+      const supabase = createClient();
       const channelResult = supabase.channel("season-updates");
       if (channelResult && typeof channelResult.on === "function") {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

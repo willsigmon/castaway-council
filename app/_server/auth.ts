@@ -1,12 +1,10 @@
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import type { Database } from "@/types/supabase";
+import { createClient } from "@/app/_lib/supabase/server";
 import { db } from "@/server/db/client";
 import { players } from "@/server/db/schema";
 import { and, eq, isNull } from "drizzle-orm";
 
 export async function getServerSession() {
-  const supabase = createRouteHandlerClient<Database>({ cookies });
+  const supabase = await createClient();
   const {
     data: { session },
     error,

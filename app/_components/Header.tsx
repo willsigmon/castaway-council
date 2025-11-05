@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { getSupabaseClient } from "@/lib/supabase";
+import { createClient } from "@/app/_lib/supabase/client";
 import { useEffect, useState } from "react";
 
 export function Header() {
@@ -12,7 +12,7 @@ export function Header() {
 
   useEffect(() => {
     try {
-      const supabase = getSupabaseClient();
+      const supabase = createClient();
       supabase.auth.getSession().then(({ data }: { data: { session: { user: { email?: string } } | null } }) => {
         setUser(data.session?.user ?? null);
         setLoading(false);
@@ -41,7 +41,7 @@ export function Header() {
 
   const handleSignOut = async () => {
     try {
-      const supabase = getSupabaseClient();
+      const supabase = createClient();
       await supabase.auth.signOut();
       window.location.href = "/";
     } catch (error) {
