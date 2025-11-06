@@ -4,12 +4,12 @@
  */
 
 export type ArchetypeId =
-  | "athlete"
+  | "hunter"
   | "strategist"
-  | "survivalist"
-  | "diplomat"
-  | "opportunist"
-  | "wildcard";
+  | "builder"
+  | "medic"
+  | "leader"
+  | "scout";
 
 export interface CharacterTrait {
   // Stat modifiers (applied to base stats)
@@ -38,28 +38,27 @@ export interface CharacterTrait {
 }
 
 export const CHARACTER_ARCHETYPES: Record<ArchetypeId, CharacterTrait> = {
-  athlete: {
-    energyMultiplier: 1.2,
-    hungerDecay: 1.2, // Athletes get hungrier faster
-    thirstDecay: 1.1,
-    socialBonus: -5,
-    challengeBonus: 3,
-    teamChallengeBonus: 2,
-    individualChallengeBonus: 4,
-    votingInfluence: 0.9,
-    idolFindChance: 0.8,
-    energyRecoveryRate: 1.3,
+  hunter: {
+    energyMultiplier: 1.0,
+    hungerDecay: 0.75, // Better at finding food
+    thirstDecay: 1.0,
+    socialBonus: 0,
+    challengeBonus: 0,
+    teamChallengeBonus: 0,
+    individualChallengeBonus: -2, // Loses energy faster in challenges
+    votingInfluence: 1.0,
+    idolFindChance: 1.25, // 25% higher chance to find resources
+    energyRecoveryRate: 0.9, // Loses energy faster in challenges
     debuffResistance: 0.2,
-    description: "Peak physical condition with superior challenge performance",
+    description: "🪓 Provider who excels at gathering resources for the tribe",
     strengths: [
-      "Excels in individual challenges (+4 bonus)",
-      "Faster energy recovery (1.3x)",
-      "Strong in team challenges (+2 bonus)",
+      "Forage Boost: 25% higher chance of finding food/materials",
+      "Track Game: Guarantee 1 food item every 3 days",
+      "Reduced hunger decay (0.75x)",
     ],
     weaknesses: [
-      "Burns through hunger/thirst faster",
-      "Lower social skills (-5)",
-      "Less likely to find idols",
+      "Loses energy faster in challenges (-2 individual)",
+      "Slower energy recovery (0.9x)",
     ],
   },
 
@@ -75,118 +74,118 @@ export const CHARACTER_ARCHETYPES: Record<ArchetypeId, CharacterTrait> = {
     idolFindChance: 1.3,
     energyRecoveryRate: 1.0,
     debuffResistance: 0.3,
-    description: "Master of social manipulation and long-term planning",
+    description: "🧠 Mastermind who manipulates social dynamics and predicts outcomes",
     strengths: [
+      "Insight: See hints about vote intentions and alliances",
+      "Predict Outcome: Cancel 1 twist event before merge",
       "High social influence (+10)",
-      "Better at finding idols (1.3x)",
       "Stronger voting influence (1.5x)",
-      "Efficient resource management",
     ],
     weaknesses: [
       "Weaker in physical challenges (-2 individual)",
-      "Lower base energy",
+      "Gains less comfort from camp upgrades (detached)",
     ],
   },
 
-  survivalist: {
+  builder: {
     energyMultiplier: 1.0,
-    hungerDecay: 0.6,
-    thirstDecay: 0.5,
+    hungerDecay: 1.0,
+    thirstDecay: 1.0,
+    socialBonus: 5,
+    challengeBonus: 1,
+    teamChallengeBonus: 2,
+    individualChallengeBonus: -2, // Weaker in mental challenges
+    votingInfluence: 1.0,
+    idolFindChance: 1.2,
+    energyRecoveryRate: 1.2,
+    debuffResistance: 0.4,
+    description: "💪 Craftsman who sustains camp infrastructure and creates tools",
+    strengths: [
+      "Engineer: Shelter and fire last 1 day longer",
+      "Construct Tool: Craft usable items every 3 days",
+      "Strong in team challenges (+2)",
+      "Good energy recovery (1.2x)",
+    ],
+    weaknesses: [
+      "Weaker in mental challenges (-2 individual)",
+      "Average social influence",
+    ],
+  },
+
+  medic: {
+    energyMultiplier: 0.95,
+    hungerDecay: 1.3, // Consumes more hunger/thirst (focuses on others)
+    thirstDecay: 1.3,
+    socialBonus: 12,
+    challengeBonus: 0,
+    teamChallengeBonus: 2,
+    individualChallengeBonus: 0,
+    votingInfluence: 1.2,
+    idolFindChance: 1.0,
+    energyRecoveryRate: 1.1,
+    debuffResistance: 0.6, // 10% reduced medical evacuation risk
+    description: "🩹 Caregiver who boosts morale and tends to tribe members",
+    strengths: [
+      "Tend Wounds: Restore +15% Energy/Comfort to others daily",
+      "Medical Check: 10% reduced evacuation risk",
+      "High social bonus (+12)",
+      "Strong debuff resistance (60%)",
+    ],
+    weaknesses: [
+      "Consumes more hunger/thirst daily (1.3x)",
+      "Slightly lower base energy",
+    ],
+  },
+
+  leader: {
+    energyMultiplier: 1.0,
+    hungerDecay: 1.0,
+    thirstDecay: 1.0,
+    socialBonus: 15,
+    challengeBonus: 1,
+    teamChallengeBonus: 3,
+    individualChallengeBonus: 0,
+    votingInfluence: 1.6,
+    idolFindChance: 1.0,
+    energyRecoveryRate: 1.1,
+    debuffResistance: 0.3,
+    description: "🔥 Motivator who inspires the tribe and commands decisive moments",
+    strengths: [
+      "Inspire Tribe: Increase tribe Energy/Comfort at camp",
+      "Command: Decide tied votes (loses 25% comfort)",
+      "Highest social bonus (+15)",
+      "Exceptional in team challenges (+3)",
+      "Strongest voting influence (1.6x)",
+    ],
+    weaknesses: [
+      "Attracts more suspicion",
+      "Can't go idle in chat (social pressure penalty)",
+    ],
+  },
+
+  scout: {
+    energyMultiplier: 1.1,
+    hungerDecay: 1.1,
+    thirstDecay: 1.2, // Higher risk of exhaustion
     socialBonus: 0,
     challengeBonus: 1,
     teamChallengeBonus: 0,
     individualChallengeBonus: 2,
     votingInfluence: 1.0,
-    idolFindChance: 1.5,
-    energyRecoveryRate: 1.4,
-    debuffResistance: 0.5,
-    description: "Expert at resource management and wilderness survival",
+    idolFindChance: 1.6, // 10% chance for hidden advantages
+    energyRecoveryRate: 0.85, // Energy drops faster when exploring
+    debuffResistance: 0.2,
+    description: "🕵️ Explorer who uncovers secrets and spies on rivals",
     strengths: [
-      "Hunger/thirst decay at half speed",
-      "Best idol finder (1.5x chance)",
-      "Strong debuff resistance (50%)",
-      "Excellent energy recovery (1.4x)",
+      "Pathfinder: Move faster, 10% chance for hidden advantages",
+      "Spy Mission: View rival tribe chat every 2 days",
+      "Best idol finder (1.6x chance)",
+      "Good in individual challenges (+2)",
     ],
     weaknesses: [
+      "Energy drops faster when exploring (0.85x recovery)",
+      "Higher thirst decay from exhaustion (1.2x)",
       "No social advantages",
-      "Average in team challenges",
-    ],
-  },
-
-  diplomat: {
-    energyMultiplier: 0.95,
-    hungerDecay: 1.0,
-    thirstDecay: 1.0,
-    socialBonus: 15,
-    challengeBonus: 0,
-    teamChallengeBonus: 3,
-    individualChallengeBonus: -1,
-    votingInfluence: 1.4,
-    idolFindChance: 1.0,
-    energyRecoveryRate: 1.1,
-    debuffResistance: 0.4,
-    description: "Natural leader who excels in group dynamics",
-    strengths: [
-      "Highest social bonus (+15)",
-      "Exceptional in team challenges (+3)",
-      "Strong voting influence (1.4x)",
-      "Good debuff resistance",
-    ],
-    weaknesses: [
-      "Slightly weaker energy",
-      "Below average in solo challenges",
-    ],
-  },
-
-  opportunist: {
-    energyMultiplier: 1.05,
-    hungerDecay: 1.0,
-    thirstDecay: 1.0,
-    socialBonus: 5,
-    challengeBonus: 2,
-    teamChallengeBonus: 1,
-    individualChallengeBonus: 1,
-    votingInfluence: 1.2,
-    idolFindChance: 1.4,
-    energyRecoveryRate: 1.2,
-    debuffResistance: 0.15,
-    description: "Adaptive jack-of-all-trades who capitalizes on opportunities",
-    strengths: [
-      "Well-rounded stats",
-      "Great idol finder (1.4x)",
-      "Good voting influence (1.2x)",
-      "Solid challenge performance (+2)",
-    ],
-    weaknesses: [
-      "Master of none - no exceptional abilities",
-      "Lower debuff resistance",
-    ],
-  },
-
-  wildcard: {
-    energyMultiplier: 1.1,
-    hungerDecay: 1.1,
-    thirstDecay: 1.1,
-    socialBonus: -10,
-    challengeBonus: 0,
-    teamChallengeBonus: -2,
-    individualChallengeBonus: 5,
-    votingInfluence: 0.7,
-    idolFindChance: 1.2,
-    energyRecoveryRate: 1.5,
-    debuffResistance: 0.1,
-    description: "Unpredictable loner who thrives in chaos",
-    strengths: [
-      "Massive individual challenge bonus (+5)",
-      "Fastest energy recovery (1.5x)",
-      "High base energy",
-      "Good idol finder",
-    ],
-    weaknesses: [
-      "Poor social skills (-10)",
-      "Terrible in team challenges (-2)",
-      "Weak voting influence",
-      "Low debuff resistance",
     ],
   },
 };

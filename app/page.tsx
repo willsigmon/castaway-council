@@ -200,7 +200,7 @@ export default function Home() {
                   <div>
                     <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3">Character Classes</h3>
                     <p className="text-base text-amber-200/80 leading-relaxed">
-                      Choose your archetype: Athlete, Strategist, Survivalist, Diplomat, Opportunist, or Wildcard. Each has unique bonuses.
+                      Choose your archetype: Hunter, Strategist, Builder, Medic, Leader, or Scout. Each has unique active and passive abilities.
                     </p>
                   </div>
                 </div>
