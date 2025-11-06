@@ -326,7 +326,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-red-400 font-bold mb-2 uppercase tracking-wide">Weakness</h4>
-                    <p className="text-amber-200/70">Attracts more suspicion; can't go idle (social pressure penalty)</p>
+                    <p className="text-amber-200/70">Attracts more suspicion; can&apos;t go idle (social pressure penalty)</p>
                   </div>
                 </div>
               </div>
@@ -578,13 +578,13 @@ export default function Home() {
             </div>
             {user ? (
               <>
-                <p className="text-white/90 mb-2">You're signed in as <span className="font-semibold text-amber-400">{user.email}</span></p>
+                <p className="text-white/90 mb-2">You&apos;re signed in as <span className="font-semibold text-amber-400">{user.email}</span></p>
                 <p className="text-white/80 mb-4">No seasons are currently active. Seasons are created by admins and will appear here when available.</p>
                 <div className="wood-panel rounded-lg p-6 mb-4">
                   <h3 className="text-lg font-bold text-amber-100 mb-2">What happens next?</h3>
                   <ul className="space-y-2 text-amber-200/80">
                     <li>• Seasons are announced via email when they launch</li>
-                    <li>• You'll be able to join and compete with other players</li>
+                    <li>• You&apos;ll be able to join and compete with other players</li>
                     <li>• Check back here to see when new seasons are available</li>
                   </ul>
                 </div>
