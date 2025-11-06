@@ -130,103 +130,105 @@ export default function Home() {
       <main className="min-h-screen relative">
         <div className="max-w-6xl mx-auto px-4 py-12 relative z-10">
           {/* Hero */}
-          <div className="mb-20 relative">
+          <div className="mb-24 relative">
             <div className="text-center">
-              <div className="inline-block mb-4">
-                <div className="text-xs uppercase tracking-widest text-amber-500/90 font-tribal font-bold">
+              <div className="inline-block mb-4 animate-fade-in">
+                <div className="text-xs uppercase tracking-widest text-amber-500/90 font-tribal font-bold animate-pulse">
                   Outwit • Outplay • Outlast
                 </div>
               </div>
-              <h1 className="text-5xl sm:text-7xl font-adventure mb-6 torch-glow drop-shadow-[0_0_30px_rgba(255,107,53,0.5)]">
+              <h1 className="text-5xl sm:text-7xl font-adventure mb-6 torch-glow drop-shadow-[0_0_30px_rgba(255,107,53,0.5)] animate-fade-in-up">
                 CASTAWAY COUNCIL
               </h1>
-              <p className="text-xl sm:text-2xl text-amber-200 max-w-3xl mx-auto mb-3 font-tribal font-bold leading-relaxed">
+              <p className="text-xl sm:text-2xl text-amber-200 max-w-3xl mx-auto mb-3 font-tribal font-bold leading-relaxed animate-fade-in-up" style={{animationDelay: '0.1s'}}>
                 A real-time social survival RPG where 18 players compete over 15 days
               </p>
-              <p className="text-base sm:text-lg text-amber-300/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+              <p className="text-base sm:text-lg text-amber-300/80 max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 Outwit your rivals through strategy. Outlast the competition through skill. Outplay everyone to become the sole survivor.
               </p>
-              <div className="flex flex-wrap gap-4 justify-center">
+              <div className="flex flex-wrap gap-4 justify-center animate-fade-in-up" style={{animationDelay: '0.3s'}}>
                 <Link
                   href="/auth/signin"
-                  className="px-10 py-4 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 active:from-orange-700 active:to-amber-700 rounded-lg font-bold text-lg transition-all shadow-lg shadow-orange-900/40 hover:shadow-xl hover:shadow-orange-900/50 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 focus-visible:outline-none border border-amber-700/30"
+                  className="group px-10 py-4 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 active:from-orange-700 active:to-amber-700 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg shadow-orange-900/40 hover:shadow-2xl hover:shadow-orange-900/60 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 focus-visible:outline-none border border-amber-700/30 hover:scale-105 hover:-translate-y-0.5"
                 >
                   Apply to Play
+                  <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">→</span>
                 </Link>
                 <Link
                   href="/log"
-                  className="px-10 py-4 wood-panel hover:border-amber-600 rounded-lg font-semibold text-lg transition-all text-amber-100 focus-visible:ring-2 focus-visible:ring-amber-600 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 focus-visible:outline-none"
+                  className="group px-10 py-4 wood-panel hover:border-amber-600 rounded-lg font-semibold text-lg transition-all duration-300 text-amber-100 focus-visible:ring-2 focus-visible:ring-amber-600 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 focus-visible:outline-none hover:scale-105 hover:-translate-y-0.5"
                 >
                   Watch Past Seasons
+                  <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">→</span>
                 </Link>
               </div>
             </div>
           </div>
 
           {/* Game Overview */}
-          <div className="mb-20 border-t border-amber-900/30 pt-16">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-adventure text-amber-200 uppercase mb-4">The Game</h2>
-              <p className="text-lg text-amber-300/80 max-w-3xl mx-auto">
+          <div className="mb-24 border-t border-amber-900/30 pt-20">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-adventure text-amber-200 uppercase mb-4 torch-glow">The Game</h2>
+              <p className="text-lg text-amber-300/80 max-w-3xl mx-auto font-bold">
                 15 days. 18 players. 3 phases per day. Only 1 survivor.
               </p>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              <div className="text-center">
-                <div className="text-6xl mb-4">🏕️</div>
-                <h3 className="text-2xl font-tribal text-amber-100 font-bold mb-3">Camp Phase</h3>
-                <p className="text-amber-200/80 leading-relaxed">
+            <div className="grid md:grid-cols-3 gap-10 mb-16">
+              <div className="text-center group cursor-default">
+                <div className="text-7xl mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">🏕️</div>
+                <h3 className="text-2xl font-tribal text-amber-100 font-bold mb-4 transition-colors group-hover:text-orange-400">Camp Phase</h3>
+                <p className="text-amber-200/80 leading-relaxed transition-colors group-hover:text-amber-200">
                   Forage for food, search for hidden immunity idols, build camp improvements, and plot with your alliance. Every action matters.
                 </p>
               </div>
               
-              <div className="text-center">
-                <div className="text-6xl mb-4">⚔️</div>
-                <h3 className="text-2xl font-tribal text-amber-100 font-bold mb-3">Challenge Phase</h3>
-                <p className="text-amber-200/80 leading-relaxed">
+              <div className="text-center group cursor-default">
+                <div className="text-7xl mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">⚔️</div>
+                <h3 className="text-2xl font-tribal text-amber-100 font-bold mb-4 transition-colors group-hover:text-orange-400">Challenge Phase</h3>
+                <p className="text-amber-200/80 leading-relaxed transition-colors group-hover:text-amber-200">
                   Compete in immunity challenges. Winners are safe from elimination. Losers face tribal council. Your archetype abilities activate here.
                 </p>
               </div>
               
-              <div className="text-center">
-                <div className="text-6xl mb-4">🔥</div>
-                <h3 className="text-2xl font-tribal text-amber-100 font-bold mb-3">Tribal Council</h3>
-                <p className="text-amber-200/80 leading-relaxed">
+              <div className="text-center group cursor-default">
+                <div className="text-7xl mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">🔥</div>
+                <h3 className="text-2xl font-tribal text-amber-100 font-bold mb-4 transition-colors group-hover:text-orange-400">Tribal Council</h3>
+                <p className="text-amber-200/80 leading-relaxed transition-colors group-hover:text-amber-200">
                   Vote to eliminate one player. Use idols to save yourself. Survive the vote or your torch gets snuffed. The tribe has spoken.
                 </p>
               </div>
             </div>
 
-            <div className="wood-panel rounded-lg p-8 max-w-4xl mx-auto">
+            <div className="wood-panel rounded-lg p-10 max-w-4xl mx-auto border-2 border-amber-700/30 hover:border-amber-600/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-900/40">
               <div className="text-center">
-                <div className="text-5xl mb-4">👑</div>
-                <h3 className="text-2xl font-tribal text-amber-100 font-bold mb-4">Path to Victory</h3>
-                <div className="space-y-3 text-left max-w-2xl mx-auto text-amber-200/80">
-                  <p>• <span className="font-bold text-amber-100">Days 1-14:</span> One player eliminated each day. Survive 14 tribal councils.</p>
-                  <p>• <span className="font-bold text-amber-100">The Merge:</span> When 11 players remain, tribes merge into one. Jury begins.</p>
-                  <p>• <span className="font-bold text-amber-100">Day 15 Finale:</span> Final 4 compete. Winner picks 2 rivals for 1v1 battle. Final 3 face the jury.</p>
-                  <p>• <span className="font-bold text-amber-100">The Jury:</span> All eliminated players after merge vote for the winner. Outwit. Outplay. Outlast.</p>
+                <div className="text-6xl mb-6 animate-pulse">👑</div>
+                <h3 className="text-3xl font-tribal text-amber-100 font-bold mb-6 torch-glow">Path to Victory</h3>
+                <div className="space-y-4 text-left max-w-2xl mx-auto text-amber-200/80 text-base">
+                  <p className="hover:text-amber-100 transition-colors pl-4 border-l-2 border-amber-700/50 hover:border-orange-500 hover:pl-6 transition-all duration-300">• <span className="font-bold text-amber-100">Days 1-14:</span> One player eliminated each day. Survive 14 tribal councils.</p>
+                  <p className="hover:text-amber-100 transition-colors pl-4 border-l-2 border-amber-700/50 hover:border-orange-500 hover:pl-6 transition-all duration-300">• <span className="font-bold text-amber-100">The Merge:</span> When 11 players remain, tribes merge into one. Jury begins.</p>
+                  <p className="hover:text-amber-100 transition-colors pl-4 border-l-2 border-amber-700/50 hover:border-orange-500 hover:pl-6 transition-all duration-300">• <span className="font-bold text-amber-100">Day 15 Finale:</span> Final 4 compete. Winner picks 2 rivals for 1v1 battle. Final 3 face the jury.</p>
+                  <p className="hover:text-amber-100 transition-colors pl-4 border-l-2 border-amber-700/50 hover:border-orange-500 hover:pl-6 transition-all duration-300">• <span className="font-bold text-amber-100">The Jury:</span> All eliminated players after merge vote for the winner. Outwit. Outplay. Outlast.</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Character Classes Detail */}
-          <div className="mb-20 border-t border-amber-900/30 pt-16">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-adventure text-amber-200 uppercase mb-4">Choose Your Archetype</h2>
+          <div className="mb-24 border-t border-amber-900/30 pt-20">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-adventure text-amber-200 uppercase mb-4 torch-glow">Choose Your Archetype</h2>
               <p className="text-lg text-amber-300/80 max-w-3xl mx-auto">
                 Each class has unique abilities that change how you play. Choose wisely—your archetype defines your survival strategy.
               </p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
               {/* Hunter */}
-              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/40 hover:border-amber-500 transition-all hover:shadow-xl hover:shadow-amber-900/30">
+              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/40 hover:border-orange-500 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-900/50 hover:scale-105 hover:-translate-y-2 cursor-pointer group">
                 <div className="text-center mb-4">
-                  <span className="text-6xl mb-3 block">🪓</span>
-                  <h3 className="text-2xl font-tribal text-amber-100 font-bold">The Hunter</h3>
-                  <p className="text-sm text-amber-600 uppercase tracking-wide">Provider / Resource Gatherer</p>
+                  <span className="text-6xl mb-3 block transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12">🪓</span>
+                  <h3 className="text-2xl font-tribal text-amber-100 font-bold group-hover:text-orange-400 transition-colors">The Hunter</h3>
+                  <p className="text-sm text-amber-600 uppercase tracking-wide group-hover:text-amber-500 transition-colors">Provider / Resource Gatherer</p>
                 </div>
                 <div className="space-y-4 text-sm">
                   <div>
@@ -244,11 +246,11 @@ export default function Home() {
               </div>
 
               {/* Strategist */}
-              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/40 hover:border-amber-500 transition-all hover:shadow-xl hover:shadow-amber-900/30">
+              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/40 hover:border-purple-500 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-900/50 hover:scale-105 hover:-translate-y-2 cursor-pointer group">
                 <div className="text-center mb-4">
-                  <span className="text-6xl mb-3 block">🧠</span>
-                  <h3 className="text-2xl font-tribal text-amber-100 font-bold">The Strategist</h3>
-                  <p className="text-sm text-amber-600 uppercase tracking-wide">Mastermind / Social Manipulator</p>
+                  <span className="text-6xl mb-3 block transition-transform duration-300 group-hover:scale-125">🧠</span>
+                  <h3 className="text-2xl font-tribal text-amber-100 font-bold group-hover:text-purple-400 transition-colors">The Strategist</h3>
+                  <p className="text-sm text-amber-600 uppercase tracking-wide group-hover:text-amber-500 transition-colors">Mastermind / Social Manipulator</p>
                 </div>
                 <div className="space-y-4 text-sm">
                   <div>
@@ -266,11 +268,11 @@ export default function Home() {
               </div>
 
               {/* Builder */}
-              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/40 hover:border-amber-500 transition-all hover:shadow-xl hover:shadow-amber-900/30">
+              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/40 hover:border-amber-500 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-900/50 hover:scale-105 hover:-translate-y-2 cursor-pointer group">
                 <div className="text-center mb-4">
-                  <span className="text-6xl mb-3 block">💪</span>
-                  <h3 className="text-2xl font-tribal text-amber-100 font-bold">The Builder</h3>
-                  <p className="text-sm text-amber-600 uppercase tracking-wide">Camp Sustainer / Craftsman</p>
+                  <span className="text-6xl mb-3 block transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12">💪</span>
+                  <h3 className="text-2xl font-tribal text-amber-100 font-bold group-hover:text-amber-400 transition-colors">The Builder</h3>
+                  <p className="text-sm text-amber-600 uppercase tracking-wide group-hover:text-amber-500 transition-colors">Camp Sustainer / Craftsman</p>
                 </div>
                 <div className="space-y-4 text-sm">
                   <div>
@@ -288,11 +290,11 @@ export default function Home() {
               </div>
 
               {/* Medic */}
-              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/40 hover:border-amber-500 transition-all hover:shadow-xl hover:shadow-amber-900/30">
+              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/40 hover:border-emerald-500 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-900/50 hover:scale-105 hover:-translate-y-2 cursor-pointer group">
                 <div className="text-center mb-4">
-                  <span className="text-6xl mb-3 block">🩹</span>
-                  <h3 className="text-2xl font-tribal text-amber-100 font-bold">The Medic</h3>
-                  <p className="text-sm text-amber-600 uppercase tracking-wide">Caregiver / Morale Booster</p>
+                  <span className="text-6xl mb-3 block transition-transform duration-300 group-hover:scale-125">🩹</span>
+                  <h3 className="text-2xl font-tribal text-amber-100 font-bold group-hover:text-emerald-400 transition-colors">The Medic</h3>
+                  <p className="text-sm text-amber-600 uppercase tracking-wide group-hover:text-amber-500 transition-colors">Caregiver / Morale Booster</p>
                 </div>
                 <div className="space-y-4 text-sm">
                   <div>
@@ -310,11 +312,11 @@ export default function Home() {
               </div>
 
               {/* Leader */}
-              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/40 hover:border-amber-500 transition-all hover:shadow-xl hover:shadow-amber-900/30">
+              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/40 hover:border-red-500 transition-all duration-500 hover:shadow-2xl hover:shadow-red-900/50 hover:scale-105 hover:-translate-y-2 cursor-pointer group">
                 <div className="text-center mb-4">
-                  <span className="text-6xl mb-3 block">🔥</span>
-                  <h3 className="text-2xl font-tribal text-amber-100 font-bold">The Leader</h3>
-                  <p className="text-sm text-amber-600 uppercase tracking-wide">Motivator / Social Powerhouse</p>
+                  <span className="text-6xl mb-3 block transition-transform duration-300 group-hover:scale-125 animate-pulse">🔥</span>
+                  <h3 className="text-2xl font-tribal text-amber-100 font-bold group-hover:text-red-400 transition-colors">The Leader</h3>
+                  <p className="text-sm text-amber-600 uppercase tracking-wide group-hover:text-amber-500 transition-colors">Motivator / Social Powerhouse</p>
                 </div>
                 <div className="space-y-4 text-sm">
                   <div>
@@ -332,11 +334,11 @@ export default function Home() {
               </div>
 
               {/* Scout */}
-              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/40 hover:border-amber-500 transition-all hover:shadow-xl hover:shadow-amber-900/30">
+              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/40 hover:border-cyan-500 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-900/50 hover:scale-105 hover:-translate-y-2 cursor-pointer group">
                 <div className="text-center mb-4">
-                  <span className="text-6xl mb-3 block">🕵️</span>
-                  <h3 className="text-2xl font-tribal text-amber-100 font-bold">The Scout</h3>
-                  <p className="text-sm text-amber-600 uppercase tracking-wide">Observant / Explorer</p>
+                  <span className="text-6xl mb-3 block transition-transform duration-300 group-hover:scale-125">🗺️</span>
+                  <h3 className="text-2xl font-tribal text-amber-100 font-bold group-hover:text-cyan-400 transition-colors">The Scout</h3>
+                  <p className="text-sm text-amber-600 uppercase tracking-wide group-hover:text-amber-500 transition-colors">Observant / Explorer</p>
                 </div>
                 <div className="space-y-4 text-sm">
                   <div>
@@ -414,38 +416,38 @@ export default function Home() {
           )}
 
           {/* Why Play */}
-          <div className="mb-20 border-t border-amber-900/30 pt-16">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-adventure text-amber-200 uppercase mb-4">Why Play?</h2>
+          <div className="mb-24 border-t border-amber-900/30 pt-20">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-adventure text-amber-200 uppercase mb-4 torch-glow">Why Play?</h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
-              <div className="wood-panel rounded-lg p-8">
-                <div className="text-4xl mb-4">🎲</div>
-                <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3">Provably Fair</h3>
+            <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto mb-16">
+              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/30 hover:border-amber-500 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-900/40 hover:scale-105 group cursor-pointer">
+                <div className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">🎲</div>
+                <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3 group-hover:text-orange-400 transition-colors">Provably Fair</h3>
                 <p className="text-amber-200/80 leading-relaxed">
                   Every challenge uses cryptographic commit-reveal protocol. The server commits to results before you make choices. All RNG is verifiable—no hidden advantages, no cheating possible.
                 </p>
               </div>
               
-              <div className="wood-panel rounded-lg p-8">
-                <div className="text-4xl mb-4">⏱️</div>
-                <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3">Your Own Pace</h3>
+              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/30 hover:border-amber-500 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-900/40 hover:scale-105 group cursor-pointer">
+                <div className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-110">⏱️</div>
+                <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3 group-hover:text-orange-400 transition-colors">Your Own Pace</h3>
                 <p className="text-amber-200/80 leading-relaxed">
                   Each phase lasts 6-8 hours. No need to be online constantly. Check in when it works for you. 15 in-game days = 4-5 real weeks. Perfect for busy schedules.
                 </p>
               </div>
               
-              <div className="wood-panel rounded-lg p-8">
-                <div className="text-4xl mb-4">💬</div>
-                <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3">Real Strategy</h3>
+              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/30 hover:border-amber-500 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-900/40 hover:scale-105 group cursor-pointer">
+                <div className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-110">💬</div>
+                <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3 group-hover:text-orange-400 transition-colors">Real Strategy</h3>
                 <p className="text-amber-200/80 leading-relaxed">
                   Form secret alliances. Backstab rivals. Bluff about idols. Every tribal council is a social chess match. Your words matter as much as your stats.
                 </p>
               </div>
               
-              <div className="wood-panel rounded-lg p-8">
-                <div className="text-4xl mb-4">✨</div>
-                <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3">Completely Free</h3>
+              <div className="wood-panel rounded-lg p-8 border-2 border-amber-700/30 hover:border-amber-500 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-900/40 hover:scale-105 group cursor-pointer">
+                <div className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">✨</div>
+                <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3 group-hover:text-orange-400 transition-colors">Completely Free</h3>
                 <p className="text-amber-200/80 leading-relaxed">
                   No purchases. No ads. No premium features. No pay-to-win. Everyone plays the exact same game. Pure competition, pure strategy, pure survival.
                 </p>
@@ -485,23 +487,24 @@ export default function Home() {
           </div>
 
           {/* Final CTA */}
-          <div className="border-t border-amber-900/30 pt-16 pb-12">
-            <div className="torch-panel rounded-lg p-12 relative overflow-hidden max-w-4xl mx-auto">
+          <div className="border-t border-amber-900/30 pt-20 pb-16">
+            <div className="torch-panel rounded-lg p-16 relative overflow-hidden max-w-4xl mx-auto border-2 border-amber-700/40 hover:border-orange-500 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-900/60">
               <div className="relative text-center">
-                <div className="text-6xl mb-6">🔥</div>
-                <h3 className="text-5xl font-adventure text-amber-100 mb-6 uppercase torch-glow">
+                <div className="text-7xl mb-8 animate-pulse">🔥</div>
+                <h3 className="text-5xl sm:text-6xl font-adventure text-amber-100 mb-8 uppercase torch-glow">
                   Your Torch Awaits
                 </h3>
-                <p className="text-xl text-amber-200/90 mb-10 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-xl sm:text-2xl text-amber-200/90 mb-12 max-w-2xl mx-auto leading-relaxed">
                   Think you can outwit, outplay, and outlast 17 other players? Prove it. New seasons launch regularly—apply now to secure your spot on the beach.
                 </p>
                 <Link
                   href="/auth/signin"
-                  className="inline-block px-12 py-5 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 rounded-lg font-bold text-xl transition-all shadow-2xl shadow-orange-900/60 border border-amber-700/40 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 focus-visible:outline-none hover:scale-105"
+                  className="group inline-block px-14 py-6 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 rounded-lg font-bold text-2xl transition-all duration-300 shadow-2xl shadow-orange-900/60 hover:shadow-orange-900/80 border-2 border-amber-700/40 hover:border-amber-500 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 focus-visible:outline-none hover:scale-110 hover:-translate-y-1"
                 >
                   Apply to Play
+                  <span className="inline-block ml-3 transition-transform group-hover:translate-x-2">→</span>
                 </Link>
-                <p className="text-sm text-amber-500/70 mt-6">Free forever • No ads • No pay-to-win</p>
+                <p className="text-sm text-amber-500/80 mt-8 font-semibold tracking-wide">Free forever • No ads • No pay-to-win</p>
               </div>
             </div>
           </div>
