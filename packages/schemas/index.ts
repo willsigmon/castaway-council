@@ -127,3 +127,11 @@ export const phaseStatusSchema = z.object({
   closesAt: z.string().datetime(),
   isOpen: z.boolean(),
 });
+
+export const playerApplicationSchema = z.object({
+  q1: z.string().min(1).max(1500),
+  q2: z.string().min(1).max(1500),
+  q3: z.string().min(1).max(1500),
+  q4: z.string().min(1).max(1500),
+  q5: z.string().min(1).max(1500),
+});

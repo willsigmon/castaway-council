@@ -28,6 +28,12 @@ interface SeasonWinner {
   tribeName: string | null;
 }
 
+interface PlayerApplicationSummary {
+  status: "shortlist" | "not_considered";
+  wordScore: number;
+  updatedAt: string;
+}
+
 export default function Home() {
   const { currentSeason, currentPlayer } = useSeason();
   const [seasons, setSeasons] = useState<Season[]>([]);
@@ -35,49 +41,87 @@ export default function Home() {
   const [user, setUser] = useState<{ email?: string } | null>(null);
   const [publicStats, setPublicStats] = useState<PublicStats | null>(null);
   const [winners, setWinners] = useState<SeasonWinner[]>([]);
+  const [applicationSummary, setApplicationSummary] = useState<PlayerApplicationSummary | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
-      // Parallelize all independent data fetches for 75% faster load time
-      const [authResult, seasonsResult, statsResult, winnersResult] = await Promise.all([
-        // Auth check
-        createClient()
-          .auth.getSession()
-          .then((r) => r.data.session?.user ?? null)
-          .catch((error) => {
-            console.error("Auth check failed:", error);
-            return null;
-          }),
-        // Season list
-        fetch("/api/season/list")
+      setLoading(true);
+      let authResult: { email?: string } | null = null;
+
+      try {
+        try {
+          const supabase = createClient();
+          const {
+            data: { session },
+          } = await supabase.auth.getSession();
+          authResult = session?.user ?? null;
+        } catch (error) {
+          console.error("Auth check failed:", error);
+        }
+
+        const seasonsPromise = fetch("/api/season/list")
           .then((r) => (r.ok ? r.json() : { seasons: [] }))
           .then((data) => data.seasons || [])
           .catch((error) => {
             console.error("Failed to load seasons:", error);
             return [];
-          }),
-        // Public stats
-        fetch("/api/stats/public")
+          });
+
+        const statsPromise = fetch("/api/stats/public")
           .then((r) => (r.ok ? r.json() : null))
           .catch((error) => {
             console.error("Failed to load public stats:", error);
             return null;
-          }),
-        // Winners
-        fetch("/api/stats/winners")
+          });
+
+        const winnersPromise = fetch("/api/stats/winners")
           .then((r) => (r.ok ? r.json() : { winners: [] }))
           .then((data) => data.winners || [])
           .catch((error) => {
             console.error("Failed to load winners:", error);
             return [];
-          }),
-      ]);
+          });
 
-      setUser(authResult);
-      setSeasons(seasonsResult);
-      setPublicStats(statsResult);
-      setWinners(winnersResult);
-      setLoading(false);
+        const applicationPromise: Promise<PlayerApplicationSummary | null> = authResult
+          ? fetch("/api/applications")
+              .then((r) => (r.ok ? r.json() : { application: null }))
+              .then((data) =>
+                data.application
+                  ? {
+                      status: data.application.status as PlayerApplicationSummary["status"],
+                      wordScore: data.application.wordScore as number,
+                      updatedAt: data.application.updatedAt as string,
+                    }
+                  : null
+              )
+              .catch((error) => {
+                console.error("Failed to load application:", error);
+                return null;
+              })
+          : Promise.resolve(null);
+
+        const [seasonsResult, statsResult, winnersResult, applicationResult] = await Promise.all([
+          seasonsPromise,
+          statsPromise,
+          winnersPromise,
+          applicationPromise,
+        ]);
+
+        setUser(authResult);
+        setSeasons(seasonsResult);
+        setPublicStats(statsResult);
+        setWinners(winnersResult);
+        setApplicationSummary(applicationResult);
+      } catch (error) {
+        console.error("Failed to load home data:", error);
+        setUser(authResult);
+        setSeasons([]);
+        setPublicStats(null);
+        setWinners([]);
+        setApplicationSummary(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadData();
@@ -98,6 +142,18 @@ export default function Home() {
       return `${(value / 1000).toFixed(1)}K`;
     }
     return value.toLocaleString();
+  }, []);
+
+  const formatDate = useCallback((value: string): string => {
+    try {
+      return new Date(value).toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    } catch {
+      return value;
+    }
   }, []);
 
   // Loading skeleton for splash screen
@@ -148,7 +204,7 @@ export default function Home() {
               </p>
               <div className="flex flex-wrap gap-4 justify-center animate-fade-in-up" style={{animationDelay: '0.3s'}}>
                 <Link
-                  href="/auth/signin"
+                  href="/apply"
                   className="group px-10 py-4 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 active:from-orange-700 active:to-amber-700 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg shadow-orange-900/40 hover:shadow-2xl hover:shadow-orange-900/60 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 focus-visible:outline-none border border-amber-700/30 hover:scale-105 hover:-translate-y-0.5"
                 >
                   Apply to Play
@@ -498,13 +554,15 @@ export default function Home() {
                   Think you can outwit, outplay, and outlast 17 other players? Prove it. New seasons launch regularly—apply now to secure your spot on the beach.
                 </p>
                 <Link
-                  href="/auth/signin"
+                  href="/apply"
                   className="group inline-block px-14 py-6 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 rounded-lg font-bold text-2xl transition-all duration-300 shadow-2xl shadow-orange-900/60 hover:shadow-orange-900/80 border-2 border-amber-700/40 hover:border-amber-500 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950 focus-visible:outline-none hover:scale-110 hover:-translate-y-1"
                 >
                   Apply to Play
                   <span className="inline-block ml-3 transition-transform group-hover:translate-x-2">→</span>
                 </Link>
-                <p className="text-sm text-amber-500/80 mt-8 font-semibold tracking-wide">Free forever • No ads • No pay-to-win</p>
+                <p className="text-sm text-amber-500/80 mt-8 font-semibold tracking-wide">
+                  Multi-sentence answers land on the shortlist. One-word responses are skipped.
+                </p>
               </div>
             </div>
           </div>
@@ -527,11 +585,11 @@ export default function Home() {
         </div>
 
         {currentSeason && currentPlayer && (
-          <div className="mb-8 p-8 glass rounded-2xl border border-blue-500/30 card-hover">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <h2 className="text-2xl font-bold mb-2">Welcome back, {currentPlayer.displayName}!</h2>
-                <p className="text-white/90">You&apos;re currently playing in <span className="font-semibold text-blue-400">{currentSeason.name}</span></p>
+        <div className="mb-8 p-8 glass rounded-2xl border border-blue-500/30 card-hover">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h2 className="text-2xl font-bold mb-2">Welcome back, {currentPlayer.displayName}!</h2>
+              <p className="text-white/90">You&apos;re currently playing in <span className="font-semibold text-blue-400">{currentSeason.name}</span></p>
               </div>
               <span className="px-3 py-1 text-xs font-semibold bg-gradient-to-r from-green-500 to-emerald-500 rounded-full text-black">
                 Active
@@ -556,20 +614,98 @@ export default function Home() {
               >
                 Tribal Council
               </Link>
-            </div>
+          </div>
+        </div>
+      )}
+
+        {user && !loading && (
+          <div className="mb-8 p-8 glass rounded-2xl border border-amber-500/30 card-hover">
+            {applicationSummary ? (
+              <>
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <h2 className="text-2xl font-bold text-amber-100 mb-2">Your Cast Application</h2>
+                    <p className="text-amber-200/80">
+                      Updated {formatDate(applicationSummary.updatedAt)} • {applicationSummary.wordScore} words
+                    </p>
+                  </div>
+                  <span
+                    className={`px-4 py-1 rounded-full text-sm font-semibold ${
+                      applicationSummary.status === "shortlist"
+                        ? "bg-emerald-500/10 text-emerald-300 border border-emerald-400/40"
+                        : "bg-amber-500/10 text-amber-200 border border-amber-400/40"
+                    }`}
+                  >
+                    {applicationSummary.status === "shortlist" ? "Shortlist Ready" : "Needs More Detail"}
+                  </span>
+                </div>
+                <p className="text-amber-200/70 mt-4">
+                  {applicationSummary.status === "shortlist"
+                    ? "Nice work! Long-form answers help casting hear your voice. We’ll reach out when the next season is forming."
+                    : "Add more depth to each prompt—applications with single-word answers are automatically moved off the shortlist."}
+                </p>
+                <div className="mt-6">
+                  <Link
+                    href="/apply"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-orange-900/40 hover:shadow-orange-900/60"
+                  >
+                    Update Application
+                    <span aria-hidden>→</span>
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <h2 className="text-2xl font-bold text-amber-100 mb-2">Casting Is Open</h2>
+                    <p className="text-amber-200/80">
+                      Answer five prompts with detail to land on the shortlist for upcoming seasons.
+                    </p>
+                  </div>
+                  <span className="text-3xl" role="img" aria-label="scroll">
+                    📜
+                  </span>
+                </div>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Link
+                    href="/apply"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-orange-900/40 hover:shadow-orange-900/60"
+                  >
+                    Start Application
+                    <span aria-hidden>→</span>
+                  </Link>
+                </div>
+                <p className="text-sm text-amber-300/70 mt-4">
+                  Pro tip: multi-sentence answers stand out. One-word responses are not considered.
+                </p>
+              </>
+            )}
           </div>
         )}
 
         {!user && (
           <div className="mb-8 p-8 glass rounded-2xl border border-purple-500/30 card-hover">
             <h2 className="text-2xl font-bold mb-2 gradient-text">Get Started</h2>
-            <p className="text-white/90 mb-6">Sign in or create an account to join a season and compete for the crown</p>
-            <Link
-              href="/auth/signin"
-              className="inline-block px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
-            >
-              Sign In / Sign Up
-            </Link>
+            <p className="text-white/90 mb-6">
+              Sign in or create an account to access the player application and compete for the crown.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/auth/signin"
+                className="inline-block px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
+              >
+                Sign In / Sign Up
+              </Link>
+              <Link
+                href="/apply/preview"
+                className="inline-flex items-center gap-2 px-8 py-3 glass rounded-lg border border-white/20 hover:bg-white/10 transition-all duration-200 font-semibold"
+              >
+                Preview Application
+                <span aria-hidden>→</span>
+              </Link>
+            </div>
+            <p className="text-sm text-amber-300/70 mt-4">Longer answers keep you on the shortlist—single-word responses are skipped.</p>
           </div>
         )}
 

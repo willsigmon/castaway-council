@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, integer, boolean, jsonb, pgEnum, uuid, index } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, integer, boolean, jsonb, pgEnum, uuid, index, uniqueIndex } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
 // Enums
@@ -27,6 +27,7 @@ export const eventKindEnum = pgEnum("event_kind", [
   "merge",
   "medevac",
 ]);
+export const applicationStatusEnum = pgEnum("application_status", ["shortlist", "not_considered"]);
 
 // Tables
 export const users = pgTable("users", {
@@ -36,6 +37,26 @@ export const users = pgTable("users", {
   avatarUrl: text("avatar_url"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const playerApplications = pgTable(
+  "player_applications",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    q1: text("q1").notNull(),
+    q2: text("q2").notNull(),
+    q3: text("q3").notNull(),
+    q4: text("q4").notNull(),
+    q5: text("q5").notNull(),
+    status: applicationStatusEnum("status").notNull().default("shortlist"),
+    wordScore: integer("word_score").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    userUnique: uniqueIndex("player_applications_user_idx").on(table.userId),
+  })
+);
 
 export const seasons = pgTable(
   "seasons",
@@ -310,6 +331,7 @@ export const pushSubscriptions = pgTable(
 export const usersRelations = relations(users, ({ many }) => ({
   players: many(players),
   pushSubscriptions: many(pushSubscriptions),
+  applications: many(playerApplications),
 }));
 
 export const seasonsRelations = relations(seasons, ({ many }) => ({
@@ -363,5 +385,12 @@ export const actionsRelations = relations(actions, ({ one }) => ({
   targetPlayer: one(players, {
     fields: [actions.targetPlayerId],
     references: [players.id],
+  }),
+}));
+
+export const playerApplicationsRelations = relations(playerApplications, ({ one }) => ({
+  user: one(users, {
+    fields: [playerApplications.userId],
+    references: [users.id],
   }),
 }));

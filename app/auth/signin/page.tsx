@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { createClient } from "@/app/_lib/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function SignInPage() {
@@ -13,6 +13,13 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectParam = searchParams?.get("redirect");
+  const safeRedirect =
+    redirectParam && redirectParam.startsWith("/") && !redirectParam.startsWith("//")
+      ? redirectParam
+      : "/";
+  const returningToApplication = safeRedirect === "/apply";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,7 +58,7 @@ export default function SignInPage() {
 
         if (signInError) throw signInError;
 
-        router.push("/");
+        router.push(safeRedirect);
         router.refresh();
       }
     } catch (err) {
@@ -68,6 +75,14 @@ export default function SignInPage() {
           <h1 className="text-4xl font-bold mb-3 gradient-text">Castaway Council</h1>
           <p className="text-gray-300 text-lg">
             {isSignUp ? "Create your account" : "Sign in to your account"}
+          </p>
+          <p className="text-blue-200/80 text-sm mt-2">
+            {isSignUp
+              ? "After verifying your email, you can submit the five-question player application."
+              : returningToApplication
+                ? "Once you’re signed in we’ll send you back to finish your Castaway Council application."
+                : "Sign in to manage seasons and submit your Castaway Council application."
+            }
           </p>
         </div>
 
