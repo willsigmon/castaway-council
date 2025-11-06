@@ -57,9 +57,9 @@ export async function POST(request: Request) {
     // Base: 40% + (energy/2) + archetype modifiers
     // Fishing is harder than foraging
     let successChance = 40 + (stats.energy / 2);
-    if (archetype === "survivalist") successChance += 25; // Best at fishing
-    if (archetype === "athlete") successChance += 15; // Good coordination
-    if (archetype === "opportunist") successChance += 10; // Knows when fish bite
+    if (archetype === "hunter") successChance += 25; // Best at fishing
+    if (archetype === "scout") successChance += 15; // Good at finding fish
+    if (archetype === "builder") successChance += 10; // Knows how to craft fishing gear
 
     // Low energy penalty (need patience and strength)
     if (stats.energy < 20) successChance -= 20;

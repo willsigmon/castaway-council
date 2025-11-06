@@ -53,11 +53,11 @@ export async function POST(request: Request) {
 
     // Calculate success chance based on energy + archetype
     // Base: 50% + (energy/2) + archetype modifiers
-    // Survivalist gets +20%, opportunist +10%
+    // Hunter gets +25% (forage boost), scout +10%
     let successChance = 50 + (stats.energy / 2);
-    if (archetype === "survivalist") successChance += 20;
-    if (archetype === "opportunist") successChance += 10;
-    if (archetype === "athlete") successChance += 5; // Physical endurance helps
+    if (archetype === "hunter") successChance += 25; // Forage Boost passive
+    if (archetype === "scout") successChance += 10; // Pathfinder passive
+    if (archetype === "builder") successChance += 5; // Knows what materials to gather
 
     // Low hunger penalty
     if (stats.hunger < 30) successChance -= 15;
@@ -107,11 +107,11 @@ export async function POST(request: Request) {
       energy: energyDelta,
     });
 
-    // Tool finding chance (critical success only, or survivalist bonus)
+    // Tool finding chance (critical success only, or hunter/scout bonus)
     let foundItem = false;
     let itemId: string | undefined;
 
-    const toolChance = archetype === "survivalist" ? 0.15 : 0.10;
+    const toolChance = archetype === "hunter" ? 0.15 : archetype === "scout" ? 0.12 : 0.10;
     if (successLevel === "critical_success" && Math.random() < toolChance) {
       const [item] = await db
         .insert(items)
