@@ -194,13 +194,13 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="torch-panel rounded-lg p-6">
+              <div className="torch-panel rounded-lg p-6 md:col-span-2">
                 <div className="flex items-start gap-3 mb-4">
                   <span className="text-5xl">⚔️</span>
                   <div>
                     <h3 className="text-xl font-tribal text-amber-100 font-bold mb-3">Character Classes</h3>
                     <p className="text-base text-amber-200/80 leading-relaxed">
-                      Choose your archetype: Hunter, Strategist, Builder, Medic, Leader, or Scout. Each has unique active and passive abilities.
+                      Choose your archetype with unique active and passive abilities. Click below to see all 6 classes.
                     </p>
                   </div>
                 </div>
@@ -214,6 +214,144 @@ export default function Home() {
                     <p className="text-base text-amber-200/80 leading-relaxed">
                       All RNG uses cryptographic seeds. Server commits before you choose. Every roll is verifiable.
                     </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Character Classes Detail */}
+          <div className="mb-24 border-t border-amber-900/30 pt-16">
+            <h2 className="text-3xl font-adventure text-amber-200 uppercase mb-12 text-center">Choose Your Archetype</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Hunter */}
+              <div className="wood-panel rounded-lg p-6 border-2 border-amber-700/40 hover:border-amber-600/60 transition-all">
+                <div className="text-center mb-4">
+                  <span className="text-6xl mb-3 block">🪓</span>
+                  <h3 className="text-2xl font-tribal text-amber-100 font-bold">The Hunter</h3>
+                  <p className="text-sm text-amber-600 uppercase tracking-wide">Provider / Resource Gatherer</p>
+                </div>
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <h4 className="text-orange-400 font-bold mb-2 uppercase tracking-wide">Abilities</h4>
+                    <ul className="space-y-1 text-amber-200/80">
+                      <li>• <span className="font-semibold">Forage Boost:</span> 25% higher chance of finding food/materials</li>
+                      <li>• <span className="font-semibold">Track Game:</span> Guarantee 1 food item every 3 days</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="text-red-400 font-bold mb-2 uppercase tracking-wide">Weakness</h4>
+                    <p className="text-amber-200/70">Loses energy faster in challenges due to physical strain</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Strategist */}
+              <div className="wood-panel rounded-lg p-6 border-2 border-amber-700/40 hover:border-amber-600/60 transition-all">
+                <div className="text-center mb-4">
+                  <span className="text-6xl mb-3 block">🧠</span>
+                  <h3 className="text-2xl font-tribal text-amber-100 font-bold">The Strategist</h3>
+                  <p className="text-sm text-amber-600 uppercase tracking-wide">Mastermind / Social Manipulator</p>
+                </div>
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <h4 className="text-orange-400 font-bold mb-2 uppercase tracking-wide">Abilities</h4>
+                    <ul className="space-y-1 text-amber-200/80">
+                      <li>• <span className="font-semibold">Insight:</span> See hints about vote intentions each round</li>
+                      <li>• <span className="font-semibold">Predict Outcome:</span> Cancel 1 twist event before merge</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="text-red-400 font-bold mb-2 uppercase tracking-wide">Weakness</h4>
+                    <p className="text-amber-200/70">Gains less comfort from tribe upgrades (seen as detached)</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Builder */}
+              <div className="wood-panel rounded-lg p-6 border-2 border-amber-700/40 hover:border-amber-600/60 transition-all">
+                <div className="text-center mb-4">
+                  <span className="text-6xl mb-3 block">💪</span>
+                  <h3 className="text-2xl font-tribal text-amber-100 font-bold">The Builder</h3>
+                  <p className="text-sm text-amber-600 uppercase tracking-wide">Camp Sustainer / Craftsman</p>
+                </div>
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <h4 className="text-orange-400 font-bold mb-2 uppercase tracking-wide">Abilities</h4>
+                    <ul className="space-y-1 text-amber-200/80">
+                      <li>• <span className="font-semibold">Engineer:</span> Shelter and fire last 1 day longer</li>
+                      <li>• <span className="font-semibold">Construct Tool:</span> Craft random items every 3 days</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="text-red-400 font-bold mb-2 uppercase tracking-wide">Weakness</h4>
+                    <p className="text-amber-200/70">Weaker in mental challenges</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Medic */}
+              <div className="wood-panel rounded-lg p-6 border-2 border-amber-700/40 hover:border-amber-600/60 transition-all">
+                <div className="text-center mb-4">
+                  <span className="text-6xl mb-3 block">🩹</span>
+                  <h3 className="text-2xl font-tribal text-amber-100 font-bold">The Medic</h3>
+                  <p className="text-sm text-amber-600 uppercase tracking-wide">Caregiver / Morale Booster</p>
+                </div>
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <h4 className="text-orange-400 font-bold mb-2 uppercase tracking-wide">Abilities</h4>
+                    <ul className="space-y-1 text-amber-200/80">
+                      <li>• <span className="font-semibold">Tend Wounds:</span> Restore +15% Energy/Comfort to others daily</li>
+                      <li>• <span className="font-semibold">Medical Check:</span> 10% reduced evacuation risk</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="text-red-400 font-bold mb-2 uppercase tracking-wide">Weakness</h4>
+                    <p className="text-amber-200/70">Consumes more hunger and thirst daily (focuses on others)</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Leader */}
+              <div className="wood-panel rounded-lg p-6 border-2 border-amber-700/40 hover:border-amber-600/60 transition-all">
+                <div className="text-center mb-4">
+                  <span className="text-6xl mb-3 block">🔥</span>
+                  <h3 className="text-2xl font-tribal text-amber-100 font-bold">The Leader</h3>
+                  <p className="text-sm text-amber-600 uppercase tracking-wide">Motivator / Social Powerhouse</p>
+                </div>
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <h4 className="text-orange-400 font-bold mb-2 uppercase tracking-wide">Abilities</h4>
+                    <ul className="space-y-1 text-amber-200/80">
+                      <li>• <span className="font-semibold">Inspire Tribe:</span> Increase tribe Energy/Comfort at camp</li>
+                      <li>• <span className="font-semibold">Command:</span> Decide tied votes (lose 25% comfort)</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="text-red-400 font-bold mb-2 uppercase tracking-wide">Weakness</h4>
+                    <p className="text-amber-200/70">Attracts more suspicion; can't go idle (social pressure penalty)</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Scout */}
+              <div className="wood-panel rounded-lg p-6 border-2 border-amber-700/40 hover:border-amber-600/60 transition-all">
+                <div className="text-center mb-4">
+                  <span className="text-6xl mb-3 block">🕵️</span>
+                  <h3 className="text-2xl font-tribal text-amber-100 font-bold">The Scout</h3>
+                  <p className="text-sm text-amber-600 uppercase tracking-wide">Observant / Explorer</p>
+                </div>
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <h4 className="text-orange-400 font-bold mb-2 uppercase tracking-wide">Abilities</h4>
+                    <ul className="space-y-1 text-amber-200/80">
+                      <li>• <span className="font-semibold">Pathfinder:</span> 10% chance to find hidden advantages</li>
+                      <li>• <span className="font-semibold">Spy Mission:</span> View rival tribe chat every 2 days</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="text-red-400 font-bold mb-2 uppercase tracking-wide">Weakness</h4>
+                    <p className="text-amber-200/70">Energy drops faster when exploring (exhaustion risk)</p>
                   </div>
                 </div>
               </div>
